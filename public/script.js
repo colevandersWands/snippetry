@@ -17,7 +17,7 @@ const state = await fetch('./public/snippets.json')
   .then((preState) => ({
     ...preState,
     tags: preState.tags.map((tag) => ({ value: tag, selected: false })),
-    repo: 'https://githhub.com/colevandersWands/snippetry',
+    repo: 'https://github.com/colevandersWands/snippetry',
   }));
 
 // ----- constants -----
@@ -136,7 +136,7 @@ const renderSnippet = (snippet) => {
     <button class='debugger'>debug</button>
     |
     <button class='copier'>copy</button>
-    <button class='githubber'>link</button>
+    <button class='githubber'>source</button>
   </div>
 </div>`;
 
