@@ -1,0 +1,23 @@
+{
+  "name": "Snippetry",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "draft": "cd ./snippets && lenses --port=3456",
+    "build": "node gather-snippets.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/colevandersWands/snippetry.git"
+  },
+  "author": "Evan Cole",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/colevandersWands/snippetry/issues"
+  },
+  "homepage": "https://colevandersWands.github.io/snippetry",
+  "devDependencies": {
+    "study-lenses": "^0.0.170"
+  }
+}

@@ -1,0 +1,60 @@
+h1 {
+  text-align: center;
+}
+
+.editor {
+  margin-bottom: 4em;
+  padding: 1em;
+}
+
+button {
+  background-color: white;
+}
+
+.split {
+  display: flex;
+  justify-content: space-between;
+}
+
+.down {
+  margin-top: 3em;
+}
+
+#tags {
+  text-align: center;
+}
+
+#snippets {
+  margin: auto;
+  padding: 10px;
+  width: 60%;
+  margin: 0 auto;
+}
+
+/* github corner styles: https://tholman.com/github-corners/ */
+
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out;
+}
+@keyframes octocat-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20%,
+  60% {
+    transform: rotate(-25deg);
+  }
+  40%,
+  80% {
+    transform: rotate(10deg);
+  }
+}
+@media (max-width: 500px) {
+  .github-corner:hover .octo-arm {
+    animation: none;
+  }
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+}

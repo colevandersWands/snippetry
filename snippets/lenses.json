@@ -1,0 +1,14 @@
+{
+  "--port": 3456,
+
+  "study": {
+    "save": true,
+    "run": true,
+    "debug": true,
+    "openIn": true,
+    "variables": true,
+    "pseudo": true,
+    "clearScheduled": true,
+    "parsons": false
+  }
+}
