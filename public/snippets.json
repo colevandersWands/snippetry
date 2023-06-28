@@ -2,6 +2,7 @@
 	"tags": [
 		"pun",
 		"puzzle",
+		"sketch",
 		"useful",
 		"useless",
 		"yolo"
@@ -26,8 +27,10 @@
 		},
 		{
 			"name": "dna.js",
-			"code": "const WIDTH = 30;\nconst STEP = 0.08;\n\nconst coordinate = (num, phase = 0) =>\n  Math.round(Math.sin(num + phase) * WIDTH) + WIDTH;\n\nlet a = 0;\nlet b = WIDTH;\n\nconst strand = setInterval(() => {\n  const aIndex = coordinate((a += STEP));\n  const bIndex = coordinate((b += STEP), WIDTH / 2);\n  console.log(\n    `${''.padStart(aIndex < bIndex ? aIndex : bIndex)}{|${''.padStart(\n      Math.abs(bIndex - aIndex),\n      '=',\n    )}|}`,\n  );\n  if (a / b > 0.3) {\n    clearInterval(strand);\n  }\n}, 30);\n",
-			"tags": []
+			"code": "const WIDTH = 30;\nconst STEP = 0.08;\n\nconst coordinate = (num, phase = 0) =>\n  Math.round(Math.sin(num + phase) * WIDTH) + WIDTH;\n\nlet a = 0;\nlet b = WIDTH;\n\nconst strand = setInterval(() => {\n  const aIndex = coordinate((a += STEP));\n  const bIndex = coordinate((b += STEP), WIDTH / 2);\n  console.log(\n    `${''.padStart(aIndex < bIndex ? aIndex : bIndex)}{|${''.padStart(\n      Math.abs(bIndex - aIndex),\n      '=',\n    )}|}`,\n  );\n  if (a / b > 0.3) {\n    clearInterval(strand);\n  }\n}, 30);\n\n// tags: sketch\n",
+			"tags": [
+				"sketch"
+			]
 		},
 		{
 			"name": "do-without.js",
@@ -48,7 +51,7 @@
 		},
 		{
 			"name": "in-one-ear.js",
-			"code": "// ... out the other\n\n// prettier-ignore\n{\n\n\n\n          '   '\n      '           '\n    '    (*) (*)    '\nalert(             prompt())\n    '       ^       '\n    '   \\_______/   '\n      '           '\n          '   '\n\n\n\n}\n",
+			"code": "// ... out the other\n\n// prettier-ignore\n{\n\n\n\n          '   '\n      '           '\n    '    (*) (*)    '\nalert(             prompt())\n    '       ^       '\n    '   \\_______/   '\n      '           '\n          '   '\n\n\n}\n",
 			"tags": []
 		},
 		{
