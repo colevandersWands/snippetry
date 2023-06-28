@@ -19,3 +19,9 @@ jobs:
 
       - name: Gather
         run: node gather-snippets.js
+
+      - name: Commit
+        uses: stefanzweifel/git-auto-commit-action@v4.7.2
+        with:
+          commit_message: gather snippets
+          branch: ${{ github.head_ref }}
