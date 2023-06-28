@@ -14,8 +14,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 'lts/*'
-          cache: 'yarn'
-          cache-dependency-path: '/yarn.lock'
 
       - name: Gather
         run: node gather-snippets.js
