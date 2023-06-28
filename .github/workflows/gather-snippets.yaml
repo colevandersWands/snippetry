@@ -16,4 +16,4 @@ jobs:
           node-version: 'lts/*'
 
       - name: Gather
-        run: node gather-snippets.js
+        run: node ./gather-snippets.js
