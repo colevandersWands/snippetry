@@ -75,7 +75,7 @@
 		},
 		{
 			"name": "potato-potato.js",
-			"code": "function potato() {\n  return this instanceof potato ? this.__proto__.constructor : potato;\n}\n\nconsole.log(`you say ${new potato().name}, I say ${potato().name}`);\n\n// tags: pun\n",
+			"code": "function potato() {\n  return this instanceof potato ? this.__proto__.constructor : potato;\n}\n\nalert(`you say ${new potato().name}, I say ${potato().name}`);\n\n// tags: pun\n",
 			"tags": [
 				"pun"
 			]
@@ -99,7 +99,7 @@
 		},
 		{
 			"name": "sequitur.js",
-			"code": "const sequitur = (non = '') => (non ? { [non]: sequitur } : sequitur);\n\nconsole.log(sequitur('hi').hi('bye').bye()('sequitur').sequitur.name);\n\n// tags: useless, puzzle\n",
+			"code": "const sequitur = (non = '') => (non ? { [non]: sequitur } : sequitur);\n\nalert(sequitur('hi').hi('bye').bye()('sequitur').sequitur.name);\n\n// tags: useless, puzzle\n",
 			"tags": [
 				"useless",
 				"puzzle"
