@@ -164,9 +164,9 @@ const filterSnippets = () => {
   for (const snippet of state.snippets) {
     const tagsAreSelected =
       ignoreTags ||
-      state.tags.find(
-        (tag) => tag.selected && snippet.tags.includes(tag.value),
-      );
+      state.tags
+        .filter((tag) => tag.selected)
+        .every((tag) => snippet.tags.includes(tag.value));
 
     if (tagsAreSelected && snippet.code.toLowerCase().includes(state.query)) {
       snippet.visible(true);
