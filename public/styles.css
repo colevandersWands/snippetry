@@ -11,6 +11,7 @@ button {
   background-color: rgba(234, 233, 233, 0.943);
   border: none;
   border-radius: 1em;
+  color: black;
 }
 
 .a-snippet {

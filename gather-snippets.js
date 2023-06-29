@@ -12,7 +12,7 @@ const DRAFT_EXTENSION = '.draft';
 // ---------- build array of snippet objects ----------
 
 const snippetFileNames = (await readdir(SNIPPETS_ROOT))
-  .filter((item) => item.endsWith('.js'))
+  .filter((item) => item.endsWith('.js') || item.endsWith('.mjs'))
   .filter((item) => !item.includes(DRAFT_EXTENSION));
 
 const snippetCode = await Promise.all(

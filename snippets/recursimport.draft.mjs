@@ -1,0 +1,1 @@
+import './snippets/recursimport.mjs';
