@@ -16,6 +16,7 @@ const state = await fetch('./public/snippets.json')
   .then((res) => res.json())
   .then((preState) => ({
     ...preState,
+    query: '',
     tags: preState.tags.map((tag) => ({ value: tag, selected: false })),
     repo: 'https://github.com/colevandersWands/snippetry',
   }));
@@ -157,6 +158,24 @@ const renderSnippet = (snippet) => {
   snippet.root.appendChild(snippet.container);
 };
 
+const filterSnippets = () => {
+  const ignoreTags = state.tags.every((tag) => !tag.selected);
+
+  for (const snippet of state.snippets) {
+    const tagsAreSelected =
+      ignoreTags ||
+      state.tags.find(
+        (tag) => tag.selected && snippet.tags.includes(tag.value),
+      );
+
+    if (tagsAreSelected && snippet.code.toLowerCase().includes(state.query)) {
+      snippet.visible(true);
+    } else {
+      snippet.visible(false);
+    }
+  }
+};
+
 // ----- initialize UI -----
 
 document
@@ -191,22 +210,14 @@ for (const snippet of state.snippets) {
 document.getElementById('tags').addEventListener('change', (e) => {
   const [key, value] = e.target.id.split(SEPARATOR);
 
-  const entry = state[key].find((entry) => entry.value === value);
-  entry.selected = e.target.checked;
+  const tag = state[key].find((entry) => entry.value === value);
+  tag.selected = e.target.checked;
 
-  const ignoreTags = state.tags.every((tag) => !tag.selected);
+  filterSnippets();
+});
 
-  for (const snippet of state.snippets) {
-    const tagsAreSelected =
-      ignoreTags ||
-      state.tags.find(
-        (tag) => tag.selected && snippet.tags.includes(tag.value),
-      );
+document.getElementById('search-field').addEventListener('input', (e) => {
+  state.query = e.target.value;
 
-    if (tagsAreSelected) {
-      snippet.visible(true);
-    } else {
-      snippet.visible(false);
-    }
-  }
+  filterSnippets();
 });
