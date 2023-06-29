@@ -68,7 +68,7 @@
 		},
 		{
 			"name": "pipeable-log.js",
-			"code": "const log = (thing) => (console.log(thing), thing);\n\nlog('l' + log('o' + log('g')));\n\n// tags: useful\n",
+			"code": "const log = (thing) => (\n  console.groupCollapsed(thing), console.trace(), console.groupEnd(), thing\n);\n\nlog('l' + log('o' + log('g')));\n\n// tags: useful\n",
 			"tags": [
 				"useful"
 			]
