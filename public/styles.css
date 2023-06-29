@@ -8,27 +8,47 @@ h1 {
 }
 
 button {
-  background-color: white;
+  background-color: gainsboro;
+  border: none;
+  border-radius: 1em;
 }
 
-.split {
-  display: flex;
-  justify-content: space-between;
+.a-snippet {
+  padding-bottom: 2em;
 }
 
 .down {
-  margin-top: 3em;
+  margin-top: 1em;
 }
 
 .center {
   text-align: center;
 }
 
-#snippets {
-  margin: auto;
-  padding: 10px;
-  width: 60%;
-  margin: 0 auto;
+@media (max-width: 639px) {
+  #snippets {
+    margin: auto;
+    padding: 10px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1079px) {
+  #snippets {
+    margin: auto;
+    padding: 10px;
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1080px) {
+  #snippets {
+    margin: auto;
+    padding: 10px;
+    width: 50%;
+    margin: 0 auto;
+  }
 }
 
 /* github corner styles: https://tholman.com/github-corners/ */
