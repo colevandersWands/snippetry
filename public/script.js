@@ -121,12 +121,9 @@ const copyCode = (code, message = 'copied!') => {
     textArea.select();
     try {
       var successful = document.execCommand('copy');
-      alert(
-        'Fallback: Copying text command was ' +
-          (successful ? 'successful' : 'unsuccessful'),
-      );
+      alert(successful ? message : "nope, couldn't copy the link.\ntry again");
     } catch (err) {
-      alert('Fallback: Oops, unable to copy', err);
+      alert("nope, couldn't copy the link.\ntry again");
     }
 
     document.body.removeChild(textArea);
