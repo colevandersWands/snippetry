@@ -147,14 +147,16 @@ const renderSnippet = (snippet) => {
   snippet.root = document.createElement('div');
   snippet.root.className = 'a-snippet';
   snippet.root.innerHTML = `
-<div>
+<div class="snippet-header">
   <h2 id="${snippet.name}">${snippet.name}</h2>
   <div class="down">
-    <button class='runner'>run</button>
-    <button class='debugger'>debug</button>
-    |
-    <button class='editoringer'>edit</button>
-    |
+    <span class="danger-zone hidden">
+      <button class='runner'>run</button>
+      <button class='debugger'>debug</button>
+      |
+      <button class='editoringer'>edit</button>
+      |
+    </span>
     <button class='copier'>copy</button>
     <button class='linker'>link</button>
     <button class='githubber'>source</button>
@@ -248,6 +250,16 @@ const replaceWithEditor = (snippet) => {
 
 // ----- initialize UI -----
 
+document.getElementById('danger-zone').addEventListener('input', (e) => {
+  for (const zone of document.getElementsByClassName('danger-zone')) {
+    if (e.target.checked) {
+      zone.classList.remove('hidden');
+    } else {
+      zone.classList.add('hidden');
+    }
+  }
+});
+
 document.getElementById('search-field').value = state.query;
 
 document.getElementById('tags').appendChild(filterList(state.tags, 'tags'));
@@ -267,7 +279,7 @@ for (const snippet of state.snippets) {
   snippet.root
     .getElementsByClassName('copier')[0]
     .addEventListener('click', () =>
-      copyCode(snippet.code, `${snippet.name} - the snippet is copied`),
+      copyCode(snippet.code, `${snippet.name} ->  snippet is copied`),
     );
 
   snippet.root
@@ -275,7 +287,7 @@ for (const snippet of state.snippets) {
     .addEventListener('click', () =>
       copyCode(
         `${window.location.origin}/${window.location.pathname}?query=${snippet.name}`,
-        `${snippet.name} - the URL is copied`,
+        `${snippet.name} ->  URL is copied`,
       ),
     );
 

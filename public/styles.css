@@ -7,6 +7,14 @@ h1 {
   padding: 1em;
 }
 
+.warning {
+  font-style: italic;
+}
+
+.hidden {
+  display: none;
+}
+
 button {
   background-color: rgba(234, 233, 233, 0.943);
   border: none;
@@ -14,12 +22,21 @@ button {
   color: black;
 }
 
+h2 {
+  margin-bottom: 0;
+}
+
 .a-snippet {
-  padding-bottom: 2em;
+  padding-bottom: 3em;
+}
+
+.snippet-header {
+  text-align: right;
+  margin-bottom: 1em;
 }
 
 .down {
-  margin-top: 1em;
+  margin-top: 0.25em;
 }
 
 .center {

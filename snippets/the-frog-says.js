@@ -30,3 +30,4 @@ function theFrogSays(...args) {
 }
 
 // credit: https://tholman.com/console-dot-frog/
+// tags: sketch
