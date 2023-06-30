@@ -8,13 +8,12 @@ let a = 0;
 let b = WIDTH;
 
 const strand = setInterval(() => {
-  const aIndex = coordinate((a += STEP));
-  const bIndex = coordinate((b += STEP), WIDTH / 2);
+  const cA = coordinate((a += STEP));
+  const cB = coordinate((b += STEP), WIDTH / 2);
   console.log(
-    `${''.padStart(aIndex < bIndex ? aIndex : bIndex)}{|${''.padStart(
-      Math.abs(bIndex - aIndex),
-      '=',
-    )}|}`,
+    `${Array((cA < cB ? cA : cB) + 1).join(' ')}{|${Array(
+      Math.abs(cB - cA),
+    ).join('=')}|}`,
   );
   if (a / b > 0.3) {
     clearInterval(strand);

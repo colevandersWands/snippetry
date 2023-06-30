@@ -97,7 +97,7 @@ const runCode = (snippet = {}, debug = false) => {
   snippet.root.appendChild(evaller);
 };
 
-const copyCode = (code) => {
+const copyCode = (code, message = 'copied!') => {
   if (!navigator.clipboard) {
     fallbackCopyTextToClipboard(code);
     return;
@@ -105,7 +105,7 @@ const copyCode = (code) => {
   navigator.clipboard.writeText(code).then(
     function () {
       // console.log('Async: Copying to clipboard was successful!');
-      alert('copied!');
+      alert(message);
     },
     function (err) {
       // console.error('Async: Could not copy text: ', err);
@@ -159,6 +159,7 @@ const renderSnippet = (snippet) => {
     <button class='editoringer'>edit</button>
     |
     <button class='copier'>copy</button>
+    <button class='linker'>link</button>
     <button class='githubber'>source</button>
   </div>
 </div>`;
@@ -268,7 +269,18 @@ for (const snippet of state.snippets) {
 
   snippet.root
     .getElementsByClassName('copier')[0]
-    .addEventListener('click', () => copyCode(snippet.code));
+    .addEventListener('click', () =>
+      copyCode(snippet.code, `${snippet.name} - the snippet is copied`),
+    );
+
+  snippet.root
+    .getElementsByClassName('linker')[0]
+    .addEventListener('click', () =>
+      copyCode(
+        `${window.location.origin}/${window.location.pathname}?query=${snippet.name}`,
+        `${snippet.name} - the URL is copied`,
+      ),
+    );
 
   snippet.root
     .getElementsByClassName('githubber')[0]
