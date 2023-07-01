@@ -192,8 +192,8 @@ const filterSnippets = () => {
 
     if (
       tagsAreSelected &&
-      (snippet.code.toLowerCase().includes(state.query) ||
-        snippet.name.toLowerCase().includes(state.query))
+      (snippet.code.toLowerCase().includes(state.query.toLowerCase()) ||
+        snippet.name.toLowerCase().includes(state.query.toLowerCase()))
     ) {
       snippet.visible(true);
     } else {

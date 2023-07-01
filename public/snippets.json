@@ -1,0 +1,210 @@
+{
+	"tags": [
+		"pun",
+		"puzzle",
+		"quine",
+		"sketch",
+		"useful",
+		"useless",
+		"yolo"
+	],
+	"snippets": [
+		{
+			"name": ".js",
+			"code": "",
+			"tags": []
+		},
+		{
+			"name": "all-the-chars.js",
+			"code": "const allTheChars = [];\n\nlet i = 0;\nlet next = '';\n\nwhile (!allTheChars.includes(next)) {\n  allTheChars.push(next);\n  next = String.fromCharCode(i++);\n}\n\nconsole.log(allTheChars.join(''));\n",
+			"tags": []
+		},
+		{
+			"name": "callout-stack.js",
+			"code": "const calloutStack = (msg = '') =>\n  eval(\n    msg\n      .split('')\n      .reduce((acc, next) => `(function ${next}() { ${acc} })()`, `\"${msg}\"()`),\n  );\n\ncalloutStack('jenga');\n\n// tags: useless\n",
+			"tags": [
+				"useless"
+			]
+		},
+		{
+			"name": "dna.js",
+			"code": "const WIDTH = 30;\nconst STEP = 0.08;\n\nconst coordinate = (num, phase = 0) =>\n  Math.round(Math.sin(num + phase) * WIDTH) + WIDTH;\n\nlet a = 0;\nlet b = WIDTH;\n\nconst strand = setInterval(() => {\n  const cA = coordinate((a += STEP));\n  const cB = coordinate((b += STEP), WIDTH / 2);\n  console.log(\n    `${Array((cA < cB ? cA : cB) + 1).join(' ')}{|${Array(\n      Math.abs(cB - cA),\n    ).join('=')}|}`,\n  );\n  if (a / b > 0.3) {\n    clearInterval(strand);\n  }\n}, 30);\n\n// tags: sketch\n",
+			"tags": [
+				"sketch"
+			]
+		},
+		{
+			"name": "do-without.js",
+			"code": "const out = { eye_roll: '(◔_◔)' };\n\ndo {\n  with (out) {\n    alert(eye_roll);\n  }\n} while (null);\n\n// tags: pun\n",
+			"tags": [
+				"pun"
+			]
+		},
+		{
+			"name": "existential-void.js",
+			"code": "/*\n  A: I disappear and leave you.\n  E: You didn’t disappear.\n  A: Well, I did and then appeared again. The void does not accept me, sir.\n*/\n\nconsole.assert(void 'me', 'the void accepts');\n",
+			"tags": []
+		},
+		{
+			"name": "goto-ish.js",
+			"code": "var wants_a_compliment = confirm('do you want a compliment?');\n\ncompliment: {\n  insult: {\n    if (wants_a_compliment) break insult;\n    alert('you own a store');\n  }\n  if (!wants_a_compliment) break compliment;\n  alert('well done, good work');\n}\n",
+			"tags": []
+		},
+		{
+			"name": "heartbreak.js",
+			"code": "heart: {\n  break heart;\n}\n",
+			"tags": []
+		},
+		{
+			"name": "in-one-ear.js",
+			"code": "// ... out the other\n\n// prettier-ignore\n{\n\n\n\n          '   '\n      '           '\n    '    (*) (*)    '\nalert(             prompt())\n    '       ^       '\n    '   \\_______/   '\n      '           '\n          '   '\n\n\n}\n",
+			"tags": []
+		},
+		{
+			"name": "pick-your-poison.js",
+			"code": "const poison = confirm(\n  'Pick Your Poison.\\n\\n- Iteration: [ok]\\n- Recursion: [cancel]',\n)\n  ? 'iterate'\n  : 'recurse';\n\nif (poison === 'iterate') {\n  while (true) {\n    console.log(poison);\n  }\n} else if (poison === 'recurse') {\n  (function bottomlessish() {\n    console.log(poison);\n    try {\n      bottomlessish();\n    } catch (_) {\n      bottomlessish();\n    }\n  })();\n} else {\n  (function eternival() {\n    const id = setInterval(() => (console.log(id), eternival()), 0);\n  })();\n}\n",
+			"tags": []
+		},
+		{
+			"name": "pipeable-alert.js",
+			"code": "const alert = (thing) => (window.alert(thing?.toString()), thing);\n\nalert('a' + alert('l' + alert('e' + alert('r' + alert('t')))));\n\n// tags: useless\n",
+			"tags": [
+				"useless"
+			]
+		},
+		{
+			"name": "pipeable-log.js",
+			"code": "const log = (thing) => (\n  console.groupCollapsed(thing), console.trace(), console.groupEnd(), thing\n);\n\nlog('l' + log('o' + log('g')));\n\n// tags: useful\n",
+			"tags": [
+				"useful"
+			]
+		},
+		{
+			"name": "potato-potato.js",
+			"code": "function potato() {\n  return this instanceof potato ? this.__proto__.constructor : potato;\n}\n\nalert(`you say ${new potato().name}, I say ${potato().name}`);\n\n// tags: pun\n",
+			"tags": [
+				"pun"
+			]
+		},
+		{
+			"name": "python-by-any-other-name.js",
+			"code": "def fib(n):\n  if n == 1 or n == 0:\n    return n\n  else:\n    return fib(n-2) + fib(n - 1)\n\nprint(fib(10))\n",
+			"tags": []
+		},
+		{
+			"name": "recurseval-1.js",
+			"code": "eval((recurseval = 'eval(recurseval)'));\n\n// tags: useless\n",
+			"tags": [
+				"useless"
+			]
+		},
+		{
+			"name": "recurseval-2.js",
+			"code": "(function recurseval() {\n  eval(`(${recurseval.toString()})()`);\n})();\n\n// tags: quine\n",
+			"tags": [
+				"quine"
+			]
+		},
+		{
+			"name": "reflection.js",
+			"code": "var w = 0;\n\nwhile (w < 3) {\n  w++;\n}\n\nalert(w);\n\n/*~~~~~~~~~~~~*/\n\nalert(m);\n\ndo {\n  m++;\n} while (m < 3);\n\nvar m = 0;\n",
+			"tags": []
+		},
+		{
+			"name": "sequitur.js",
+			"code": "const sequitur = (non = '') => (non ? { [non]: sequitur } : sequitur);\n\nalert(sequitur('hi').hi('bye').bye()('sequitur').sequitur.name);\n\n// tags: useless, puzzle\n",
+			"tags": [
+				"useless",
+				"puzzle"
+			]
+		},
+		{
+			"name": "take-five.js",
+			"code": "const FIVE_MINUTES = 300000; // milliseconds\n\nconst clock_out = Date.now();\n\nconst on_break = () => Date.now() - clock_out < FIVE_MINUTES;\n\nget_some_fresh_air: while (on_break()) {\n  alert('break time, take 5!');\n}\n",
+			"tags": []
+		},
+		{
+			"name": "the-fox-says.js",
+			"code": "whatDoesTheFoxSay('kwak', 'kwak', 'kwak');\n\nfunction whatDoesTheFoxSay(...args) {\n  // This looks like a fox, right?\n  // Taken from here - https://ascii.co.uk/art/fox\n  const fox = [\n    '%c%c',\n    '%c    _,-=._              /|_/|%c',\n    '%c`-.}       `=._,.-=-._.,  @ @._,%c',\n    \"%c   `._ _,-.   )      _,.-'%c\",\n    '%c           G.m-\"^m`m\\'%c',\n    '%c%c',\n  ];\n\n\n  // Gets args as a string\n  const joinedArgs = args.join(' ');\n\n  // Add the bubble if there is something to log!\n  if (joinedArgs.length > 0) {\n    fox[1] += `        ---${'-'.repeat(joinedArgs.length)}-`;\n    fox[2] += `  -(   ${joinedArgs}   )`;\n    fox[3] += `           ---${'-'.repeat(joinedArgs.length)}-`;\n  }\n\n  // Log the fox!\n  for (const line of fox) {\n    console.log(line, 'color: firebrick', '');\n  }\n}\n\n// credit: https://tholman.com/console-dot-frog/\n// tags: sketch\n\n",
+			"tags": [
+				"sketch"
+			]
+		},
+		{
+			"name": "this-is-amazing.js",
+			"code": "(function () {\n  this;\n}).call('amazing');\n",
+			"tags": []
+		},
+		{
+			"name": "tintin-0.js",
+			"code": "const tin = () => 'tin';\n\nconsole.log(tin.name);\nconsole.log(tin());\n\n// tags: puzzle\n",
+			"tags": [
+				"puzzle"
+			]
+		},
+		{
+			"name": "tintin-1.js",
+			"code": "const tin = () => tin;\n\nconsole.log(tin().name);\nconsole.log(tin()()()()());\n\n// tags: puzzle\n",
+			"tags": [
+				"puzzle"
+			]
+		},
+		{
+			"name": "tintin-2.js",
+			"code": "const tin = () => ({ tin });\n\nconsole.log(tin().tin.name);\nconsole.log(tin().tin().tin().tin);\n\n// tags: puzzle\n",
+			"tags": [
+				"puzzle"
+			]
+		},
+		{
+			"name": "tintin-3.js",
+			"code": "const tin = () => tin;\ntin.tin = tin;\n\nconsole.log(tin[tin().name]()[tin.name].name);\nconsole.log(tin.tin()().tin().tin.tin()()().tin().tin.tin());\n\n// tags: puzzle\n",
+			"tags": [
+				"puzzle"
+			]
+		},
+		{
+			"name": "tintin-4.js",
+			"code": "const tin = () => ({ tin });\ntin.tin = tin;\n\nconsole.log(tin[tin.name]().tin.tin.tin()['tin'].name);\nconsole.log(tin.tin()['tin']().tin().tin);\n\n// tags: puzzle\n",
+			"tags": [
+				"puzzle"
+			]
+		},
+		{
+			"name": "transparency.js",
+			"code": "const transparency = {\n  remember_that: 'let',\n  stores: '=',\n  as_long_as: 'while',\n  is_less_than: '<',\n  add_one_to: '++',\n  show_me: 'alert',\n};\n\nwith (transparency) {\n  eval(`\n\n${remember_that} i ${stores} 0;\n\n${as_long_as}( i ${is_less_than} 5 )${add_one_to} i;\n\n${show_me}( i );\n\n`);\n}\n",
+			"tags": []
+		},
+		{
+			"name": "turtles-all-the-way-down.js",
+			"code": "(turtle = () => turtle())();\n",
+			"tags": []
+		},
+		{
+			"name": "var-let-const.js",
+			"code": "// 'use strict';\n\nconsole.assert(__ === let);\n\n{\n  var let = 'const';\n}\n\nconsole.assert(__ === let);\n",
+			"tags": []
+		},
+		{
+			"name": "yolo.js",
+			"code": "const shipit = (motto = '') => {\n  try {\n    alert(eval(prompt(`${motto}!`)));\n  } catch (err) {\n    alert(`${err.name}: ${err.message}\\n\\n${motto}!`);\n    shipit(motto);\n  }\n};\n\nshipit('YOLO');\n\n// tags: yolo\n",
+			"tags": [
+				"yolo"
+			]
+		},
+		{
+			"name": "yoloer.js",
+			"code": "/*\n  // 'use strict';\n*/\n\nconst YOLO = 'YOLO';\n\nconst walkTheTalk = (motto = YOLO) =>\n  prompt(`${motto}!`) || (alert(`${motto} harder!`), walkTheTalk(motto));\n\nconst shipit = (code = `\"${YOLO}!`) => {\n  try {\n    alert(eval(code));\n  } catch (err) {\n    alert(`${err.name}: ${err.message}\\n\\n${YOLO}!`);\n  } finally {\n    shipit(walkTheTalk(YOLO));\n  }\n};\n\nshipit(walkTheTalk(YOLO));\n\n// tags: yolo\n",
+			"tags": [
+				"yolo"
+			]
+		},
+		{
+			"name": "yoloest.js",
+			"code": "alert(eval(prompt('YOLO!')));\n\n// tags: yolo\n",
+			"tags": [
+				"yolo"
+			]
+		}
+	]
+}
