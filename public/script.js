@@ -265,6 +265,12 @@ document.getElementById('search-field').value = state.query;
 document.getElementById('tags').appendChild(filterList(state.tags, 'tags'));
 
 const snippetsRoot = document.getElementById('snippets');
+
+for (const snippet of state.snippets) {
+  renderSnippet(snippet);
+  snippetsRoot.appendChild(snippet.root);
+}
+
 for (const snippet of state.snippets) {
   renderSnippet(snippet);
 
@@ -309,8 +315,6 @@ for (const snippet of state.snippets) {
         replaceWithEditor(snippet);
       }
     });
-
-  snippetsRoot.appendChild(snippet.root);
 }
 
 document.getElementById('tags').addEventListener('change', (e) => {
