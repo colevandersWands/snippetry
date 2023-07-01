@@ -45,6 +45,11 @@
 			"tags": []
 		},
 		{
+			"name": "goto-ish.js",
+			"code": "var wants_a_compliment = confirm('do you want a compliment?');\n\ncompliment: {\n  insult: {\n    if (wants_a_compliment) break insult;\n    alert('you own a store');\n  }\n  if (!wants_a_compliment) break compliment;\n  alert('well done, good work');\n}\n",
+			"tags": []
+		},
+		{
 			"name": "heartbreak.js",
 			"code": "heart: {\n  break heart;\n}\n",
 			"tags": []
@@ -81,7 +86,7 @@
 			]
 		},
 		{
-			"name": "python.js",
+			"name": "python-by-any-other-name.js",
 			"code": "def fib(n):\n  if n == 1 or n == 0:\n    return n\n  else:\n    return fib(n-2) + fib(n - 1)\n\nprint(fib(10))\n",
 			"tags": []
 		},
@@ -111,9 +116,16 @@
 			]
 		},
 		{
-			"name": "the-frog-says.js",
-			"code": "theFrogSays('quack', 'kwak');\n\nfunction theFrogSays(...args) {\n  // This looks like a frog, right?\n  // Taken from here - http://chris.com/ascii/index.php?art=animals/frogs\n  const frog = [\n    '%c%c',\n    '%c         _,-.  %c',\n    \"%c ,-. ,--'  o ) %c\",\n    \"%c \\\\(,' '  ,,-' %c\",\n    '%c,-.\\\\-.__,\\\\\\\\_%c',\n    \"%c\\\\(`--'    `\\\\ %c\",\n    '%c%c',\n  ];\n\n  // Gets args as a string\n  const joinedArgs = args.join(' ');\n\n  // Add the bubble if there is something to log!\n  if (joinedArgs.length > 0) {\n    frog[1] += `   ---${'-'.repeat(joinedArgs.length)}-`;\n    frog[2] += `-(   ${joinedArgs}   )`;\n    frog[3] += `    ---${'-'.repeat(joinedArgs.length)}-`;\n  }\n\n  // Log the frog!\n  for (const line of frog) {\n    console.log(line, 'color: green', '');\n  }\n}\n\n// credit: https://tholman.com/console-dot-frog/\n",
+			"name": "take-five.js",
+			"code": "const FIVE_MINUTES = 300000; // milliseconds\n\nconst clock_out = Date.now();\n\nconst on_break = () => Date.now() - clock_out < FIVE_MINUTES;\n\nget_some_fresh_air: while (on_break()) {\n  alert('break time, take 5!');\n}\n",
 			"tags": []
+		},
+		{
+			"name": "the-fox-says.js",
+			"code": "whatDoesTheFoxSay('kwak', 'kwak', 'kwak');\n\nfunction whatDoesTheFoxSay(...args) {\n  // This looks like a fox, right?\n  // Taken from here - https://ascii.co.uk/art/fox\n  const fox = [\n    '%c%c',\n    '%c    _,-=._              /|_/|%c',\n    '%c`-.}       `=._,.-=-._.,  @ @._,%c',\n    \"%c   `._ _,-.   )      _,.-'%c\",\n    '%c           G.m-\"^m`m\\'%c',\n    '%c%c',\n  ];\n\n\n  // Gets args as a string\n  const joinedArgs = args.join(' ');\n\n  // Add the bubble if there is something to log!\n  if (joinedArgs.length > 0) {\n    fox[1] += `        ---${'-'.repeat(joinedArgs.length)}-`;\n    fox[2] += `  -(   ${joinedArgs}   )`;\n    fox[3] += `           ---${'-'.repeat(joinedArgs.length)}-`;\n  }\n\n  // Log the fox!\n  for (const line of fox) {\n    console.log(line, 'color: firebrick', '');\n  }\n}\n\n// credit: https://tholman.com/console-dot-frog/\n// tags: sketch\n\n",
+			"tags": [
+				"sketch"
+			]
 		},
 		{
 			"name": "this-is-amazing.js",
