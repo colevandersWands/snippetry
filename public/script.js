@@ -74,6 +74,7 @@ const runCode = (snippet = {}, debug = false) => {
   const evaller = document.createElement('iframe');
   evaller.style.display = 'none';
   evaller.id = Math.random();
+  evaller.src = window.location.origin;
 
   const finalCode = debug
     ? '/* ------------------------ */ debugger;\n\n\n\n\n' +
@@ -272,8 +273,6 @@ for (const snippet of state.snippets) {
 }
 
 for (const snippet of state.snippets) {
-  renderSnippet(snippet);
-
   snippet.root
     .getElementsByClassName('runner')[0]
     .addEventListener('click', () => runCode(snippet));
