@@ -74,7 +74,7 @@ const runCode = (snippet = {}, debug = false) => {
   const evaller = document.createElement('iframe');
   evaller.style.display = 'none';
   evaller.id = Math.random();
-  evaller.src = window.location.origin;
+  evaller.src = `./snippets/${snippet.name}`;
 
   const finalCode = debug
     ? '/* ------------------------ */ debugger;\n\n\n\n\n' +

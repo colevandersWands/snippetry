@@ -7,3 +7,5 @@ console.assert(__ === let);
 }
 
 console.assert(__ === let);
+
+// tags: puzzle

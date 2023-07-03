@@ -1,1 +1,3 @@
 (turtle = () => turtle())();
+
+// tags: pun

@@ -12,7 +12,6 @@ function whatDoesTheFoxSay(...args) {
     '%c%c',
   ];
 
-
   // Gets args as a string
   const joinedArgs = args.join(' ');
 
@@ -31,4 +30,3 @@ function whatDoesTheFoxSay(...args) {
 
 // credit: https://tholman.com/console-dot-frog/
 // tags: sketch
-

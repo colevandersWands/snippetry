@@ -1,11 +1,14 @@
 {
 	"tags": [
+		"frivolous",
 		"pun",
 		"puzzle",
 		"quine",
 		"sketch",
+		"testing",
 		"useful",
 		"useless",
+		"wellbeing",
 		"yolo"
 	],
 	"snippets": [
@@ -27,6 +30,21 @@
 			]
 		},
 		{
+			"name": "deep-compare.mjs",
+			"code": "export const deepCompare = (actual, expect) => {\n  return (\n    actual === expect ||\n    Object.is(actual, expect) ||\n    (Object(actual) === actual &&\n      Object(expect) === expect &&\n      ((Array.isArray(actual) &&\n        Array.isArray(expect) &&\n        actual.length === expect.length &&\n        expect.every((expect, index) => deepCompare(actual[index], expect))) ||\n        (Object.keys(actual).length === Object.keys(expect).length &&\n          Object.keys(expect).every((key) =>\n            deepCompare(actual[key], expect[key]),\n          ))))\n  );\n};\n\nexport default deepCompare;\n\n// tags: useful, testing\n",
+			"tags": [
+				"useful",
+				"testing"
+			]
+		},
+		{
+			"name": "describe-it.mjs",
+			"code": "export const describe = (name = '', testFunction = () => {}) => {\n  console.group(`%c${name}`, 'font-weight: bold;');\n  try {\n    testFunction();\n  } catch (err) {\n    console.error('%cSUITE ERROR:', 'font-weight: bold;', err);\n  }\n  console.groupEnd();\n};\n\nexport const it = (name = '', testFunction = () => {}) => {\n  const out = Object.assign({}, console);\n  const callOuts = [];\n  Object.keys(console).forEach(\n    (key) => (console[key] = (...args) => callOuts.push({ key, args })),\n  );\n  let thrown = null;\n  try {\n    testFunction();\n  } catch (err) {\n    thrown = err;\n  }\n  if (thrown)\n    out.groupCollapsed(`%c✖ FAIL: ${name}`, 'font-weight: bold; color: red;');\n  else\n    out.groupCollapsed(`%c√ PASS: ${name}`, 'font-weight: bold; color: green;');\n  callOuts.forEach((callOut) => out[callOut.key](...callOut.args));\n  thrown && out.error(thrown);\n  out.groupEnd();\n  Object.assign(console, out);\n};\n\nexport default { describe, it };\n\n// tags: testing\n",
+			"tags": [
+				"testing"
+			]
+		},
+		{
 			"name": "dna.js",
 			"code": "const WIDTH = 30;\nconst STEP = 0.08;\n\nconst coordinate = (num, phase = 0) =>\n  Math.round(Math.sin(num + phase) * WIDTH) + WIDTH;\n\nlet a = 0;\nlet b = WIDTH;\n\nconst strand = setInterval(() => {\n  const cA = coordinate((a += STEP));\n  const cB = coordinate((b += STEP), WIDTH / 2);\n  console.log(\n    `${Array((cA < cB ? cA : cB) + 1).join(' ')}{|${Array(\n      Math.abs(cB - cA),\n    ).join('=')}|}`,\n  );\n  if (a / b > 0.3) {\n    clearInterval(strand);\n  }\n}, 30);\n\n// tags: sketch\n",
 			"tags": [
@@ -44,6 +62,20 @@
 			"name": "existential-void.js",
 			"code": "/*\n  A: I disappear and leave you.\n  E: You didn’t disappear.\n  A: Well, I did and then appeared again. The void does not accept me, sir.\n*/\n\nconsole.assert(void 'me', 'the void accepts');\n",
 			"tags": []
+		},
+		{
+			"name": "expect.mjs",
+			"code": "import deepCompare from './deep-compare.mjs';\n\nexport const expect = (first) => {\n  return {\n    toDeepEqual(second) {\n      if (!deepCompare(first, second)) {\n        console.log('%cFirst Thing:', 'font-weight: bold;', first);\n        console.log('%cSecond Thing:', 'font-weight: bold;', second);\n        throw new Error('the first thing did not deep equal the second thing.');\n      }\n    },\n    toStrictEqual(second) {\n      if (first !== second) {\n        console.log('%cFirst Thing:', 'font-weight: bold;', first);\n        console.log('%cSecond Thing:', 'font-weight: bold;', second);\n        throw new Error(\n          'the first thing did not strictly equal the second thing',\n        );\n      }\n    },\n  };\n};\n\nexport default expect;\n\n// tags: testing\n",
+			"tags": [
+				"testing"
+			]
+		},
+		{
+			"name": "fake-it-till-you-make-it.mjs",
+			"code": "import steamroll from './steamroll.mjs';\n\nfetch('./python-by-any-other-name.js')\n  .then((res) => res.text())\n  .then(steamroll)\n  .then(console.log)\n  .catch(console.error);\n\n// tags: frivolous\n",
+			"tags": [
+				"frivolous"
+			]
 		},
 		{
 			"name": "goto-ish.js",
@@ -106,6 +138,11 @@
 			]
 		},
 		{
+			"name": "recurseval-3.js",
+			"code": "fetch(`./recurseval-3.js`)\n  .then((res) => res.text())\n  .then((code) => (console.log(code), eval(code)))\n  .catch(console.error);\n",
+			"tags": []
+		},
+		{
 			"name": "reflection.js",
 			"code": "var w = 0;\n\nwhile (w < 3) {\n  w++;\n}\n\nalert(w);\n\n/*~~~~~~~~~~~~*/\n\nalert(m);\n\ndo {\n  m++;\n} while (m < 3);\n\nvar m = 0;\n",
 			"tags": []
@@ -119,20 +156,34 @@
 			]
 		},
 		{
-			"name": "take-five.js",
-			"code": "const FIVE_MINUTES = 300000; // milliseconds\n\nconst clock_out = Date.now();\n\nconst on_break = () => Date.now() - clock_out < FIVE_MINUTES;\n\nget_some_fresh_air: while (on_break()) {\n  alert('break time, take 5!');\n}\n",
+			"name": "steamroll.mjs",
+			"code": "export const steamroll = (code = '', refactors = []) => {\n  const refactor = { goodCode: code };\n  refactors.push(refactor);\n\n  const sandbox = document.createElement('iframe');\n\n  sandbox.addEventListener('load', () => {\n    sandbox.contentWindow.addEventListener('error', ({ lineno, error }) => {\n      const lines = code.split('\\n');\n      (refactor.badCode = refactor.goodCode), delete refactor.goodCode;\n      refactor.error = error;\n      refactor.guilty = lines.splice(lineno - 1, 1).pop();\n\n      steamroll(lines.join('\\n'), refactors);\n    });\n\n    const fingersCrossed = document.createElement('script');\n    fingersCrossed.innerHTML = code;\n    sandbox.contentDocument.body.appendChild(fingersCrossed);\n  });\n\n  document.body.appendChild(sandbox);\n\n  return refactors;\n};\n\nexport default steamroll;\n\n// inspiration: https://github.com/mattdiamond/fuckitjs\n",
 			"tags": []
 		},
 		{
+			"name": "take-five.js",
+			"code": "const FIVE_MINUTES = 300000; // milliseconds\n\nconst clock_out = Date.now();\n\nconst on_break = () => Date.now() - clock_out < FIVE_MINUTES;\n\nget_some_fresh_air: while (on_break()) {\n  alert('break time, take 5!');\n}\n\n// tags: wellbeing\n",
+			"tags": [
+				"wellbeing"
+			]
+		},
+		{
+			"name": "testing.mjs",
+			"code": "import { describe, it } from './describe-it.mjs';\nimport { expect } from './expect.mjs';\n\nexport { describe, expect, it };\nexport default { describe, expect, it };\n\n// tags: testing\n",
+			"tags": [
+				"testing"
+			]
+		},
+		{
 			"name": "the-fox-says.js",
-			"code": "whatDoesTheFoxSay('kwak', 'kwak', 'kwak');\n\nfunction whatDoesTheFoxSay(...args) {\n  // This looks like a fox, right?\n  // Taken from here - https://ascii.co.uk/art/fox\n  const fox = [\n    '%c%c',\n    '%c    _,-=._              /|_/|%c',\n    '%c`-.}       `=._,.-=-._.,  @ @._,%c',\n    \"%c   `._ _,-.   )      _,.-'%c\",\n    '%c           G.m-\"^m`m\\'%c',\n    '%c%c',\n  ];\n\n\n  // Gets args as a string\n  const joinedArgs = args.join(' ');\n\n  // Add the bubble if there is something to log!\n  if (joinedArgs.length > 0) {\n    fox[1] += `        ---${'-'.repeat(joinedArgs.length)}-`;\n    fox[2] += `  -(   ${joinedArgs}   )`;\n    fox[3] += `           ---${'-'.repeat(joinedArgs.length)}-`;\n  }\n\n  // Log the fox!\n  for (const line of fox) {\n    console.log(line, 'color: firebrick', '');\n  }\n}\n\n// credit: https://tholman.com/console-dot-frog/\n// tags: sketch\n\n",
+			"code": "whatDoesTheFoxSay('kwak', 'kwak', 'kwak');\n\nfunction whatDoesTheFoxSay(...args) {\n  // This looks like a fox, right?\n  // Taken from here - https://ascii.co.uk/art/fox\n  const fox = [\n    '%c%c',\n    '%c    _,-=._              /|_/|%c',\n    '%c`-.}       `=._,.-=-._.,  @ @._,%c',\n    \"%c   `._ _,-.   )      _,.-'%c\",\n    '%c           G.m-\"^m`m\\'%c',\n    '%c%c',\n  ];\n\n  // Gets args as a string\n  const joinedArgs = args.join(' ');\n\n  // Add the bubble if there is something to log!\n  if (joinedArgs.length > 0) {\n    fox[1] += `        ---${'-'.repeat(joinedArgs.length)}-`;\n    fox[2] += `  -(   ${joinedArgs}   )`;\n    fox[3] += `           ---${'-'.repeat(joinedArgs.length)}-`;\n  }\n\n  // Log the fox!\n  for (const line of fox) {\n    console.log(line, 'color: firebrick', '');\n  }\n}\n\n// credit: https://tholman.com/console-dot-frog/\n// tags: sketch\n",
 			"tags": [
 				"sketch"
 			]
 		},
 		{
-			"name": "this-is-amazing.js",
-			"code": "(function () {\n  this;\n}).call('amazing');\n",
+			"name": "this-is-amazing.mjs",
+			"code": "import { describe, it as _this, expect } from './testing.mjs';\n\nconst amazing = function wow() {\n  return this;\n}.bind('amazing');\n\ndescribe(\"this: it's amazing\", () => {\n  _this('is a string', () => {\n    const beAmazed = amazing();\n    expect(typeof beAmazed).toStrictEqual('string');\n  });\n  _this('is \"amazing\"', () => {\n    const beAmazed = amazing();\n    expect(beAmazed).toStrictEqual('amazing');\n  });\n});\n",
 			"tags": []
 		},
 		{
@@ -177,13 +228,17 @@
 		},
 		{
 			"name": "turtles-all-the-way-down.js",
-			"code": "(turtle = () => turtle())();\n",
-			"tags": []
+			"code": "(turtle = () => turtle())();\n\n// tags: pun\n",
+			"tags": [
+				"pun"
+			]
 		},
 		{
 			"name": "var-let-const.js",
-			"code": "// 'use strict';\n\nconsole.assert(__ === let);\n\n{\n  var let = 'const';\n}\n\nconsole.assert(__ === let);\n",
-			"tags": []
+			"code": "// 'use strict';\n\nconsole.assert(__ === let);\n\n{\n  var let = 'const';\n}\n\nconsole.assert(__ === let);\n\n// tags: puzzle\n",
+			"tags": [
+				"puzzle"
+			]
 		},
 		{
 			"name": "yolo.js",
