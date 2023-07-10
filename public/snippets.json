@@ -72,7 +72,7 @@
 		},
 		{
 			"name": "fake-it-till-you-make-it.mjs",
-			"code": "import steamroll from './steamroll.mjs';\n\nfetch('./python-by-any-other-name.js')\n  .then((res) => res.text())\n  .then(steamroll)\n  .then(console.log)\n  .catch(console.error);\n\n// tags: frivolous\n",
+			"code": "import { steamroll } from './steamroll.mjs';\n\nfetch('./python-by-any-other-name.js')\n  .then((res) => res.text())\n  .then(steamroll)\n  .then(console.log)\n  .catch(console.error);\n\n// tags: frivolous\n",
 			"tags": [
 				"frivolous"
 			]
@@ -80,6 +80,11 @@
 		{
 			"name": "goto-ish.js",
 			"code": "var wants_a_compliment = confirm('do you want a compliment?');\n\ncompliment: {\n  insult: {\n    if (wants_a_compliment) break insult;\n    alert('you own a store');\n  }\n  if (!wants_a_compliment) break compliment;\n  alert('well done, good work');\n}\n",
+			"tags": []
+		},
+		{
+			"name": "gotta-fetch-em-all.js",
+			"code": "fetch(\n  'https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/pokemon.csv',\n)\n  .then((res) => res.text())\n  .then((csv) =>\n    csv\n      .split('\\n')\n      .slice(1)\n      .map((line) => line.split(',')[1])\n      .join('\\n'),\n  )\n  .then(console.log)\n  .catch(console.error);\n",
 			"tags": []
 		},
 		{
@@ -175,13 +180,6 @@
 			]
 		},
 		{
-			"name": "the-fox-says.js",
-			"code": "whatDoesTheFoxSay('kwak', 'kwak', 'kwak');\n\nfunction whatDoesTheFoxSay(...args) {\n  // This looks like a fox, right?\n  // Taken from here - https://ascii.co.uk/art/fox\n  const fox = [\n    '%c%c',\n    '%c    _,-=._              /|_/|%c',\n    '%c`-.}       `=._,.-=-._.,  @ @._,%c',\n    \"%c   `._ _,-.   )      _,.-'%c\",\n    '%c           G.m-\"^m`m\\'%c',\n    '%c%c',\n  ];\n\n  // Gets args as a string\n  const joinedArgs = args.join(' ');\n\n  // Add the bubble if there is something to log!\n  if (joinedArgs.length > 0) {\n    fox[1] += `        ---${'-'.repeat(joinedArgs.length)}-`;\n    fox[2] += `  -(   ${joinedArgs}   )`;\n    fox[3] += `           ---${'-'.repeat(joinedArgs.length)}-`;\n  }\n\n  // Log the fox!\n  for (const line of fox) {\n    console.log(line, 'color: firebrick', '');\n  }\n}\n\n// credit: https://tholman.com/console-dot-frog/\n// tags: sketch\n",
-			"tags": [
-				"sketch"
-			]
-		},
-		{
 			"name": "this-is-amazing.mjs",
 			"code": "import { describe, it as _this, expect } from './testing.mjs';\n\nconst amazing = function wow() {\n  return this;\n}.bind('amazing');\n\ndescribe(\"this: it's amazing\", () => {\n  _this('is a string', () => {\n    const beAmazed = amazing();\n    expect(typeof beAmazed).toStrictEqual('string');\n  });\n  _this('is \"amazing\"', () => {\n    const beAmazed = amazing();\n    expect(beAmazed).toStrictEqual('amazing');\n  });\n});\n",
 			"tags": []
@@ -238,6 +236,18 @@
 			"code": "// 'use strict';\n\nconsole.assert(__ === let);\n\n{\n  var let = 'const';\n}\n\nconsole.assert(__ === let);\n\n// tags: puzzle\n",
 			"tags": [
 				"puzzle"
+			]
+		},
+		{
+			"name": "wait-for-it.js",
+			"code": "(function waitForIt(wait = 0) {\n  console.log(wait);\n  wait = setTimeout(() => waitForIt(wait), wait);\n})();\n",
+			"tags": []
+		},
+		{
+			"name": "what-does-the-fox-say.js",
+			"code": "theFoxSays('kwak', 'kwak', 'kwak');\n\nfunction theFoxSays(...args) {\n  // This looks like a fox, right?\n  // Taken from here - https://ascii.co.uk/art/fox\n  const fox = [\n    '%c%c',\n    '%c    _,-=._              /|_/|%c',\n    '%c`-.}       `=._,.-=-._.,  @ @._,%c',\n    \"%c   `._ _,-.   )      _,.-'%c\",\n    '%c           G.m-\"^m`m\\'%c',\n    '%c%c',\n  ];\n\n  // Gets args as a string\n  const joinedArgs = args.join(' ');\n\n  // Add the bubble if there is something to log!\n  if (joinedArgs.length > 0) {\n    fox[1] += `        ---${'-'.repeat(joinedArgs.length)}-`;\n    fox[2] += `  -(   ${joinedArgs}   )`;\n    fox[3] += `           ---${'-'.repeat(joinedArgs.length)}-`;\n  }\n\n  // Log the fox!\n  for (const line of fox) {\n    console.log(line, 'color: firebrick', '');\n  }\n}\n\n// credit: https://tholman.com/console-dot-frog/\n// tags: sketch\n",
+			"tags": [
+				"sketch"
 			]
 		},
 		{

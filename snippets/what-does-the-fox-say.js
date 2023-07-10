@@ -1,6 +1,6 @@
-whatDoesTheFoxSay('kwak', 'kwak', 'kwak');
+theFoxSays('kwak', 'kwak', 'kwak');
 
-function whatDoesTheFoxSay(...args) {
+function theFoxSays(...args) {
   // This looks like a fox, right?
   // Taken from here - https://ascii.co.uk/art/fox
   const fox = [
