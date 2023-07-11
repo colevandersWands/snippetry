@@ -40,7 +40,7 @@
 		},
 		{
 			"name": "clone.html",
-			"code": "<style>\n  .full-screen {\n    height: 100%;\n    width: 100%;\n    border: none;\n    overflow: scroll;\n  }\n</style>\n\n<iframe id=\"clone\" class=\"full-screen\"></iframe>\n\n<script>\n  document.getElementById('clone').src = window.location.href;\n</script>\n",
+			"code": "<style>\n  .full-screen {\n    height: 100%;\n    width: 100%;\n    border: none;\n  }\n</style>\n\n<iframe id=\"clone\" class=\"full-screen\"></iframe>\n\n<script>\n  document.getElementById('clone').src = window.location.href;\n</script>\n",
 			"tags": []
 		},
 		{
@@ -114,6 +114,11 @@
 			"tags": [
 				"wuzzle"
 			]
+		},
+		{
+			"name": "mirror.css",
+			"code": "body {\n  -moz-transform: scale(-1, 1);\n  -webkit-transform: scale(-1, 1);\n  -o-transform: scale(-1, 1);\n  -ms-transform: scale(-1, 1);\n  transform: scale(-1, 1);\n}\n",
+			"tags": []
 		},
 		{
 			"name": "overconfidence.js",

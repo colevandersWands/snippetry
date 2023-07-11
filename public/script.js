@@ -137,7 +137,11 @@ const copyCode = (code, message = 'copied!') => {
 const renderCode = (snippet) => {
   const containerHighlight = document.createElement('div');
   containerHighlight.innerHTML = `<pre class="editor language-${
-    snippet.name.endsWith('js') ? 'js' : 'html'
+    snippet.name.endsWith('js')
+      ? 'js'
+      : snippet.name.endsWith('html')
+      ? 'html'
+      : 'css'
   }"><code></code></pre>`;
   containerHighlight.firstChild.firstChild.textContent = snippet.code;
 
@@ -157,14 +161,18 @@ const renderSnippet = (snippet) => {
       ${
         snippet.name.endsWith('js')
           ? `<button class='runner'>run</button>
-      <button class='debugger'>debug</button>`
-          : `<button class='tabber'>open tab</button>`
+      <button class='debugger'>debug</button>
+      |`
+          : snippet.name.endsWith('html')
+          ? `<button class='tabber'>open tab</button>
+      |`
+          : `<button class='styler'>apply styles</button>
+      |`
       }
-      |
-      <button class='editoringer'>edit</button>
-      |
     </span>
+    <button class='editoringer'>edit</button>
     <button class='copier'>copy</button>
+    |
     <button class='linker'>link</button>
     <button class='githubber'>source</button>
   </div>
@@ -249,6 +257,11 @@ const replaceWithEditor = (snippet) => {
     snippet.jar = CodeJar(snippet.containerEditor, highlight, {
       tab: '\t',
     });
+  } else if (snippet.name.endsWith('.css')) {
+    snippet.containerEditor.className = 'editor language-css';
+    snippet.jar = CodeJar(snippet.containerEditor, highlight, {
+      tab: '\t',
+    });
   }
   snippet.jar.updateCode(snippet.originalCode);
 
@@ -302,10 +315,24 @@ for (const snippet of state.snippets) {
     snippet.root
       .getElementsByClassName('debugger')[0]
       .addEventListener('click', () => runCode(snippet, true));
-  } else {
+  } else if (snippet.name.endsWith('html')) {
     snippet.root
       .getElementsByClassName('tabber')[0]
       .addEventListener('click', () => newTabHTML(snippet));
+  } else {
+    const snippetStyle = document.createElement('style');
+    snippet.root
+      .getElementsByClassName('styler')[0]
+      .addEventListener('click', (e) => {
+        if (e.target.innerText.includes('apply')) {
+          snippetStyle.innerHTML = snippet.code;
+          document.head.appendChild(snippetStyle);
+          e.target.innerText = 'remove styles';
+        } else {
+          document.head.removeChild(snippetStyle);
+          e.target.innerText = 'apply styles';
+        }
+      });
   }
 
   snippet.root
