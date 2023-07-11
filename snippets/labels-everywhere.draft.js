@@ -6,4 +6,6 @@ const _ = () => {
 
 e: 3;
 
+a: break a;
+
 console.log(_());

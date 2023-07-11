@@ -6,4 +6,4 @@ do {
   }
 } while (null);
 
-// tags: pun
+// tags: wuzzle

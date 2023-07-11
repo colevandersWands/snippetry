@@ -16,3 +16,5 @@ alert(             prompt())
 
 
 }
+
+// tags: wuzzle

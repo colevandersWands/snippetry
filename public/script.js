@@ -134,10 +134,12 @@ const copyCode = (code, message = 'copied!') => {
 
 // ----- (re)render snippets -----
 
-const renderCode = (code = '') => {
+const renderCode = (snippet) => {
   const containerHighlight = document.createElement('div');
-  containerHighlight.innerHTML = `<pre class="editor language-js"><code></code></pre>`;
-  containerHighlight.firstChild.firstChild.textContent = code;
+  containerHighlight.innerHTML = `<pre class="editor language-${
+    snippet.name.endsWith('js') ? 'js' : 'html'
+  }"><code></code></pre>`;
+  containerHighlight.firstChild.firstChild.textContent = snippet.code;
 
   Prism.highlightElement(containerHighlight.firstChild);
 
@@ -152,8 +154,12 @@ const renderSnippet = (snippet) => {
   <h2 id="${snippet.name}">${snippet.name}</h2>
   <div class="down">
     <span class="danger-zone hidden">
-      <button class='runner'>run</button>
-      <button class='debugger'>debug</button>
+      ${
+        snippet.name.endsWith('js')
+          ? `<button class='runner'>run</button>
+      <button class='debugger'>debug</button>`
+          : `<button class='tabber'>open tab</button>`
+      }
       |
       <button class='editoringer'>edit</button>
       |
@@ -175,7 +181,7 @@ const renderSnippet = (snippet) => {
         }
       },
     },
-    renderCode(snippet.code),
+    renderCode(snippet),
   );
 
   snippet.root.appendChild(snippet.containerHighlight);
@@ -232,9 +238,18 @@ const replaceWithEditor = (snippet) => {
   snippet.originalCode = snippet.code;
 
   snippet.containerEditor = document.createElement('pre');
-  snippet.containerEditor.className = 'editor language-js';
-
-  snippet.jar = CodeJar(snippet.containerEditor, highlight, { tab: '\t' });
+  if (snippet.name.endsWith('js')) {
+    snippet.containerEditor.className = 'editor language-js';
+    snippet.jar = CodeJar(snippet.containerEditor, highlight, {
+      tab: '\t',
+      indentOn: /[(\[\{]$/,
+    });
+  } else if (snippet.name.endsWith('.html')) {
+    snippet.containerEditor.className = 'editor language-html';
+    snippet.jar = CodeJar(snippet.containerEditor, highlight, {
+      tab: '\t',
+    });
+  }
   snippet.jar.updateCode(snippet.originalCode);
 
   Object.defineProperty(snippet, 'code', {
@@ -247,6 +262,13 @@ const replaceWithEditor = (snippet) => {
     snippet.containerEditor,
     snippet.containerHighlight,
   );
+};
+
+const newTabHTML = (snippet) => {
+  const x = window.open();
+  x.document.open();
+  x.document.write(snippet.code);
+  x.document.close();
 };
 
 // ----- initialize UI -----
@@ -273,13 +295,18 @@ for (const snippet of state.snippets) {
 }
 
 for (const snippet of state.snippets) {
-  snippet.root
-    .getElementsByClassName('runner')[0]
-    .addEventListener('click', () => runCode(snippet));
-
-  snippet.root
-    .getElementsByClassName('debugger')[0]
-    .addEventListener('click', () => runCode(snippet, true));
+  if (snippet.name.endsWith('js')) {
+    snippet.root
+      .getElementsByClassName('runner')[0]
+      .addEventListener('click', () => runCode(snippet));
+    snippet.root
+      .getElementsByClassName('debugger')[0]
+      .addEventListener('click', () => runCode(snippet, true));
+  } else {
+    snippet.root
+      .getElementsByClassName('tabber')[0]
+      .addEventListener('click', () => newTabHTML(snippet));
+  }
 
   snippet.root
     .getElementsByClassName('copier')[0]

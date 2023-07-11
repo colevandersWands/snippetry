@@ -9,6 +9,8 @@
 		"useful",
 		"useless",
 		"wellbeing",
+		"wtf",
+		"wuzzle",
 		"yolo"
 	],
 	"snippets": [
@@ -28,6 +30,18 @@
 			"tags": [
 				"useless"
 			]
+		},
+		{
+			"name": "cest-pas-faux.js",
+			"code": "console.assert(this !== false, \"c'est pas faux!\");\n\n// tags: wuzzle\n",
+			"tags": [
+				"wuzzle"
+			]
+		},
+		{
+			"name": "clone.html",
+			"code": "<style>\n  .full-screen {\n    height: 100%;\n    width: 100%;\n    border: none;\n    overflow: scroll;\n  }\n</style>\n\n<iframe id=\"clone\" class=\"full-screen\"></iframe>\n\n<script>\n  document.getElementById('clone').src = window.location.href;\n</script>\n",
+			"tags": []
 		},
 		{
 			"name": "deep-compare.mjs",
@@ -53,9 +67,9 @@
 		},
 		{
 			"name": "do-without.js",
-			"code": "const out = { eye_roll: '(◔_◔)' };\n\ndo {\n  with (out) {\n    alert(eye_roll);\n  }\n} while (null);\n\n// tags: pun\n",
+			"code": "const out = { eye_roll: '(◔_◔)' };\n\ndo {\n  with (out) {\n    alert(eye_roll);\n  }\n} while (null);\n\n// tags: wuzzle\n",
 			"tags": [
-				"pun"
+				"wuzzle"
 			]
 		},
 		{
@@ -89,13 +103,24 @@
 		},
 		{
 			"name": "heartbreak.js",
-			"code": "heart: {\n  break heart;\n}\n",
-			"tags": []
+			"code": "heart: {\n  break heart;\n}\n\n// tags: wuzzle\n",
+			"tags": [
+				"wuzzle"
+			]
 		},
 		{
 			"name": "in-one-ear.js",
-			"code": "// ... out the other\n\n// prettier-ignore\n{\n\n\n\n          '   '\n      '           '\n    '    (*) (*)    '\nalert(             prompt())\n    '       ^       '\n    '   \\_______/   '\n      '           '\n          '   '\n\n\n}\n",
-			"tags": []
+			"code": "// ... out the other\n\n// prettier-ignore\n{\n\n\n\n          '   '\n      '           '\n    '    (*) (*)    '\nalert(             prompt())\n    '       ^       '\n    '   \\_______/   '\n      '           '\n          '   '\n\n\n}\n\n// tags: wuzzle\n",
+			"tags": [
+				"wuzzle"
+			]
+		},
+		{
+			"name": "overconfidence.js",
+			"code": "console.assert([0] != ![0]);\n\n// tags: wtf\n",
+			"tags": [
+				"wtf"
+			]
 		},
 		{
 			"name": "pick-your-poison.js",
@@ -118,9 +143,9 @@
 		},
 		{
 			"name": "potato-potato.js",
-			"code": "function potato() {\n  return this instanceof potato ? this.__proto__.constructor : potato;\n}\n\nalert(`you say ${new potato().name}, I say ${potato().name}`);\n\n// tags: pun\n",
+			"code": "function potato() {\n  return this instanceof potato ? this.__proto__.constructor : potato;\n}\n\nalert(`you say ${new potato().name}, I say ${potato().name}`);\n\n// tags: wuzzle\n",
 			"tags": [
-				"pun"
+				"wuzzle"
 			]
 		},
 		{

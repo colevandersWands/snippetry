@@ -4,4 +4,4 @@ function potato() {
 
 alert(`you say ${new potato().name}, I say ${potato().name}`);
 
-// tags: pun
+// tags: wuzzle

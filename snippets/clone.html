@@ -1,0 +1,14 @@
+<style>
+  .full-screen {
+    height: 100%;
+    width: 100%;
+    border: none;
+    overflow: scroll;
+  }
+</style>
+
+<iframe id="clone" class="full-screen"></iframe>
+
+<script>
+  document.getElementById('clone').src = window.location.href;
+</script>
