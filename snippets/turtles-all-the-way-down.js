@@ -1,3 +1,3 @@
 (turtle = () => turtle())();
 
-// tags: pun
+// tags: wuzzle

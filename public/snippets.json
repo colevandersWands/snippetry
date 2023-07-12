@@ -1,7 +1,6 @@
 {
 	"tags": [
 		"frivolous",
-		"pun",
 		"puzzle",
 		"quine",
 		"sketch",
@@ -159,6 +158,11 @@
 			"tags": []
 		},
 		{
+			"name": "rainbowing.html",
+			"code": "<style>\n  #pad {\n    display: grid;\n    grid-template-columns: repeat(100, 1vw);\n    grid-template-rows: repeat(100, 1vh);\n  }\n</style>\n\n<div id=\"pad\"></div>\n\n<script>\n  // https://krazydad.com/tutorials/makecolors.php\n  const colorVal = (steps, shift) =>\n    Math.round(Math.sin(0.2 * steps + shift) * 127 + 128);\n  const cycleColor = (steps) =>\n    `rgb(${colorVal(steps, 0)},${colorVal(steps, 2)},${colorVal(steps, 4)})`;\n\n  for (let i = 0; i < 10000; i++) {\n    let steps = 0;\n    let isChanging = true;\n    const pixel = document.createElement('div');\n    pixel.addEventListener('click', () => (isChanging = !isChanging));\n    setInterval(\n      () => isChanging && (pixel.style.backgroundColor = cycleColor(steps++)),\n      500,\n    );\n    pad.appendChild(pixel);\n  }\n</script>\n",
+			"tags": []
+		},
+		{
 			"name": "recurseval-1.js",
 			"code": "eval((recurseval = 'eval(recurseval)'));\n\n// tags: useless\n",
 			"tags": [
@@ -256,14 +260,14 @@
 		},
 		{
 			"name": "turtles-all-the-way-down.html",
-			"code": "<title>turtles all the way down</title>\n\n<pre>\n  _____     ____\n /      \\  |  o |\n|        |/ ___\\|\n|_________/\n|_|_| |_|_|\n</pre>\n<!-- https://www.asciiart.eu/animals/reptiles/turtles -->\n\n<script id=\"bottom\">\n  const turtle = document.getElementsByTagName('pre')[0];\n  setInterval(() => bottom.before(turtle.cloneNode(true)));\n</script>\n",
+			"code": "<title>turtles all the way down</title>\n\n<pre>\n  _____     ____\n /      \\  |  o |\n|        |/ ___\\|\n|_________/\n|_|_| |_|_|\n</pre>\n\n<script id=\"bottom\">\n  const turtle = document.getElementsByTagName('pre')[0];\n  setInterval(() => bottom.before(turtle.cloneNode(true)));\n</script>\n\n<!-- turtle: https://www.asciiart.eu/animals/reptiles/turtles -->\n",
 			"tags": []
 		},
 		{
 			"name": "turtles-all-the-way-down.js",
-			"code": "(turtle = () => turtle())();\n\n// tags: pun\n",
+			"code": "(turtle = () => turtle())();\n\n// tags: wuzzle\n",
 			"tags": [
-				"pun"
+				"wuzzle"
 			]
 		},
 		{

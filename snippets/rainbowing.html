@@ -1,0 +1,29 @@
+<style>
+  #rain {
+    display: grid;
+    grid-template-columns: repeat(100, 1vw);
+    grid-template-rows: repeat(100, 1vh);
+  }
+</style>
+
+<div id="rain"></div>
+
+<script>
+  // https://krazydad.com/tutorials/makecolors.php
+  const colorVal = (steps, shift) =>
+    Math.round(Math.sin(0.2 * steps + shift) * 127 + 128);
+  const cycleColor = (steps) =>
+    `rgb(${colorVal(steps, 0)},${colorVal(steps, 2)},${colorVal(steps, 4)})`;
+
+  for (let i = 0; i < 10000; i++) {
+    let steps = 0;
+    let isChanging = true;
+    const bow = document.createElement('div');
+    bow.addEventListener('click', () => (isChanging = !isChanging));
+    setInterval(
+      () => isChanging && (bow.style.backgroundColor = cycleColor(steps++)),
+      500,
+    );
+    rain.appendChild(bow);
+  }
+</script>
