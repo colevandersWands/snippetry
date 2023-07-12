@@ -256,7 +256,7 @@
 		},
 		{
 			"name": "turtles-all-the-way-down.html",
-			"code": "<title>turtles all the way down</title>\n\n<pre>\n  _____     ____\n /      \\  |  o |\n|        |/ ___\\|\n|_________/\n|_|_| |_|_|\n</pre>\n<!-- https://www.asciiart.eu/animals/reptiles/turtles -->\n\n<script id=\"bottom\">\n  const turtle = document.getElementsByTagName('pre')[0];\n  setInterval(() => bottom.before(turtle.cloneNode(true)));\n</script>\n",
+			"code": "<title>turtles all the way down</title>\n\n<pre>\n  _____     ____\n /      \\  |  o |\n|        |/ ___\\|\n|_________/\n|_|_| |_|_|\n</pre>\n\n<script id=\"bottom\">\n  const turtle = document.getElementsByTagName('pre')[0];\n  setInterval(() => bottom.before(turtle.cloneNode(true)));\n</script>\n\n<!-- turtle: https://www.asciiart.eu/animals/reptiles/turtles -->\n",
 			"tags": []
 		},
 		{
