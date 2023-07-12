@@ -39,11 +39,6 @@
 			]
 		},
 		{
-			"name": "clone.html",
-			"code": "<style>\n  .full-screen {\n    height: 100%;\n    width: 100%;\n    border: none;\n  }\n</style>\n\n<iframe id=\"clone\" class=\"full-screen\"></iframe>\n\n<script>\n  document.getElementById('clone').src = window.location.href;\n</script>\n",
-			"tags": []
-		},
-		{
 			"name": "code-is-text.css",
 			"code": ".token {\n  color: black !important;\n}\n",
 			"tags": []
@@ -257,6 +252,11 @@
 		{
 			"name": "transparency.js",
 			"code": "const transparency = {\n  remember_that: 'let',\n  stores: '=',\n  as_long_as: 'while',\n  is_less_than: '<',\n  add_one_to: '++',\n  show_me: 'alert',\n};\n\nwith (transparency) {\n  eval(`\n\n${remember_that} i ${stores} 0;\n\n${as_long_as}( i ${is_less_than} 5 )${add_one_to} i;\n\n${show_me}( i );\n\n`);\n}\n",
+			"tags": []
+		},
+		{
+			"name": "turtles-all-the-way-down.html",
+			"code": "<title>turtles all the way down</title>\n\n<style>\n  body {\n    margin: 0;\n  }\n  iframe {\n    height: 100%;\n    width: 100%;\n    border: none;\n  }\n</style>\n\n<pre>\n  _____     ____\n /      \\  |  o |\n|        |/ ___\\|\n|_________/\n|_|_| |_|_|\n</pre>\n<!-- https://www.asciiart.eu/animals/reptiles/turtles -->\n\n<script>\n  const turtle = document.createElement('iframe');\n  turtle.src = `?turtle=${\n    (Number(new URLSearchParams(window.location.search).get('turtle')) || 0) + 1\n  }`;\n  turtle.onload = () => {\n    turtle.contentDocument.head.innerHTML = window.document.head.innerHTML;\n    turtle.contentDocument.body.innerHTML = window.document.body.innerHTML;\n  };\n  document.body.append(turtle);\n</script>\n",
 			"tags": []
 		},
 		{

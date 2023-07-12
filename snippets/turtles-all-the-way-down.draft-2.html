@@ -1,0 +1,24 @@
+<title>turtle</title>
+
+<style>
+  .turtle {
+    height: 99%;
+    width: 99%;
+    border: none;
+  }
+</style>
+
+<h1>turtle</h1>
+
+<iframe id="turtle" class="turtle"></iframe>
+
+<script>
+  const queries = new URLSearchParams(window.location.search);
+  const nextTurtle = queries.get('turtle') ? Number(queries.get('turtle')) : 0;
+
+  document.getElementById(
+    'turtle',
+  ).src = `${window.location.origin}/${window.location.pathname}?turtle=${nextTurtle}`;
+</script>
+
+<!-- reference: https://github.com/bryanbraun/infinitely-nested-iframes -->
