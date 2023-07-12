@@ -1,0 +1,33 @@
+<title>turtles all the way down</title>
+
+<style>
+  body {
+    margin: 0;
+  }
+  iframe {
+    height: 100%;
+    width: 100%;
+    border: none;
+  }
+</style>
+
+<pre>
+  _____     ____
+ /      \  |  o |
+|        |/ ___\|
+|_________/
+|_|_| |_|_|
+</pre>
+<!-- https://www.asciiart.eu/animals/reptiles/turtles -->
+
+<script>
+  const turtle = document.createElement('iframe');
+  turtle.src = `?turtle=${
+    (Number(new URLSearchParams(window.location.search).get('turtle')) || 0) + 1
+  }`;
+  turtle.onload = () => {
+    turtle.contentDocument.head.innerHTML = window.document.head.innerHTML;
+    turtle.contentDocument.body.innerHTML = window.document.body.innerHTML;
+  };
+  document.body.append(turtle);
+</script>
