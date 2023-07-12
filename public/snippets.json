@@ -44,6 +44,11 @@
 			"tags": []
 		},
 		{
+			"name": "code-is-text.css",
+			"code": ".token {\n  color: black !important;\n}\n",
+			"tags": []
+		},
+		{
 			"name": "deep-compare.mjs",
 			"code": "export const deepCompare = (actual, expect) => {\n  return (\n    actual === expect ||\n    Object.is(actual, expect) ||\n    (Object(actual) === actual &&\n      Object(expect) === expect &&\n      ((Array.isArray(actual) &&\n        Array.isArray(expect) &&\n        actual.length === expect.length &&\n        expect.every((expect, index) => deepCompare(actual[index], expect))) ||\n        (Object.keys(actual).length === Object.keys(expect).length &&\n          Object.keys(expect).every((key) =>\n            deepCompare(actual[key], expect[key]),\n          ))))\n  );\n};\n\nexport default deepCompare;\n\n// tags: useful, testing\n",
 			"tags": [

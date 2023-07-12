@@ -166,7 +166,7 @@ const renderSnippet = (snippet) => {
           : snippet.name.endsWith('html')
           ? `<button class='tabber'>open tab</button>
       |`
-          : `<button class='styler'>apply styles</button>
+          : `<button class='styler'>apply style</button>
       |`
       }
     </span>
@@ -321,16 +321,23 @@ for (const snippet of state.snippets) {
       .addEventListener('click', () => newTabHTML(snippet));
   } else {
     const snippetStyle = document.createElement('style');
+    let isApplied = false;
     snippet.root
       .getElementsByClassName('styler')[0]
       .addEventListener('click', (e) => {
+        // apply to body to override other styles
+        if (isApplied) {
+          document.body.removeChild(snippetStyle);
+          isApplied = false;
+        }
+
         if (e.target.innerText.includes('apply')) {
           snippetStyle.innerHTML = snippet.code;
-          document.head.appendChild(snippetStyle);
-          e.target.innerText = 'remove styles';
+          document.body.appendChild(snippetStyle);
+          e.target.innerText = 'remove style';
+          isApplied = true;
         } else {
-          document.head.removeChild(snippetStyle);
-          e.target.innerText = 'apply styles';
+          e.target.innerText = 'apply style';
         }
       });
   }
