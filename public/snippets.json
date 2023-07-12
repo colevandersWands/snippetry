@@ -159,7 +159,7 @@
 		},
 		{
 			"name": "rainbowing.html",
-			"code": "<style>\n  #pad {\n    display: grid;\n    grid-template-columns: repeat(100, 1vw);\n    grid-template-rows: repeat(100, 1vh);\n  }\n</style>\n\n<div id=\"pad\"></div>\n\n<script>\n  // https://krazydad.com/tutorials/makecolors.php\n  const colorVal = (steps, shift) =>\n    Math.round(Math.sin(0.2 * steps + shift) * 127 + 128);\n  const cycleColor = (steps) =>\n    `rgb(${colorVal(steps, 0)},${colorVal(steps, 2)},${colorVal(steps, 4)})`;\n\n  for (let i = 0; i < 10000; i++) {\n    let steps = 0;\n    let isChanging = true;\n    const pixel = document.createElement('div');\n    pixel.addEventListener('click', () => (isChanging = !isChanging));\n    setInterval(\n      () => isChanging && (pixel.style.backgroundColor = cycleColor(steps++)),\n      500,\n    );\n    pad.appendChild(pixel);\n  }\n</script>\n",
+			"code": "<style>\n  #rain {\n    display: grid;\n    grid-template-columns: repeat(100, 1vw);\n    grid-template-rows: repeat(100, 1vh);\n  }\n</style>\n\n<div id=\"rain\"></div>\n\n<script>\n  // https://krazydad.com/tutorials/makecolors.php\n  const colorVal = (steps, shift) =>\n    Math.round(Math.sin(0.2 * steps + shift) * 127 + 128);\n  const cycleColor = (steps) =>\n    `rgb(${colorVal(steps, 0)},${colorVal(steps, 2)},${colorVal(steps, 4)})`;\n\n  for (let i = 0; i < 10000; i++) {\n    let steps = 0;\n    let isChanging = true;\n    const bow = document.createElement('div');\n    bow.addEventListener('click', () => (isChanging = !isChanging));\n    setInterval(\n      () => isChanging && (bow.style.backgroundColor = cycleColor(steps++)),\n      500,\n    );\n    rain.appendChild(bow);\n  }\n</script>\n",
 			"tags": []
 		},
 		{
