@@ -18,7 +18,7 @@ if (poison === 'iterate') {
     }
   })();
 } else {
-  (function eternival() {
-    const id = setInterval(() => (console.log(id), eternival()), 0);
+  (function exponterval() {
+    const id = setInterval(() => (console.log(id), exponterval()));
   })();
 }

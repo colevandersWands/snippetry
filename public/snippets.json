@@ -24,6 +24,11 @@
 			"tags": []
 		},
 		{
+			"name": "belgium.css",
+			"code": "body {\n  background: linear-gradient(\n    90deg,\n    rgb(0, 0, 0) 33%,\n    rgb(255, 233, 54) 33%,\n    rgb(255, 233, 54) 66%,\n    rgb(255, 15, 33) 66%\n  );\n}\n",
+			"tags": []
+		},
+		{
 			"name": "callout-stack.js",
 			"code": "const calloutStack = (msg = '') =>\n  eval(\n    msg\n      .split('')\n      .reduce((acc, next) => `(function ${next}() { ${acc} })()`, `\"${msg}\"()`),\n  );\n\ncalloutStack('jenga');\n\n// tags: useless\n",
 			"tags": [
@@ -91,6 +96,11 @@
 			]
 		},
 		{
+			"name": "flashlight.css",
+			"code": "* {\n  opacity: 0;\n  transition: opacity 0.5s ease;\n}\n\n*:hover {\n  opacity: 1;\n}\n",
+			"tags": []
+		},
+		{
 			"name": "goto-ish.js",
 			"code": "var wants_a_compliment = confirm('do you want a compliment?');\n\ncompliment: {\n  insult: {\n    if (wants_a_compliment) break insult;\n    alert('you own a store');\n  }\n  if (!wants_a_compliment) break compliment;\n  alert('well done, good work');\n}\n",
 			"tags": []
@@ -128,7 +138,7 @@
 		},
 		{
 			"name": "pick-your-poison.js",
-			"code": "const poison = confirm(\n  'Pick Your Poison.\\n\\n- Iteration: [ok]\\n- Recursion: [cancel]',\n)\n  ? 'iterate'\n  : 'recurse';\n\nif (poison === 'iterate') {\n  while (true) {\n    console.log(poison);\n  }\n} else if (poison === 'recurse') {\n  (function bottomlessish() {\n    console.log(poison);\n    try {\n      bottomlessish();\n    } catch (_) {\n      bottomlessish();\n    }\n  })();\n} else {\n  (function eternival() {\n    const id = setInterval(() => (console.log(id), eternival()), 0);\n  })();\n}\n",
+			"code": "const poison = confirm(\n  'Pick Your Poison.\\n\\n- Iteration: [ok]\\n- Recursion: [cancel]',\n)\n  ? 'iterate'\n  : 'recurse';\n\nif (poison === 'iterate') {\n  while (true) {\n    console.log(poison);\n  }\n} else if (poison === 'recurse') {\n  (function bottomlessish() {\n    console.log(poison);\n    try {\n      bottomlessish();\n    } catch (_) {\n      bottomlessish();\n    }\n  })();\n} else {\n  (function exponterval() {\n    const id = setInterval(() => (console.log(id), exponterval()));\n  })();\n}\n",
 			"tags": []
 		},
 		{
@@ -159,7 +169,7 @@
 		},
 		{
 			"name": "rainbowing.html",
-			"code": "<style>\n  #pad {\n    display: grid;\n    grid-template-columns: repeat(100, 1vw);\n    grid-template-rows: repeat(100, 1vh);\n  }\n</style>\n\n<div id=\"pad\"></div>\n\n<script>\n  // https://krazydad.com/tutorials/makecolors.php\n  const colorVal = (steps, shift) =>\n    Math.round(Math.sin(0.2 * steps + shift) * 127 + 128);\n  const cycleColor = (steps) =>\n    `rgb(${colorVal(steps, 0)},${colorVal(steps, 2)},${colorVal(steps, 4)})`;\n\n  for (let i = 0; i < 10000; i++) {\n    let steps = 0;\n    let isChanging = true;\n    const pixel = document.createElement('div');\n    pixel.addEventListener('click', () => (isChanging = !isChanging));\n    setInterval(\n      () => isChanging && (pixel.style.backgroundColor = cycleColor(steps++)),\n      500,\n    );\n    pad.appendChild(pixel);\n  }\n</script>\n",
+			"code": "<style>\n  #rain {\n    display: grid;\n    grid-template-columns: repeat(100, 1vw);\n    grid-template-rows: repeat(100, 1vh);\n  }\n</style>\n\n<div id=\"rain\"></div>\n\n<script>\n  // https://krazydad.com/tutorials/makecolors.php\n  const colorVal = (steps, shift) =>\n    Math.round(Math.sin(0.2 * steps + shift) * 127 + 128);\n  const cycleColor = (steps) =>\n    `rgb(${colorVal(steps, 0)},${colorVal(steps, 2)},${colorVal(steps, 4)})`;\n\n  for (let i = 0; i < 10000; i++) {\n    let steps = 0;\n    let isChanging = true;\n    const bow = document.createElement('div');\n    bow.addEventListener('click', () => (isChanging = !isChanging));\n    setInterval(\n      () => isChanging && (bow.style.backgroundColor = cycleColor(steps++)),\n      500,\n    );\n    rain.appendChild(bow);\n  }\n</script>\n",
 			"tags": []
 		},
 		{
@@ -179,6 +189,11 @@
 		{
 			"name": "recurseval-3.js",
 			"code": "fetch(`./recurseval-3.js`)\n  .then((res) => res.text())\n  .then((code) => (console.log(code), eval(code)))\n  .catch(console.error);\n",
+			"tags": []
+		},
+		{
+			"name": "reflection.css",
+			"code": "body {\n  -moz-transform: scale(1, -1);\n  -webkit-transform: scale(1, -1);\n  -o-transform: scale(1, -1);\n  -ms-transform: scale(1, -1);\n  transform: scale(1, -1);\n}\n",
 			"tags": []
 		},
 		{
@@ -260,7 +275,7 @@
 		},
 		{
 			"name": "turtles-all-the-way-down.html",
-			"code": "<title>turtles all the way down</title>\n\n<pre>\n  _____     ____\n /      \\  |  o |\n|        |/ ___\\|\n|_________/\n|_|_| |_|_|\n</pre>\n\n<script id=\"bottom\">\n  const turtle = document.getElementsByTagName('pre')[0];\n  setInterval(() => bottom.before(turtle.cloneNode(true)));\n</script>\n\n<!-- turtle: https://www.asciiart.eu/animals/reptiles/turtles -->\n",
+			"code": "<title>turtles all the way down</title>\n\n<pre>\n  _____     ____\n /      \\  |  o |\n|        |/ ___\\|\n|_________/\n|_|_| |_|_|\n</pre>\n\n<script id=\"down\">\n  const turtle = document.getElementsByTagName('pre')[0];\n  setInterval(() => down.before(turtle.cloneNode(true)));\n</script>\n\n<!-- turtle: https://www.asciiart.eu/animals/reptiles/turtles -->\n",
 			"tags": []
 		},
 		{
