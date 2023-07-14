@@ -37,6 +37,10 @@ state.tags = state.tags.map((tag) => ({
 const persistedQueryEncoded = href.searchParams.get('query');
 state.query = persistedQueryEncoded ? decodeURI(persistedQueryEncoded) : '';
 
+// initialize dangerous life
+state.liveDangerously =
+  href.searchParams.get('danger') === 'yes' ? true : false;
+
 // ----- utilities -----
 
 const filterList = (entries, key) => {
@@ -225,7 +229,9 @@ const filterSnippets = () => {
   );
   const queryParam = encodeURI(state.query);
 
-  const params = `query=${queryParam}&tags=${tagsParam}`;
+  const params = `query=${queryParam}&tags=${tagsParam}&danger=${
+    state.liveDangerously ? 'yes' : 'no'
+  }`;
 
   window.history.replaceState(
     {},
@@ -284,17 +290,36 @@ const newTabHTML = (snippet) => {
   x.document.close();
 };
 
-// ----- initialize UI -----
-
-document.getElementById('danger-zone').addEventListener('input', (e) => {
-  for (const zone of document.getElementsByClassName('danger-zone')) {
-    if (e.target.checked) {
+const dangerZones = document.getElementsByClassName('danger-zone');
+const toggleDanger = (e) => {
+  const params = new URLSearchParams(href.search);
+  if (e.target.checked) {
+    for (const zone of dangerZones) {
       zone.classList.remove('hidden');
-    } else {
+    }
+    params.set('danger', 'yes');
+  } else {
+    for (const zone of dangerZones) {
       zone.classList.add('hidden');
     }
+    params.set('danger', 'no');
   }
-});
+  window.history.replaceState(
+    {},
+    '',
+    `${href.origin + href.pathname}?${params.toString()}`,
+  );
+  state.liveDangerously = !state.liveDangerously;
+};
+
+// ----- initialize UI -----
+
+const dangerZone = document.getElementById('danger-zone');
+dangerZone.addEventListener('input', toggleDanger);
+if (state.liveDangerously) {
+  dangerZone.checked = true;
+  setTimeout(() => toggleDanger({ target: { checked: true } }));
+}
 
 document.getElementById('search-field').value = state.query;
 
@@ -350,12 +375,10 @@ for (const snippet of state.snippets) {
 
   snippet.root
     .getElementsByClassName('linker')[0]
-    .addEventListener('click', () =>
-      copyCode(
-        `${window.location.origin}/${window.location.pathname}?query=${snippet.name}`,
-        `${snippet.name} ->  URL is copied`,
-      ),
-    );
+    .addEventListener('click', () => {
+      const url = `${window.location.origin}/${window.location.pathname}?query=${snippet.name}`;
+      copyCode(url, `${url} ->  URL is copied`);
+    });
 
   snippet.root
     .getElementsByClassName('githubber')[0]

@@ -25,7 +25,7 @@
 		},
 		{
 			"name": "belgium.css",
-			"code": "body {\n  background: linear-gradient(\n    90deg,\n    rgb(0, 0, 0) 33%,\n    rgb(255, 233, 54) 33%,\n    rgb(255, 233, 54) 66%,\n    rgb(255, 15, 33) 66%\n  );\n}\n",
+			"code": "body {\n  background: linear-gradient(\n    90deg,\n    rgb(0, 0, 0) 33.33%,\n    rgb(255, 233, 54) 33.33%,\n    rgb(255, 233, 54) 66.66%,\n    rgb(255, 15, 33) 66.66%\n  );\n}\n",
 			"tags": []
 		},
 		{
