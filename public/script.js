@@ -58,10 +58,20 @@ const filterList = (entries, key) => {
 
 const assert = (assertion, ...messages) => {
   if (assertion) {
-    console.log('%c√ YES ', 'font-weight: bold; color: green;', ...messages);
+    console.groupCollapsed(
+      '%c√ YES ',
+      'font-weight: bold; color: green;',
+      ...messages,
+    );
   } else {
-    console.log('%c✖ NO ', 'font-weight: bold; color: red;', ...messages);
+    console.groupCollapsed(
+      '%c✖ NO ',
+      'font-weight: bold; color: red;',
+      ...messages,
+    );
   }
+  console.trace();
+  console.groupEnd();
 };
 
 let firstRun = true;
@@ -336,10 +346,14 @@ for (const snippet of state.snippets) {
   if (snippet.name.endsWith('js')) {
     snippet.root
       .getElementsByClassName('runner')[0]
-      .addEventListener('click', () => runCode(snippet));
+      .addEventListener('click', function run() {
+        runCode(snippet);
+      });
     snippet.root
       .getElementsByClassName('debugger')[0]
-      .addEventListener('click', () => runCode(snippet, true));
+      .addEventListener('click', function debug() {
+        runCode(snippet, true);
+      });
   } else if (snippet.name.endsWith('html')) {
     snippet.root
       .getElementsByClassName('tabber')[0]
