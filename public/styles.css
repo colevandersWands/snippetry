@@ -48,6 +48,10 @@ h2 {
   justify-items: center;
 }
 
+.middly {
+  /* constrain the tags list to the center 30% */
+}
+
 /* github corner styles: https://tholman.com/github-corners/ */
 
 .github-corner:hover .octo-arm {

@@ -3,6 +3,7 @@
 		"frivolous",
 		"puzzle",
 		"quine",
+		"remix",
 		"sketch",
 		"testing",
 		"useful",
@@ -36,11 +37,16 @@
 			]
 		},
 		{
-			"name": "cest-pas-faux.js",
-			"code": "console.assert(this !== false, \"c'est pas faux!\");\n\n// tags: wuzzle\n",
+			"name": "can-not-even.mjs",
+			"code": "import { describe, it } from './testing.mjs';\n\nconst canNotEven = (maybe, strict) =>\n  strict && typeof maybe !== 'number'\n    ? maybe\n    : maybe % 2 === 0\n    ? even(maybe)\n    : maybe;\n\ndescribe('canNotEven: can not even', () => {\n  describe('sort of', () => {\n    it('can odd numbers', () => canNotEven(1));\n    it('can odd strings', () => canNotEven('1'));\n    it('can odd number objects', () => canNotEven(new Number(1)));\n\n    it('can not even numbers', () => canNotEven(2));\n    it('can not even strings', () => canNotEven('2'));\n    it('can not even number objects', () => canNotEven(new Number(2)));\n  });\n  describe('exactly', () => {\n    it('can odd numbers', () => canNotEven(1, true));\n    it('can odd strings', () => canNotEven('1', true));\n    it('can even strings', () => canNotEven('2', true));\n    it('can odd number objects', () => canNotEven(new Number(1), true));\n    it('can even number objects', () => canNotEven(new Number(2), true));\n\n    it('can not even numbers', () => canNotEven(2, true));\n  });\n});\n\nfunction even(number) {\n  (function not() {\n    (function can() {\n      throw new Error(`can not ${number}`);\n    })();\n  })();\n}\n\n// tags: remix\n// inspiration: https://github.com/blakek/cannot-even\n",
 			"tags": [
-				"wuzzle"
+				"remix"
 			]
+		},
+		{
+			"name": "cest-pas-faux.js",
+			"code": "console.assert(this != false /* ouais */, \"c'est pas faux\");\n",
+			"tags": []
 		},
 		{
 			"name": "code-is-text.css",
@@ -211,8 +217,10 @@
 		},
 		{
 			"name": "steamroll.mjs",
-			"code": "export const steamroll = (code = '', refactors = []) => {\n  const refactor = { goodCode: code };\n  refactors.push(refactor);\n\n  const sandbox = document.createElement('iframe');\n\n  sandbox.addEventListener('load', () => {\n    sandbox.contentWindow.addEventListener('error', ({ lineno, error }) => {\n      const lines = code.split('\\n');\n      (refactor.badCode = refactor.goodCode), delete refactor.goodCode;\n      refactor.error = error;\n      refactor.guilty = lines.splice(lineno - 1, 1).pop();\n\n      steamroll(lines.join('\\n'), refactors);\n    });\n\n    const fingersCrossed = document.createElement('script');\n    fingersCrossed.innerHTML = code;\n    sandbox.contentDocument.body.appendChild(fingersCrossed);\n  });\n\n  document.body.appendChild(sandbox);\n\n  return refactors;\n};\n\nexport default steamroll;\n\n// inspiration: https://github.com/mattdiamond/fuckitjs\n",
-			"tags": []
+			"code": "export const steamroll = (code = '', refactors = []) => {\n  const refactor = { goodCode: code };\n  refactors.push(refactor);\n\n  const sandbox = document.createElement('iframe');\n\n  sandbox.addEventListener('load', () => {\n    sandbox.contentWindow.addEventListener('error', ({ lineno, error }) => {\n      const lines = code.split('\\n');\n      (refactor.badCode = refactor.goodCode), delete refactor.goodCode;\n      refactor.error = error;\n      refactor.guilty = lines.splice(lineno - 1, 1).pop();\n\n      steamroll(lines.join('\\n'), refactors);\n    });\n\n    const fingersCrossed = document.createElement('script');\n    fingersCrossed.innerHTML = code;\n    sandbox.contentDocument.body.appendChild(fingersCrossed);\n  });\n\n  document.body.appendChild(sandbox);\n\n  return refactors;\n};\n\nexport default steamroll;\n\n// tags: remix\n// inspiration: https://github.com/mattdiamond/fuckitjs\n",
+			"tags": [
+				"remix"
+			]
 		},
 		{
 			"name": "take-five.js",
@@ -269,6 +277,11 @@
 			]
 		},
 		{
+			"name": "tout-va-bien.js",
+			"code": "var combien = (function dEtages(yAtIl) {\n  try {\n    return dEtages(yAtIl + 1);\n  } catch (jeMenFout) {\n    return yAtIl;\n  }\n})(0);\n\nconsole.log(\n  '\\nC’est l’histoire d’un homme qui tombe d’un immeuble de ' +\n    combien +\n    ' étages.\\n\\n' +\n    'Le mec, au fur et à mesure de sa chute, il se répète sans cesse pour se rassurer:\\n\\n',\n);\n\ntry {\n  (function laChute() {\n    console.log('jusqu’ici tout va bien,');\n    laChute();\n  })();\n} catch (lAterrissage) {\n  lAterrissage.message =\n    \"Mais l'important n’est pas la chute, c’est l’atterrissage.\";\n  throw lAterrissage;\n}\n\n// credit: la haine\n",
+			"tags": []
+		},
+		{
 			"name": "transparency.js",
 			"code": "const transparency = {\n  remember_that: 'let',\n  stores: '=',\n  as_long_as: 'while',\n  is_less_than: '<',\n  add_one_to: '++',\n  show_me: 'alert',\n};\n\nwith (transparency) {\n  eval(`\n\n${remember_that} i ${stores} 0;\n\n${as_long_as}( i ${is_less_than} 5 )${add_one_to} i;\n\n${show_me}( i );\n\n`);\n}\n",
 			"tags": []
@@ -299,9 +312,10 @@
 		},
 		{
 			"name": "what-does-the-fox-say.js",
-			"code": "theFoxSays('kwak', 'kwak', 'kwak');\n\nfunction theFoxSays(...args) {\n  // This looks like a fox, right?\n  // Taken from here - https://ascii.co.uk/art/fox\n  const fox = [\n    '%c%c',\n    '%c    _,-=._              /|_/|%c',\n    '%c`-.}       `=._,.-=-._.,  @ @._,%c',\n    \"%c   `._ _,-.   )      _,.-'%c\",\n    '%c           G.m-\"^m`m\\'%c',\n    '%c%c',\n  ];\n\n  // Gets args as a string\n  const joinedArgs = args.join(' ');\n\n  // Add the bubble if there is something to log!\n  if (joinedArgs.length > 0) {\n    fox[1] += `        ---${'-'.repeat(joinedArgs.length)}-`;\n    fox[2] += `  -(   ${joinedArgs}   )`;\n    fox[3] += `           ---${'-'.repeat(joinedArgs.length)}-`;\n  }\n\n  // Log the fox!\n  for (const line of fox) {\n    console.log(line, 'color: firebrick', '');\n  }\n}\n\n// credit: https://tholman.com/console-dot-frog/\n// tags: sketch\n",
+			"code": "theFoxSays('kwak', 'kwak', 'kwak');\n\nfunction theFoxSays(...args) {\n  // This looks like a fox, right?\n  // Taken from here - https://ascii.co.uk/art/fox\n  const fox = [\n    '%c%c',\n    '%c    _,-=._              /|_/|%c',\n    '%c`-.}       `=._,.-=-._.,  @ @._,%c',\n    \"%c   `._ _,-.   )      _,.-'%c\",\n    '%c           G.m-\"^m`m\\'%c',\n    '%c%c',\n  ];\n\n  // Gets args as a string\n  const joinedArgs = args.join(' ');\n\n  // Add the bubble if there is something to log!\n  if (joinedArgs.length > 0) {\n    fox[1] += `        ---${'-'.repeat(joinedArgs.length)}-`;\n    fox[2] += `  -(   ${joinedArgs}   )`;\n    fox[3] += `           ---${'-'.repeat(joinedArgs.length)}-`;\n  }\n\n  // Log the fox!\n  for (const line of fox) {\n    console.log(line, 'color: firebrick', '');\n  }\n}\n\n// tags: sketch, remix\n// inspiration: https://tholman.com/console-dot-frog/\n",
 			"tags": [
-				"sketch"
+				"sketch",
+				"remix"
 			]
 		},
 		{

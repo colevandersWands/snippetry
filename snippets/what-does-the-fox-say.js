@@ -28,5 +28,5 @@ function theFoxSays(...args) {
   }
 }
 
-// credit: https://tholman.com/console-dot-frog/
-// tags: sketch
+// tags: sketch, remix
+// inspiration: https://tholman.com/console-dot-frog/

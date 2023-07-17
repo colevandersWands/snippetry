@@ -1,3 +1,1 @@
-console.assert(this !== false, "c'est pas faux!");
-
-// tags: wuzzle
+console.assert(this != false /* ouais */, "c'est pas faux");

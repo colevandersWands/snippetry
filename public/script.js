@@ -5,7 +5,7 @@ import { CodeJar } from './lib/codejar.min.js';
 console.log(`
 Welcome to Snippetry!
 
-You're in the right place : )
+You're in the right place.
 
 `);
 
@@ -39,7 +39,9 @@ state.query = persistedQueryEncoded ? decodeURI(persistedQueryEncoded) : '';
 
 // initialize dangerous life
 state.liveDangerously =
-  href.searchParams.get('danger') === 'yes' ? true : false;
+  !href.searchParams.has('danger') || href.searchParams.get('danger') !== 'yes'
+    ? false
+    : true;
 
 // ----- utilities -----
 
