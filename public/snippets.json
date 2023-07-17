@@ -131,6 +131,11 @@
 			]
 		},
 		{
+			"name": "je-l-ignore.js",
+			"code": "var combien = (function d_etages(y_a_t_il) {\n  try {\n    return d_etages(y_a_t_il + 1);\n  } catch (je_l_ignore) {\n    return y_a_t_il;\n  }\n})(0);\n\nconsole.log(\n  '\\n' +\n    'C’est l’histoire d’un homme qui tombe d’un immeuble de ' +\n    combien +\n    ' étages.' +\n    '\\n\\n' +\n    'Le mec, au fur et à mesure de sa chute, il se répète sans cesse pour se rassurer:' +\n    '\\n\\n',\n);\n\ntry {\n  (function la_chute() {\n    console.log('jusqu’ici tout va bien.');\n    la_chute();\n  })();\n} catch (l_importance) {\n  l_importance.message = 'c’est l’atterrissage.';\n  throw l_importance;\n} finally {\n  console.log('\\n' + \"Mais l'important n’est pas la chute,\" + '\\n\\n');\n}\n\n// credit: la haine\n",
+			"tags": []
+		},
+		{
 			"name": "mirror.css",
 			"code": "body {\n  -moz-transform: scale(-1, 1);\n  -webkit-transform: scale(-1, 1);\n  -o-transform: scale(-1, 1);\n  -ms-transform: scale(-1, 1);\n  transform: scale(-1, 1);\n}\n",
 			"tags": []
@@ -277,11 +282,6 @@
 			]
 		},
 		{
-			"name": "tout-va-bien.js",
-			"code": "var combien = (function dEtages(yAtIl) {\n  try {\n    return dEtages(yAtIl + 1);\n  } catch (jeLIgnore) {\n    return yAtIl;\n  }\n})(0);\n\nconsole.log(\n  '\\n' +\n    'C’est l’histoire d’un homme qui tombe d’un immeuble de ' +\n    combien +\n    ' étages.' +\n    '\\n\\n' +\n    'Le mec, au fur et à mesure de sa chute, il se répète sans cesse pour se rassurer:' +\n    '\\n\\n',\n);\n\ntry {\n  (function laChute() {\n    console.log('jusqu’ici tout va bien.');\n    laChute();\n  })();\n} catch (lImportance) {\n  lImportance.message = 'c’est l’atterrissage.';\n  throw lImportance;\n} finally {\n  console.log('\\n' + \"Mais l'important n’est pas la chute,\" + '\\n\\n');\n}\n\n// credit: la haine\n",
-			"tags": []
-		},
-		{
 			"name": "transparency.js",
 			"code": "const transparency = {\n  remember_that: 'let',\n  stores: '=',\n  as_long_as: 'while',\n  is_less_than: '<',\n  add_one_to: '++',\n  show_me: 'alert',\n};\n\nwith (transparency) {\n  eval(`\n\n${remember_that} i ${stores} 0;\n\n${as_long_as}( i ${is_less_than} 5 )${add_one_to} i;\n\n${show_me}( i );\n\n`);\n}\n",
 			"tags": []
@@ -312,7 +312,7 @@
 		},
 		{
 			"name": "what-does-the-fox-say.js",
-			"code": "theFoxSays('kwak', 'kwak', 'kwak');\n\nfunction theFoxSays(...args) {\n  // This looks like a fox, right?\n  // Taken from here - https://ascii.co.uk/art/fox\n  const fox = [\n    '%c%c',\n    '%c    _,-=._              /|_/|%c',\n    '%c`-.}       `=._,.-=-._.,  @ @._,%c',\n    \"%c   `._ _,-.   )      _,.-'%c\",\n    '%c           G.m-\"^m`m\\'%c',\n    '%c%c',\n  ];\n\n  // Gets args as a string\n  const joinedArgs = args.join(' ');\n\n  // Add the bubble if there is something to log!\n  if (joinedArgs.length > 0) {\n    fox[1] += `        ---${'-'.repeat(joinedArgs.length)}-`;\n    fox[2] += `  -(   ${joinedArgs}   )`;\n    fox[3] += `           ---${'-'.repeat(joinedArgs.length)}-`;\n  }\n\n  // Log the fox!\n  for (const line of fox) {\n    console.log(line, 'color: firebrick', '');\n  }\n}\n\n// tags: sketch, remix\n// inspiration: https://tholman.com/console-dot-frog/\n",
+			"code": "theFoxSays(prompt('what does the fox say?'));\n\nfunction theFoxSays(...args) {\n  // This looks like a fox, right?\n  // Taken from here - https://ascii.co.uk/art/fox\n  const fox = [\n    '%c%c',\n    '%c    _,-=._              /|_/|%c',\n    '%c`-.}       `=._,.-=-._.,  @ @._,%c',\n    \"%c   `._ _,-.   )      _,.-'%c\",\n    '%c           G.m-\"^m`m\\'%c',\n    '%c%c',\n  ];\n\n  // Gets args as a string\n  const joinedArgs = args.join(' ');\n\n  // Add the bubble if there is something to log!\n  if (joinedArgs.length > 0) {\n    fox[1] += `        ---${'-'.repeat(joinedArgs.length)}-`;\n    fox[2] += `  -(   ${joinedArgs}   )`;\n    fox[3] += `           ---${'-'.repeat(joinedArgs.length)}-`;\n  }\n\n  // Log the fox!\n  for (const line of fox) {\n    console.log(line, 'color: firebrick', '');\n  }\n}\n\n// tags: sketch, remix\n// inspiration: https://tholman.com/console-dot-frog/\n",
 			"tags": [
 				"sketch",
 				"remix"

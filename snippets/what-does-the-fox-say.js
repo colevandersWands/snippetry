@@ -1,4 +1,4 @@
-theFoxSays('kwak', 'kwak', 'kwak');
+theFoxSays(prompt('what does the fox say?'));
 
 function theFoxSays(...args) {
   // This looks like a fox, right?

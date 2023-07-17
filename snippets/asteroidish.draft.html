@@ -1,0 +1,15 @@
+<pre id="field"></pre>
+
+<script>
+  const things = { left: '<', right: '>', up: '^', down: 'v' };
+
+  const fielders = [[], [], [], []];
+
+  for (const row of fielders) {
+    for (let i = 0; i < fielders.length; i++) {
+      Math.random() > 0.5 ? row.push('#') : row.push(' ');
+    }
+  }
+
+  field.innerText = fielders.map((r) => r.join('')).join('\n');
+</script>
