@@ -1,16 +1,19 @@
 var combien = (function dEtages(yAtIl) {
   try {
     return dEtages(yAtIl + 1);
-  } catch (jMenFous) {
+  } catch (jeLIgnore) {
     return yAtIl;
   }
 })(0);
 
 console.log(
-  '\nC’est l’histoire d’un homme qui tombe d’un immeuble de ' +
+  '\n' +
+    'C’est l’histoire d’un homme qui tombe d’un immeuble de ' +
     combien +
-    ' étages.\n\n' +
-    'Le mec, au fur et à mesure de sa chute, il se répète sans cesse pour se rassurer:\n\n',
+    ' étages.' +
+    '\n\n' +
+    'Le mec, au fur et à mesure de sa chute, il se répète sans cesse pour se rassurer:' +
+    '\n\n',
 );
 
 try {
