@@ -1,8 +1,8 @@
-var combien = (function dEtages(yAtIl) {
+var combien = (function d_etages(y_a_t_il) {
   try {
-    return dEtages(yAtIl + 1);
-  } catch (jeLIgnore) {
-    return yAtIl;
+    return d_etages(y_a_t_il + 1);
+  } catch (je_l_ignore) {
+    return y_a_t_il;
   }
 })(0);
 
@@ -17,13 +17,13 @@ console.log(
 );
 
 try {
-  (function laChute() {
+  (function la_chute() {
     console.log('jusqu’ici tout va bien.');
-    laChute();
+    la_chute();
   })();
-} catch (lImportance) {
-  lImportance.message = 'c’est l’atterrissage.';
-  throw lImportance;
+} catch (l_importance) {
+  l_importance.message = 'c’est l’atterrissage.';
+  throw l_importance;
 } finally {
   console.log('\n' + "Mais l'important n’est pas la chute," + '\n\n');
 }
