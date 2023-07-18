@@ -1,6 +1,7 @@
 {
 	"tags": [
 		"frivolous",
+		"game",
 		"puzzle",
 		"quine",
 		"remix",
@@ -26,7 +27,7 @@
 		},
 		{
 			"name": "belgium.css",
-			"code": "body {\n  background: linear-gradient(\n    90deg,\n    rgb(0, 0, 0) 33.33%,\n    rgb(255, 233, 54) 33.33%,\n    rgb(255, 233, 54) 66.66%,\n    rgb(255, 15, 33) 66.66%\n  );\n}\n",
+			"code": ".belge,\n.belgisch,\n.belgian,\nbody {\n  background: linear-gradient(\n    90deg,\n    rgb(0, 0, 0) 33.33%,\n    rgb(255, 233, 54) 33.33%,\n    rgb(255, 233, 54) 66.66%,\n    rgb(255, 15, 33) 66.66%\n  );\n}\n",
 			"tags": []
 		},
 		{
@@ -132,7 +133,7 @@
 		},
 		{
 			"name": "je-l-ignore.js",
-			"code": "var combien = (function d_etages(y_a_t_il) {\n  try {\n    return d_etages(y_a_t_il + 1);\n  } catch (je_l_ignore) {\n    return y_a_t_il;\n  }\n})(0);\n\nconsole.log(\n  '\\n' +\n    'C’est l’histoire d’un homme qui tombe d’un immeuble de ' +\n    combien +\n    ' étages.' +\n    '\\n\\n' +\n    'Le mec, au fur et à mesure de sa chute, il se répète sans cesse pour se rassurer:' +\n    '\\n\\n',\n);\n\ntry {\n  (function la_chute() {\n    console.log('jusqu’ici tout va bien.');\n    la_chute();\n  })();\n} catch (l_importance) {\n  l_importance.message = 'c’est l’atterrissage.';\n  throw l_importance;\n} finally {\n  console.log('\\n' + \"Mais l'important n’est pas la chute,\" + '\\n\\n');\n}\n\n// credit: la haine\n",
+			"code": "var combien = (function d_etages(y_a_t_il) {\n  try {\n    return d_etages(y_a_t_il + 1);\n  } catch (je_l_ignore) {\n    return y_a_t_il;\n  }\n})(0);\n\nconsole.log(\n  '\\n' +\n    'C’est l’histoire d’un homme qui tombe d’un immeuble de ' +\n    combien +\n    ' étages.' +\n    '\\n\\n' +\n    'Le mec, au fur et à mesure de sa chute, il se répète sans cesse pour se rassurer:' +\n    '\\n\\n',\n);\n\ntry {\n  (function la_chute(etage) {\n    console.log('étage ' + etage + ', jusqu’ici tout va bien.');\n    la_chute(etage - 1);\n  })(combien);\n} catch (l_importance) {\n  l_importance.message = 'c’est l’atterrissage.';\n  throw l_importance;\n} finally {\n  console.log('\\n' + \"Mais l'important n’est pas la chute,\" + '\\n\\n');\n}\n\n// credit: la haine\n",
 			"tags": []
 		},
 		{
@@ -145,6 +146,13 @@
 			"code": "console.assert([0] != ![0]);\n\n// tags: wtf\n",
 			"tags": [
 				"wtf"
+			]
+		},
+		{
+			"name": "pedestrian-slalom.html",
+			"code": "<style>\n  .center {\n    position: fixed;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n  }\n</style>\n\n<pre id=\"field\" class=\"center\"></pre>\n\n<script>\n  alert('use the arrow keys to change direction');\n\n  let dir = 'ArrowUp';\n  document.addEventListener('keyup', (e) => (dir = e.key));\n\n  const ped = () => (Math.random() < 0.25 ? '*' : ' ');\n  const move = {\n    ArrowRight: (b) => b.map((r) => [ped(), ...r.slice(0, 30)]),\n    ArrowLeft: (b) => b.map((r) => [...r.slice(1, 31), ped()]),\n    ArrowUp: (b) => [...b.slice(1), Array(31).fill(null).map(ped)],\n    ArrowDown: (b) => [Array(31).fill(null).map(ped), ...b.slice(0, 30)],\n  };\n\n  (function tick(ms = 0, b = []) {\n    const center = b[15][15] === '*' ? 'X' : 'O';\n    field.innerText = JSON.parse(JSON.stringify(b))\n      .map((r, i) => (i === 15 ? ((r[15] = center), r) : [...r]))\n      .flatMap((r) => r.join(' '))\n      .join('\\n');\n    ms <= 0 || center === 'X'\n      ? alert(`score: ${1000 - ms}`)\n      : setTimeout(tick, ms, ms - 5, move[dir](b));\n  })(1000, Array(31).fill(Array(31).fill(' ')));\n</script>\n\n<!-- tags: game -->\n",
+			"tags": [
+				"game"
 			]
 		},
 		{
@@ -288,8 +296,10 @@
 		},
 		{
 			"name": "turtles-all-the-way-down.html",
-			"code": "<title>turtles all the way down</title>\n\n<pre>\n  _____     ____\n /      \\  |  o |\n|        |/ ___\\|\n|_________/\n|_|_| |_|_|\n</pre>\n\n<script id=\"down\">\n  const turtle = document.getElementsByTagName('pre')[0];\n  setInterval(() => down.before(turtle.cloneNode(true)));\n</script>\n\n<!-- turtle: https://www.asciiart.eu/animals/reptiles/turtles -->\n",
-			"tags": []
+			"code": "<title>turtles all the way down</title>\n\n<pre>\n  _____     ____\n /      \\  |  o |\n|        |/ ___\\|\n|_________/\n|_|_| |_|_|\n</pre>\n\n<script id=\"down\">\n  const turtle = document.getElementsByTagName('pre')[0];\n  setInterval(() => down.before(turtle.cloneNode(true)));\n</script>\n\n<!-- turtle: https://www.asciiart.eu/animals/reptiles/turtles -->\n<!-- tags: wuzzle -->\n",
+			"tags": [
+				"wuzzle"
+			]
 		},
 		{
 			"name": "turtles-all-the-way-down.js",

@@ -1,0 +1,38 @@
+<style>
+  .center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>
+
+<pre id="field" class="center"></pre>
+
+<script>
+  alert('use the arrow keys to change direction');
+
+  let dir = 'ArrowUp';
+  document.addEventListener('keyup', (e) => (dir = e.key));
+
+  const ped = () => (Math.random() < 0.25 ? '*' : ' ');
+  const move = {
+    ArrowRight: (b) => b.map((r) => [ped(), ...r.slice(0, 30)]),
+    ArrowLeft: (b) => b.map((r) => [...r.slice(1, 31), ped()]),
+    ArrowUp: (b) => [...b.slice(1), Array(31).fill(null).map(ped)],
+    ArrowDown: (b) => [Array(31).fill(null).map(ped), ...b.slice(0, 30)],
+  };
+
+  (function tick(ms = 0, b = []) {
+    const center = b[15][15] === '*' ? 'X' : 'O';
+    field.innerText = JSON.parse(JSON.stringify(b))
+      .map((r, i) => (i === 15 ? ((r[15] = center), r) : [...r]))
+      .flatMap((r) => r.join(' '))
+      .join('\n');
+    ms <= 0 || center === 'X'
+      ? alert(`score: ${1000 - ms}`)
+      : setTimeout(tick, ms, ms - 5, move[dir](b));
+  })(1000, Array(31).fill(Array(31).fill(' ')));
+</script>
+
+<!-- tags: game -->

@@ -1,0 +1,105 @@
+<style>
+  .center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>
+
+<pre id="field" class="center"></pre>
+
+<script>
+  const SPACING = 0.25;
+  const BOARD_SIDE = 31;
+  const CENTER = Math.floor(BOARD_SIDE / 2);
+  const START_SPEED = 1000;
+  const ACCELERATION = 5;
+
+  const YOU = 'O';
+  const THEM = '*';
+  const HIT = 'X';
+
+  // --- setup ---
+
+  const board = Array(BOARD_SIDE).fill(Array(BOARD_SIDE).fill(' '));
+
+  // --- helpers ---
+
+  const log = (thing) => (
+    console.groupCollapsed(thing), console.trace(), console.groupEnd(), thing
+  );
+
+  const pedestrian = () => (Math.random() < SPACING ? '*' : ' ');
+
+  // --- logic ---
+
+  const move = {
+    right: (board) =>
+      board.map((row) => [pedestrian(), ...row.slice(0, row.length - 1)]),
+    left: (board) =>
+      board.map((row) => [...row.slice(1, row.length), pedestrian()]),
+    up: (board) => [
+      ...board.slice(1),
+      Array(BOARD_SIDE).fill(null).map(pedestrian),
+    ],
+    down: (board) => [
+      Array(BOARD_SIDE).fill(null).map(pedestrian),
+      ...board.slice(0, board.length - 1),
+    ],
+  };
+
+  const collision = (board = '') => board[CENTER][CENTER] === THEM;
+
+  // --- views ---
+
+  const placeYou = (board = []) =>
+    JSON.parse(JSON.stringify(board)).map((row, i) =>
+      i === CENTER
+        ? [
+            ...row.slice(0, row.length / 2),
+            collision(board) ? HIT : YOU,
+            ...row.slice(row.length / 2 + 1),
+          ]
+        : [...row],
+    );
+
+  // --- game play ---
+
+  let direction = 'up';
+
+  document.addEventListener(
+    'keyup',
+    (e) =>
+      (direction =
+        e.key === 'ArrowUp'
+          ? 'up'
+          : e.key === 'ArrowDown'
+          ? 'down'
+          : e.key === 'ArrowLeft'
+          ? 'left'
+          : e.key === 'ArrowRight'
+          ? 'right'
+          : direction),
+  );
+
+  const tick = async (ms = 0, board = []) => {
+    const newBoard = move[direction](board);
+
+    field.innerText = placeYou(board)
+      .flatMap((row) => row.join(' '))
+      .join('\n');
+
+    await new Promise((res) => setTimeout(() => res(), 50));
+
+    ms <= 0 || collision(board)
+      ? alert(`score: ${START_SPEED - ms}`)
+      : setTimeout(tick, ms, ms - ACCELERATION, newBoard);
+  };
+
+  alert('use the arrow keys to change direction');
+
+  tick(START_SPEED, board);
+</script>
+
+<!-- tags: game -->

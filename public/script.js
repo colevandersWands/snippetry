@@ -392,7 +392,9 @@ for (const snippet of state.snippets) {
   snippet.root
     .getElementsByClassName('linker')[0]
     .addEventListener('click', () => {
-      const url = `${window.location.origin}/${window.location.pathname}?query=${snippet.name}`;
+      const url = `${window.location.origin}/${
+        window.location.pathname
+      }?query=${snippet.name}&danger=${state.liveDangerously ? 'yes' : 'no'}`;
       copyCode(url, `${url} ->  URL is copied`);
     });
 

@@ -17,10 +17,10 @@ console.log(
 );
 
 try {
-  (function la_chute() {
-    console.log('jusqu’ici tout va bien.');
-    la_chute();
-  })();
+  (function la_chute(etage) {
+    console.log('étage ' + etage + ', jusqu’ici tout va bien.');
+    la_chute(etage - 1);
+  })(combien);
 } catch (l_importance) {
   l_importance.message = 'c’est l’atterrissage.';
   throw l_importance;
