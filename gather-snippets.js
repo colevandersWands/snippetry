@@ -13,12 +13,14 @@ const DRAFT_EXTENSION = '.draft';
 
 const snippetFileNames = (await readdir(SNIPPETS_ROOT))
   .filter((item) => !item.includes(DRAFT_EXTENSION))
+  .filter((item) => item !== 'html-sandbox.txt')
   .filter(
     (item) =>
       item.endsWith('.js') ||
       item.endsWith('.mjs') ||
       item.endsWith('.html') ||
-      item.endsWith('.css'),
+      item.endsWith('.css') ||
+      item.endsWith('.txt'),
   );
 
 const snippetCode = await Promise.all(
@@ -34,13 +36,17 @@ const snippets = snippetFileNames.map((name, i) => ({
 
 // ---------- find tags for each snippets ----------
 
-const tagsRegex = /(\/\/|<!\-\-|\/\*)[\s]*tags[\s]*:/gi;
+const tagsRegex = /(\(|\/\/|<!\-\-|\/\*)[\s]*tags[\s]*:/gi;
 for (const snippet of snippets) {
   snippet.tags = snippet.code
     .split('\n')
     .filter((line) => line.match(tagsRegex))
     .map((line) =>
-      line.replaceAll(tagsRegex, '').replaceAll('-->', '').replaceAll('*/', ''),
+      line
+        .replaceAll(tagsRegex, '')
+        .replaceAll('-->', '')
+        .replaceAll('*/', '')
+        .replaceAll(')', ''),
     )
     .flatMap((line) => line.split(','))
     .map((tag) => tag.trim().toLowerCase());

@@ -1,0 +1,34 @@
+<link rel="stylesheet" href="./center.css" />
+
+<canvas id="t-pad" height="1000" width="1000"></canvas>
+
+<script type="module">
+  import turtlje from './turtlje.mjs';
+  const { left, right, forward, goto } = turtlje('t-pad');
+
+  goto(150, 0);
+  halfSierpinski(3, 5);
+  right(90).forward(3).right(90);
+  halfSierpinski(3, 5);
+
+  function halfSierpinski(size, level) {
+    if (level <= 0) {
+      forward(size);
+    } else {
+      part(size, level);
+      right(90).forward(size).right(90);
+      part(size, level);
+    }
+  }
+
+  function part(size, level) {
+    halfSierpinski(size, level - 1);
+    left(45)
+      .forward(size * Math.SQRT2)
+      .left(45);
+    halfSierpinski(size, level - 1);
+  }
+</script>
+
+<!-- tags: sketch -->
+<!-- credit: https://github.com/bjpop/js-turtle/blob/master/examples/sierpinski.js -->

@@ -32,4 +32,4 @@ export const it = (name = '', testFunction = () => {}) => {
 
 export default { describe, it };
 
-// tags: testing
+// tags: testing, minibrary

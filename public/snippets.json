@@ -2,8 +2,10 @@
 	"tags": [
 		"frivolous",
 		"game",
+		"minibrary",
 		"puzzle",
 		"quine",
+		"reel",
 		"remix",
 		"sketch",
 		"testing",
@@ -45,6 +47,13 @@
 			]
 		},
 		{
+			"name": "center.css",
+			"code": "body {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}\n\n/* tags: useful */\n",
+			"tags": [
+				"useful"
+			]
+		},
+		{
 			"name": "cest-pas-faux.js",
 			"code": "console.assert(this != false /* ouais */, \"c'est pas faux\");\n",
 			"tags": []
@@ -64,9 +73,10 @@
 		},
 		{
 			"name": "describe-it.mjs",
-			"code": "export const describe = (name = '', testFunction = () => {}) => {\n  console.group(`%c${name}`, 'font-weight: bold;');\n  try {\n    testFunction();\n  } catch (err) {\n    console.error('%cSUITE ERROR:', 'font-weight: bold;', err);\n  }\n  console.groupEnd();\n};\n\nexport const it = (name = '', testFunction = () => {}) => {\n  const out = Object.assign({}, console);\n  const callOuts = [];\n  Object.keys(console).forEach(\n    (key) => (console[key] = (...args) => callOuts.push({ key, args })),\n  );\n  let thrown = null;\n  try {\n    testFunction();\n  } catch (err) {\n    thrown = err;\n  }\n  if (thrown)\n    out.groupCollapsed(`%c✖ FAIL: ${name}`, 'font-weight: bold; color: red;');\n  else\n    out.groupCollapsed(`%c√ PASS: ${name}`, 'font-weight: bold; color: green;');\n  callOuts.forEach((callOut) => out[callOut.key](...callOut.args));\n  thrown && out.error(thrown);\n  out.groupEnd();\n  Object.assign(console, out);\n};\n\nexport default { describe, it };\n\n// tags: testing\n",
+			"code": "export const describe = (name = '', testFunction = () => {}) => {\n  console.group(`%c${name}`, 'font-weight: bold;');\n  try {\n    testFunction();\n  } catch (err) {\n    console.error('%cSUITE ERROR:', 'font-weight: bold;', err);\n  }\n  console.groupEnd();\n};\n\nexport const it = (name = '', testFunction = () => {}) => {\n  const out = Object.assign({}, console);\n  const callOuts = [];\n  Object.keys(console).forEach(\n    (key) => (console[key] = (...args) => callOuts.push({ key, args })),\n  );\n  let thrown = null;\n  try {\n    testFunction();\n  } catch (err) {\n    thrown = err;\n  }\n  if (thrown)\n    out.groupCollapsed(`%c✖ FAIL: ${name}`, 'font-weight: bold; color: red;');\n  else\n    out.groupCollapsed(`%c√ PASS: ${name}`, 'font-weight: bold; color: green;');\n  callOuts.forEach((callOut) => out[callOut.key](...callOut.args));\n  thrown && out.error(thrown);\n  out.groupEnd();\n  Object.assign(console, out);\n};\n\nexport default { describe, it };\n\n// tags: testing, minibrary\n",
 			"tags": [
-				"testing"
+				"testing",
+				"minibrary"
 			]
 		},
 		{
@@ -90,9 +100,10 @@
 		},
 		{
 			"name": "expect.mjs",
-			"code": "import deepCompare from './deep-compare.mjs';\n\nexport const expect = (first) => {\n  return {\n    toDeepEqual(second) {\n      if (!deepCompare(first, second)) {\n        console.log('%cFirst Thing:', 'font-weight: bold;', first);\n        console.log('%cSecond Thing:', 'font-weight: bold;', second);\n        throw new Error('the first thing did not deep equal the second thing.');\n      }\n    },\n    toStrictEqual(second) {\n      if (first !== second) {\n        console.log('%cFirst Thing:', 'font-weight: bold;', first);\n        console.log('%cSecond Thing:', 'font-weight: bold;', second);\n        throw new Error(\n          'the first thing did not strictly equal the second thing',\n        );\n      }\n    },\n  };\n};\n\nexport default expect;\n\n// tags: testing\n",
+			"code": "import deepCompare from './deep-compare.mjs';\n\nexport const expect = (first) => {\n  return {\n    toDeepEqual(second) {\n      if (!deepCompare(first, second)) {\n        console.log('%cFirst Thing:', 'font-weight: bold;', first);\n        console.log('%cSecond Thing:', 'font-weight: bold;', second);\n        throw new Error('the first thing did not deep equal the second thing.');\n      }\n    },\n    toStrictEqual(second) {\n      if (first !== second) {\n        console.log('%cFirst Thing:', 'font-weight: bold;', first);\n        console.log('%cSecond Thing:', 'font-weight: bold;', second);\n        throw new Error(\n          'the first thing did not strictly equal the second thing',\n        );\n      }\n    },\n  };\n};\n\nexport default expect;\n\n// tags: testing, minibrary\n",
 			"tags": [
-				"testing"
+				"testing",
+				"minibrary"
 			]
 		},
 		{
@@ -106,6 +117,13 @@
 			"name": "flashlight.css",
 			"code": "* {\n  opacity: 0;\n  transition: opacity 0.5s ease;\n}\n\n*:hover {\n  opacity: 1;\n}\n",
 			"tags": []
+		},
+		{
+			"name": "funsole.mjs",
+			"code": "import { theFoxSays } from './what-does-the-fox-say.mjs';\n\nexport default { theFoxSays };\n\n// tags: minibrary\n",
+			"tags": [
+				"minibrary"
+			]
 		},
 		{
 			"name": "goto-ish.js",
@@ -134,6 +152,11 @@
 		{
 			"name": "je-l-ignore.js",
 			"code": "var combien = (function d_etages(y_a_t_il) {\n  try {\n    return d_etages(y_a_t_il + 1);\n  } catch (je_l_ignore) {\n    return y_a_t_il;\n  }\n})(0);\n\nconsole.log(\n  '\\n' +\n    'C’est l’histoire d’un homme qui tombe d’un immeuble de ' +\n    combien +\n    ' étages.' +\n    '\\n\\n' +\n    'Le mec, au fur et à mesure de sa chute, il se répète sans cesse pour se rassurer:' +\n    '\\n\\n',\n);\n\ntry {\n  (function la_chute(etage) {\n    console.log('étage ' + etage + ', jusqu’ici tout va bien.');\n    la_chute(etage - 1);\n  })(combien);\n} catch (l_importance) {\n  l_importance.message = 'c’est l’atterrissage.';\n  throw l_importance;\n} finally {\n  console.log('\\n' + \"Mais l'important n’est pas la chute,\" + '\\n\\n');\n}\n\n// credit: la haine\n",
+			"tags": []
+		},
+		{
+			"name": "kishu.txt",
+			"code": "    k\n   i i\n  s i s\n h s s h\nu h s h u\n u h h u\n  u h u\n   u u\n    u\n",
 			"tags": []
 		},
 		{
@@ -182,6 +205,13 @@
 			]
 		},
 		{
+			"name": "projector.mjs",
+			"code": "const defaultConfig = {\n  args: [],\n  frameRate: 50,\n  maxTime: Infinity,\n  maxFrames: Infinity,\n};\n\nconst project = (frame) =>\n  Array.isArray(frame) ? console.log(...frame) : console.log(frame);\n\nexport default function projector(reel, userConfig = {}) {\n  const config = Object.assign({}, defaultConfig, userConfig);\n  const spool = reel();\n\n  let frames = 0;\n  let time = 0;\n  let intervalId;\n  const unspool = () => {\n    const frame = spool.next();\n    if (frame.done || time > config.maxTime || frames > config.maxFrames) {\n      clearInterval(intervalId);\n    } else {\n      console.clear();\n      if (Array.isArray(frame.value)) {\n        frame.value.forEach(project);\n      } else {\n        project(frame.value);\n      }\n      frames++;\n      time += config.frameRate;\n    }\n  };\n\n  intervalId = setInterval(unspool, config.frameRate, ...config.args);\n}\n\n// tags: minibrary\n",
+			"tags": [
+				"minibrary"
+			]
+		},
+		{
 			"name": "python-by-any-other-name.js",
 			"code": "def fib(n):\n  if n == 1 or n == 0:\n    return n\n  else:\n    return fib(n-2) + fib(n - 1)\n\nprint(fib(10))\n",
 			"tags": []
@@ -190,6 +220,14 @@
 			"name": "rainbowing.html",
 			"code": "<style>\n  #rain {\n    display: grid;\n    grid-template-columns: repeat(100, 1vw);\n    grid-template-rows: repeat(100, 1vh);\n  }\n</style>\n\n<div id=\"rain\"></div>\n\n<script>\n  // https://krazydad.com/tutorials/makecolors.php\n  const colorVal = (steps, shift) =>\n    Math.round(Math.sin(0.2 * steps + shift) * 127 + 128);\n  const cycleColor = (steps) =>\n    `rgb(${colorVal(steps, 0)},${colorVal(steps, 2)},${colorVal(steps, 4)})`;\n\n  for (let i = 0; i < 10000; i++) {\n    let steps = 0;\n    let isChanging = true;\n    const bow = document.createElement('div');\n    bow.addEventListener('click', () => (isChanging = !isChanging));\n    setInterval(\n      () => isChanging && (bow.style.backgroundColor = cycleColor(steps++)),\n      500,\n    );\n    rain.appendChild(bow);\n  }\n</script>\n",
 			"tags": []
+		},
+		{
+			"name": "rainstorm.mjs",
+			"code": "import projector from './projector.mjs';\n\n// https://www.asciiart.eu/nature/clouds\nconst cloud = `\n            .-~~~-.\n    .- ~ ~-(       )_ _\n   /                    ~ -.\n  |                          ',\n   \\\\                         .'\n     ~- ._ ,. ,.,.,., ,.. -~`;\n//  https://ascii.co.uk/art/lightning\nconst lightning = `${`\n                  ,/\n                ,'/\n              ,' /\n            ,'  /_____,\n         .'____    ,'\n             /  ,'\n            / ,'\n           /,'\n          /'`}${Array(21).fill('\\n').join('')}`;\nconst ground = `___.-------._____/¯¯¯¯¯¯\\`----,____`;\n\nconst drop = () => (Math.random() < 0.2 ? ',' : ' ');\nconst row = () => [' ', ' ', ...Array(13).fill(' ').map(drop)];\n\nfunction* rainstorm(rain = Array(31).fill('').map(row)) {\n  while (rainstorm) {\n    rain.pop(), rain.unshift(row());\n    const flash = Math.random() < 0.1;\n    yield [\n      [`%c${cloud}`, `color: ${flash ? 'lightgrey' : 'grey'};`],\n      flash\n        ? [`%c${lightning}`, 'color: orange;']\n        : [`%c${rain.flatMap((r) => r.join(' ')).join('\\n')}`, 'color: blue;'],\n      [`%c${ground}`, `color: ${flash ? 'lightgreen' : 'green'};`],\n    ];\n  }\n}\nprojector(rainstorm, { frameRate: 400, maxFrames: 100 });\n\n// tags: reel, sketch\n",
+			"tags": [
+				"reel",
+				"sketch"
+			]
 		},
 		{
 			"name": "recurseval-1.js",
@@ -229,10 +267,24 @@
 			]
 		},
 		{
+			"name": "sierpinski.html",
+			"code": "<link rel=\"stylesheet\" href=\"./center.css\" />\n\n<canvas id=\"t-pad\" height=\"1000\" width=\"1000\"></canvas>\n\n<script type=\"module\">\n  import turtlje from './turtlje.mjs';\n  const { left, right, forward, goto } = turtlje('t-pad');\n\n  goto(150, 0);\n  halfSierpinski(3, 5);\n  right(90).forward(3).right(90);\n  halfSierpinski(3, 5);\n\n  function halfSierpinski(size, level) {\n    if (level <= 0) {\n      forward(size);\n    } else {\n      part(size, level);\n      right(90).forward(size).right(90);\n      part(size, level);\n    }\n  }\n\n  function part(size, level) {\n    halfSierpinski(size, level - 1);\n    left(45)\n      .forward(size * Math.SQRT2)\n      .left(45);\n    halfSierpinski(size, level - 1);\n  }\n</script>\n\n<!-- tags: sketch -->\n<!-- credit: https://github.com/bjpop/js-turtle/blob/master/examples/sierpinski.js -->\n",
+			"tags": [
+				"sketch"
+			]
+		},
+		{
 			"name": "steamroll.mjs",
 			"code": "export const steamroll = (code = '', refactors = []) => {\n  const refactor = { goodCode: code };\n  refactors.push(refactor);\n\n  const sandbox = document.createElement('iframe');\n\n  sandbox.addEventListener('load', () => {\n    sandbox.contentWindow.addEventListener('error', ({ lineno, error }) => {\n      const lines = code.split('\\n');\n      (refactor.badCode = refactor.goodCode), delete refactor.goodCode;\n      refactor.error = error;\n      refactor.guilty = lines.splice(lineno - 1, 1).pop();\n\n      steamroll(lines.join('\\n'), refactors);\n    });\n\n    const fingersCrossed = document.createElement('script');\n    fingersCrossed.innerHTML = code;\n    sandbox.contentDocument.body.appendChild(fingersCrossed);\n  });\n\n  document.body.appendChild(sandbox);\n\n  return refactors;\n};\n\nexport default steamroll;\n\n// tags: remix\n// inspiration: https://github.com/mattdiamond/fuckitjs\n",
 			"tags": [
 				"remix"
+			]
+		},
+		{
+			"name": "story-in-a-story.mjs",
+			"code": "const storyInAStory = async (narrativeTitle = '') => {\n  console.group(`%c${narrativeTitle}`, 'font-weight: bold;');\n  try {\n    await import(narrativeTitle);\n  } catch (err) {\n    console.error(err);\n  }\n  console.groupEnd();\n};\n\nexport { storyInAStory };\nexport default storyInAStory;\n\n// tags: minibrary\n",
+			"tags": [
+				"minibrary"
 			]
 		},
 		{
@@ -244,9 +296,10 @@
 		},
 		{
 			"name": "testing.mjs",
-			"code": "import { describe, it } from './describe-it.mjs';\nimport { expect } from './expect.mjs';\n\nexport { describe, expect, it };\nexport default { describe, expect, it };\n\n// tags: testing\n",
+			"code": "import { describe, it } from './describe-it.mjs';\nimport { expect } from './expect.mjs';\n\nexport { describe, expect, it };\nexport default { describe, expect, it };\n\n// tags: testing, minibrary\n",
 			"tags": [
-				"testing"
+				"testing",
+				"minibrary"
 			]
 		},
 		{
@@ -309,6 +362,13 @@
 			]
 		},
 		{
+			"name": "turtlje.mjs",
+			"code": "export default function turtlje(c = document.createElement('canvas')) {\n  c = typeof c === 'string' ? document.getElementById(c) : c;\n  const pad = c.getContext('2d');\n\n  const s = { col: 'black', width: 1, deg: 0, x: c.width / 2, y: c.height / 2 };\n\n  const turtle = {\n    backward: (pixels) => forward(-pixels),\n    color: (col) => ((s.col = col), turtle),\n    dot: (diameter) => (\n      pad.beginPath(),\n      pad.arc(s.x, s.y, diameter / 2, 0, 2 * Math.PI),\n      (pad.fillStyle = s.col),\n      (pad.lineWidth = s.width),\n      pad.fill(),\n      turtle\n    ),\n    forward: (pixels) => (\n      pad.beginPath(),\n      pad.moveTo(s.x, s.y),\n      pad.lineTo(\n        (s.x += -Math.cos((s.deg / 180) * Math.PI) * pixels),\n        (s.y += -Math.sin((s.deg / 180) * Math.PI) * pixels),\n      ),\n      (pad.strokeStyle = s.col),\n      (pad.lineWidth = s.width),\n      pad.stroke(),\n      turtle\n    ),\n    goto: (x, y) => ((s.x = x + c.width / 2), (s.y = y + c.height / 2), turtle),\n    left: (deg) => turtle.right(-deg),\n    right: (deg) => ((s.deg = (deg + s.deg) % 360), turtle),\n    width: (pixels) => ((s.width = pixels), turtle),\n  };\n\n  return { ...turtle, state: s, pad };\n}\n\n// tags: minibrary\n",
+			"tags": [
+				"minibrary"
+			]
+		},
+		{
 			"name": "var-let-const.js",
 			"code": "// 'use strict';\n\nconsole.assert(__ === let);\n\n{\n  var let = 'const';\n}\n\nconsole.assert(__ === let);\n\n// tags: puzzle\n",
 			"tags": [
@@ -321,8 +381,8 @@
 			"tags": []
 		},
 		{
-			"name": "what-does-the-fox-say.js",
-			"code": "theFoxSays(prompt('what does the fox say?'));\n\nfunction theFoxSays(...args) {\n  // This looks like a fox, right?\n  // Taken from here - https://ascii.co.uk/art/fox\n  const fox = [\n    '%c%c',\n    '%c    _,-=._              /|_/|%c',\n    '%c`-.}       `=._,.-=-._.,  @ @._,%c',\n    \"%c   `._ _,-.   )      _,.-'%c\",\n    '%c           G.m-\"^m`m\\'%c',\n    '%c%c',\n  ];\n\n  // Gets args as a string\n  const joinedArgs = args.join(' ');\n\n  // Add the bubble if there is something to log!\n  if (joinedArgs.length > 0) {\n    fox[1] += `        ---${'-'.repeat(joinedArgs.length)}-`;\n    fox[2] += `  -(   ${joinedArgs}   )`;\n    fox[3] += `           ---${'-'.repeat(joinedArgs.length)}-`;\n  }\n\n  // Log the fox!\n  for (const line of fox) {\n    console.log(line, 'color: firebrick', '');\n  }\n}\n\n// tags: sketch, remix\n// inspiration: https://tholman.com/console-dot-frog/\n",
+			"name": "what-does-the-fox-say.mjs",
+			"code": "// This looks like a fox, right?\n// Taken from here - https://ascii.co.uk/art/fox\nconst fox = [\n  '%c',\n  '%c    _,-=._              /|_/|',\n  '%c`-.}       `=._,.-=-._.,  @ @._,',\n  \"%c   `._ _,-.   )      _,.-'\",\n  '%c           G.m-\"^m`m\\'',\n  '%c',\n];\n\nexport const theFoxSays = (...args) => {\n  // Gets args as a string\n  const joinedArgs = args.join(' ');\n\n  // Add the bubble if there is something to log!\n  if (joinedArgs.length > 0) {\n    fox[1] += `        ---${'-'.repeat(joinedArgs.length)}-`;\n    fox[2] += `  -(   ${joinedArgs}   )`;\n    fox[3] += `           ---${'-'.repeat(joinedArgs.length)}-`;\n  }\n\n  // Log the fox!\n  for (const line of fox) {\n    console.log(line, 'color: firebrick');\n  }\n};\n\nexport default theFoxSays;\n\n// tags: sketch, remix\n// inspiration: https://tholman.com/console-dot-frog/\n",
 			"tags": [
 				"sketch",
 				"remix"

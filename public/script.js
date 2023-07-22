@@ -110,7 +110,6 @@ const runCode = (snippet = {}, debug = false) => {
     evaller.contentDocument.body.appendChild(script);
   };
 
-  // conditionally open iframe in new tab based on option
   snippet.root.appendChild(evaller);
 };
 
@@ -157,7 +156,9 @@ const renderCode = (snippet) => {
       ? 'js'
       : snippet.name.endsWith('html')
       ? 'html'
-      : 'css'
+      : snippet.name.endsWith('html')
+      ? 'css'
+      : 'txt'
   }"><code></code></pre>`;
   containerHighlight.firstChild.firstChild.textContent = snippet.code;
 
@@ -182,7 +183,12 @@ const renderSnippet = (snippet) => {
           : snippet.name.endsWith('html')
           ? `<button class='tabber'>open tab</button>
       |`
-          : `<button class='styler'>apply style</button>
+          : snippet.name.endsWith('css')
+          ? `<button class='styler'>apply style</button>
+      |`
+          : `<button class='logger'>log</button>
+      <button class='alerter'>alert</button>
+      <button class='tabby'>new tab</button>
       |`
       }
     </span>
@@ -280,6 +286,11 @@ const replaceWithEditor = (snippet) => {
     snippet.jar = CodeJar(snippet.containerEditor, highlight, {
       tab: '\t',
     });
+  } else {
+    snippet.containerEditor.className = 'editor language-text';
+    snippet.jar = CodeJar(snippet.containerEditor, () => {}, {
+      tab: '\t',
+    });
   }
   snippet.jar.updateCode(snippet.originalCode);
 
@@ -296,9 +307,36 @@ const replaceWithEditor = (snippet) => {
 };
 
 const newTabHTML = (snippet) => {
+  console.log(`\n========== ${snippet.name} ==========\n`);
+
+  const evaller = document.createElement('iframe');
+  evaller.style = 'border: none; height: 100vh; width: 100vw;';
+  evaller.src = '/snippets/html-sandbox.txt';
+  evaller.onload = () => {
+    evaller.contentDocument.body.style = evaller.style =
+      'border: none; height: 100vh; width: 100vw;';
+
+    const container = document.createElement('div');
+    container.innerHTML = snippet.code;
+    Array.from(container.children).forEach((el) => {
+      if (el.nodeName === 'SCRIPT') {
+        const script = document.createElement('script');
+        Array.from(el.attributes).forEach((attribute) => {
+          script.setAttribute(attribute.name, attribute.value);
+        });
+        script.appendChild(document.createTextNode(el.innerHTML));
+        evaller.contentDocument.body.appendChild(script);
+      } else {
+        evaller.contentDocument.body.appendChild(el);
+      }
+    });
+
+    evaller.contentDocument.dispatchEvent(new Event('resize'));
+  };
+
   const x = window.open();
   x.document.open();
-  x.document.write(snippet.code);
+  x.document.appendChild(evaller);
   x.document.close();
 };
 
@@ -360,12 +398,13 @@ for (const snippet of state.snippets) {
     snippet.root
       .getElementsByClassName('tabber')[0]
       .addEventListener('click', () => newTabHTML(snippet));
-  } else {
+  } else if (snippet.name.endsWith('css')) {
     const snippetStyle = document.createElement('style');
     let isApplied = false;
     snippet.root
       .getElementsByClassName('styler')[0]
       .addEventListener('click', (e) => {
+        console.log(`\n========== ${snippet.name} ==========\n`);
         // apply to body to override other styles
         if (isApplied) {
           document.body.removeChild(snippetStyle);
@@ -380,6 +419,21 @@ for (const snippet of state.snippets) {
         } else {
           e.target.innerText = 'apply style';
         }
+      });
+  } else if (snippet.name.endsWith('txt')) {
+    snippet.root
+      .getElementsByClassName('logger')[0]
+      .addEventListener('click', () => console.log(snippet.code));
+    snippet.root
+      .getElementsByClassName('alerter')[0]
+      .addEventListener('click', () => alert(snippet.code));
+    snippet.root
+      .getElementsByClassName('tabby')[0]
+      .addEventListener('click', () => {
+        const x = window.open();
+        x.document.open();
+        x.document.write(`<pre>${snippet.code}</pre>`);
+        x.document.close();
       });
   }
 

@@ -4,4 +4,4 @@ import { expect } from './expect.mjs';
 export { describe, expect, it };
 export default { describe, expect, it };
 
-// tags: testing
+// tags: testing, minibrary

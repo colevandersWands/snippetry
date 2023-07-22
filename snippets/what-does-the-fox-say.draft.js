@@ -4,12 +4,12 @@ function theFoxSays(...args) {
   // This looks like a fox, right?
   // Taken from here - https://ascii.co.uk/art/fox
   const fox = [
-    '%c%c',
-    '%c    _,-=._              /|_/|%c',
-    '%c`-.}       `=._,.-=-._.,  @ @._,%c',
-    "%c   `._ _,-.   )      _,.-'%c",
-    '%c           G.m-"^m`m\'%c',
-    '%c%c',
+    '%c',
+    '%c    _,-=._              /|_/|',
+    '%c`-.}       `=._,.-=-._.,  @ @._,',
+    "%c   `._ _,-.   )      _,.-'",
+    '%c           G.m-"^m`m\'',
+    '%c',
   ];
 
   // Gets args as a string
@@ -24,7 +24,7 @@ function theFoxSays(...args) {
 
   // Log the fox!
   for (const line of fox) {
-    console.log(line, 'color: firebrick', '');
+    console.log(line, 'color: firebrick');
   }
 }
 
