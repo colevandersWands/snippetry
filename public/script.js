@@ -313,6 +313,7 @@ const newTabHTML = (snippet) => {
   evaller.style = 'border: none; height: 100vh; width: 100vw;';
   evaller.src = '/snippets/html-sandbox.txt';
   evaller.onload = () => {
+    evaller.contentDocument.body.innerHTML = '';
     evaller.contentDocument.body.style = evaller.style =
       'border: none; height: 100vh; width: 100vw;';
 
