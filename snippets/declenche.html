@@ -1,0 +1,8 @@
+<button id="déclenche">once you start ...</button>
+
+<script>
+  déclenche.addEventListener('click', () => {
+    console.log('again');
+    déclenche.dispatchEvent(new Event('click'));
+  });
+</script>

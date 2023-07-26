@@ -6,6 +6,13 @@ const calloutStack = (msg = '') =>
       .reduce((acc, next) => `(function ${next}() { ${acc} })()`, `${msg}()`),
   );
 
+const calloutStack = (msg = '') =>
+  eval(
+    msg
+      .split('')
+      .reduce((acc, next) => `(function ${next}() { ${acc} })()`, msg),
+  );
+
 // console.log(calloutStack);
 
 calloutStack('notice');

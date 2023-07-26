@@ -1,3 +1,5 @@
 console.assert([0] != ![0]);
 
-// tags: wtf
+console.assert('function () {}' != function () {});
+
+// tags: wtfjs

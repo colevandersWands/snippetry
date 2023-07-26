@@ -12,7 +12,7 @@
 		"useful",
 		"useless",
 		"wellbeing",
-		"wtf",
+		"wtfjs",
 		"wuzzle",
 		"yolo"
 	],
@@ -28,13 +28,28 @@
 			"tags": []
 		},
 		{
+			"name": "be.de.txt",
+			"code": "SSSSSSSGGGGGGGRRRRRRR\nSSSSSSSGGGGGGGRRRRRRR\nSSSSSSSGGGGGGGRRRRRRR\nSSSSSSSGGGGGGGRRRRRRR\nSSSSSSSGGGGGGGRRRRRRR\n",
+			"tags": []
+		},
+		{
+			"name": "be.fr.txt",
+			"code": "NNNNNNNJJJJJJJRRRRRRR\nNNNNNNNJJJJJJJRRRRRRR\nNNNNNNNJJJJJJJRRRRRRR\nNNNNNNNJJJJJJJRRRRRRR\nNNNNNNNJJJJJJJRRRRRRR\n",
+			"tags": []
+		},
+		{
+			"name": "be.nl.txt",
+			"code": "ZZZZZZZGGGGGGGRRRRRRR\nZZZZZZZGGGGGGGRRRRRRR\nZZZZZZZGGGGGGGRRRRRRR\nZZZZZZZGGGGGGGRRRRRRR\nZZZZZZZGGGGGGGRRRRRRR\n",
+			"tags": []
+		},
+		{
 			"name": "belgium.css",
 			"code": ".belge,\n.belgisch,\n.belgian,\nbody {\n  background: linear-gradient(\n    90deg,\n    rgb(0, 0, 0) 33.33%,\n    rgb(255, 233, 54) 33.33%,\n    rgb(255, 233, 54) 66.66%,\n    rgb(255, 15, 33) 66.66%\n  );\n}\n",
 			"tags": []
 		},
 		{
 			"name": "callout-stack.js",
-			"code": "const calloutStack = (msg = '') =>\n  eval(\n    msg\n      .split('')\n      .reduce((acc, next) => `(function ${next}() { ${acc} })()`, `\"${msg}\"()`),\n  );\n\ncalloutStack('jenga');\n\n// tags: useless\n",
+			"code": "const calloutStack = (m = '') =>\n  eval(m.split('').reduce((a, n) => `(${n}=()=>${a})()`, m));\n\ncalloutStack('jenga');\n\n// tags: useless\n",
 			"tags": [
 				"useless"
 			]
@@ -64,6 +79,11 @@
 			"tags": []
 		},
 		{
+			"name": "declenche.html",
+			"code": "<button id=\"déclenche\">once you start ...</button>\n\n<script>\n  déclenche.addEventListener('click', () => {\n    console.log('again');\n    déclenche.dispatchEvent(new Event('click'));\n  });\n</script>\n",
+			"tags": []
+		},
+		{
 			"name": "deep-compare.mjs",
 			"code": "export const deepCompare = (actual, expect) => {\n  return (\n    actual === expect ||\n    Object.is(actual, expect) ||\n    (Object(actual) === actual &&\n      Object(expect) === expect &&\n      ((Array.isArray(actual) &&\n        Array.isArray(expect) &&\n        actual.length === expect.length &&\n        expect.every((expect, index) => deepCompare(actual[index], expect))) ||\n        (Object.keys(actual).length === Object.keys(expect).length &&\n          Object.keys(expect).every((key) =>\n            deepCompare(actual[key], expect[key]),\n          ))))\n  );\n};\n\nexport default deepCompare;\n\n// tags: useful, testing\n",
 			"tags": [
@@ -73,7 +93,7 @@
 		},
 		{
 			"name": "describe-it.mjs",
-			"code": "export const describe = (name = '', testFunction = () => {}) => {\n  console.group(`%c${name}`, 'font-weight: bold;');\n  try {\n    testFunction();\n  } catch (err) {\n    console.error('%cSUITE ERROR:', 'font-weight: bold;', err);\n  }\n  console.groupEnd();\n};\n\nexport const it = (name = '', testFunction = () => {}) => {\n  const out = Object.assign({}, console);\n  const callOuts = [];\n  Object.keys(console).forEach(\n    (key) => (console[key] = (...args) => callOuts.push({ key, args })),\n  );\n  let thrown = null;\n  try {\n    testFunction();\n  } catch (err) {\n    thrown = err;\n  }\n  if (thrown)\n    out.groupCollapsed(`%c✖ FAIL: ${name}`, 'font-weight: bold; color: red;');\n  else\n    out.groupCollapsed(`%c√ PASS: ${name}`, 'font-weight: bold; color: green;');\n  callOuts.forEach((callOut) => out[callOut.key](...callOut.args));\n  thrown && out.error(thrown);\n  out.groupEnd();\n  Object.assign(console, out);\n};\n\nexport default { describe, it };\n\n// tags: testing, minibrary\n",
+			"code": "const _console_ = console;\n\nexport const describe = (name = '', testFunction = () => {}) => {\n  _console_.group(`%c${name}`, 'font-weight: bold;');\n  try {\n    testFunction();\n  } catch (err) {\n    _console_.error('%cSUITE ERROR:', 'font-weight: bold;', err);\n  }\n  _console_.groupEnd();\n};\n\nexport const it = (name = '', testFunction = () => {}) => {\n  const out = Object.assign({}, _console_);\n  const callOuts = [];\n  Object.keys(_console_).forEach(\n    (key) => (_console_[key] = (...args) => callOuts.push({ key, args })),\n  );\n  let thrown = null;\n  try {\n    testFunction();\n  } catch (err) {\n    thrown = err;\n  }\n  if (thrown)\n    out.groupCollapsed(`%c✖ FAIL: ${name}`, 'font-weight: bold; color: red;');\n  else\n    out.groupCollapsed(`%c√ PASS: ${name}`, 'font-weight: bold; color: green;');\n  callOuts.forEach((callOut) => out[callOut.key](...callOut.args));\n  thrown && out.error(thrown);\n  out.groupEnd(), Object.assign(_console_, out);\n};\n\nexport default { describe, it };\n\n// tags: testing, minibrary\n",
 			"tags": [
 				"testing",
 				"minibrary"
@@ -160,15 +180,25 @@
 			"tags": []
 		},
 		{
+			"name": "la-trahison-de-l-ascii.js",
+			"code": "/*\n  La Trahison de l'ASCII\n*/\n\n(function () {\n  console.assert(this != 'pipe');\n}).call(\n  `\n ___\n(__ '-._                _____\n   '-._ '-._          .'     '.\n       '-._ '-._     .=========.\n           '._ /'-..-          .\n              '-._             .\n                  '-.._______.'\n`,\n);\n\n// https://ascii.co.uk/art/pipe\n",
+			"tags": []
+		},
+		{
+			"name": "lenses.json",
+			"code": "{\n  \"--port\": 3456,\n\n  \"study\": {\n    \"save\": true,\n    \"run\": true,\n    \"debug\": true,\n    \"openIn\": true,\n    \"variables\": true,\n    \"pseudo\": true,\n    \"clearScheduled\": true,\n    \"parsons\": false\n  }\n}\n",
+			"tags": []
+		},
+		{
 			"name": "mirror.css",
 			"code": "body {\n  -moz-transform: scale(-1, 1);\n  -webkit-transform: scale(-1, 1);\n  -o-transform: scale(-1, 1);\n  -ms-transform: scale(-1, 1);\n  transform: scale(-1, 1);\n}\n",
 			"tags": []
 		},
 		{
 			"name": "overconfidence.js",
-			"code": "console.assert([0] != ![0]);\n\n// tags: wtf\n",
+			"code": "console.assert([0] != ![0]);\n\nconsole.assert('function () {}' != function () {});\n\n// tags: wtfjs\n",
 			"tags": [
-				"wtf"
+				"wtfjs"
 			]
 		},
 		{

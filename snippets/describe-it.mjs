@@ -1,18 +1,20 @@
+const _console_ = console;
+
 export const describe = (name = '', testFunction = () => {}) => {
-  console.group(`%c${name}`, 'font-weight: bold;');
+  _console_.group(`%c${name}`, 'font-weight: bold;');
   try {
     testFunction();
   } catch (err) {
-    console.error('%cSUITE ERROR:', 'font-weight: bold;', err);
+    _console_.error('%cSUITE ERROR:', 'font-weight: bold;', err);
   }
-  console.groupEnd();
+  _console_.groupEnd();
 };
 
 export const it = (name = '', testFunction = () => {}) => {
-  const out = Object.assign({}, console);
+  const out = Object.assign({}, _console_);
   const callOuts = [];
-  Object.keys(console).forEach(
-    (key) => (console[key] = (...args) => callOuts.push({ key, args })),
+  Object.keys(_console_).forEach(
+    (key) => (_console_[key] = (...args) => callOuts.push({ key, args })),
   );
   let thrown = null;
   try {
@@ -26,8 +28,7 @@ export const it = (name = '', testFunction = () => {}) => {
     out.groupCollapsed(`%c√ PASS: ${name}`, 'font-weight: bold; color: green;');
   callOuts.forEach((callOut) => out[callOut.key](...callOut.args));
   thrown && out.error(thrown);
-  out.groupEnd();
-  Object.assign(console, out);
+  out.groupEnd(), Object.assign(_console_, out);
 };
 
 export default { describe, it };

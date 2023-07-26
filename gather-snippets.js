@@ -7,21 +7,15 @@ const SNIPPETS_ROOT = join('snippets');
 
 const PUBLIC_SNIPPETS = join('public', 'snippets.json');
 
-const DRAFT_EXTENSION = '.draft';
+const KEEP = ['.js', '.mjs', '.html', '.css', '.txt'];
+
+const IGNORE = ['.draft', '.sandbox'];
 
 // ---------- build array of snippet objects ----------
 
 const snippetFileNames = (await readdir(SNIPPETS_ROOT))
-  .filter((item) => !item.includes(DRAFT_EXTENSION))
-  .filter((item) => item !== 'html-sandbox.txt')
-  .filter(
-    (item) =>
-      item.endsWith('.js') ||
-      item.endsWith('.mjs') ||
-      item.endsWith('.html') ||
-      item.endsWith('.css') ||
-      item.endsWith('.txt'),
-  );
+  .filter((item) => !IGNORE.some((ext) => item.includes(ext)))
+  .filter((item) => KEEP.some((ext) => item.includes(ext)));
 
 const snippetCode = await Promise.all(
   snippetFileNames.map((fileName) =>

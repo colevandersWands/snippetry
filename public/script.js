@@ -156,7 +156,7 @@ const renderCode = (snippet) => {
       ? 'js'
       : snippet.name.endsWith('html')
       ? 'html'
-      : snippet.name.endsWith('html')
+      : snippet.name.endsWith('css')
       ? 'css'
       : 'txt'
   }"><code></code></pre>`;
@@ -311,7 +311,7 @@ const newTabHTML = (snippet) => {
 
   const evaller = document.createElement('iframe');
   evaller.style = 'border: none; height: 100vh; width: 100vw;';
-  evaller.src = './snippets/html-sandbox.txt';
+  evaller.src = './snippets/html.sandbox.txt';
   evaller.onload = () => {
     evaller.contentDocument.body.innerHTML = '';
     evaller.contentDocument.body.style = evaller.style =

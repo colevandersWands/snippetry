@@ -1,0 +1,94 @@
+<title>Breathless</title>
+
+<style>
+  body {
+    /* background: #224941 url('./img/bg.jpg') no-repeat center center/cover; */
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    height: 300px;
+    width: 300px;
+    position: relative;
+    transform: scale(1);
+  }
+
+  .circle {
+    background-color: #010f1c;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+
+  .container.grow {
+    animation: grow 3s linear forwards;
+  }
+
+  @keyframes grow {
+    from {
+      transform: scale(1);
+    }
+
+    to {
+      transform: scale(1.2);
+    }
+  }
+
+  .container.shrink {
+    animation: shrink 3s linear forwards;
+  }
+
+  @keyframes shrink {
+    from {
+      transform: scale(1.2);
+    }
+
+    to {
+      transform: scale(1);
+    }
+  }
+</style>
+
+<div class="container" id="container">
+  <div class="circle"></div>
+</div>
+
+<script>
+  const container = document.getElementById('container');
+  const text = document.getElementById('text');
+
+  const totalTime = 8000;
+  const breatheTime = (totalTime / 5) * 2;
+  const holdTime = totalTime / 5;
+
+  breathAnimation();
+
+  function breathAnimation() {
+    container.className = 'container grow';
+
+    setTimeout(() => {
+      setTimeout(() => {
+        container.className = 'container shrink';
+      }, holdTime);
+    }, breatheTime);
+  }
+
+  setInterval(breathAnimation, totalTime);
+</script>
+
+<!-- inspiration: https://github.com/bradtraversy/vanillawebprojects/tree/master/relaxer-app -->
