@@ -154,7 +154,7 @@ const renderCode = (snippet) => {
   containerHighlight.innerHTML = `<pre class="editor language-${
     snippet.name.endsWith('js')
       ? 'js'
-      : snippet.name.endsWith('html')
+      : snippet.name.endsWith('html') || snippet.name.endsWith('svg')
       ? 'html'
       : snippet.name.endsWith('css')
       ? 'css'
@@ -181,10 +181,16 @@ const renderSnippet = (snippet) => {
       <button class='debugger'>debug</button>
       |`
           : snippet.name.endsWith('html')
-          ? `<button class='tabber'>open tab</button>
+          ? `<button class='tabber'>new tab</button>
       |`
           : snippet.name.endsWith('css')
           ? `<button class='styler'>apply style</button>
+          <button class='new-tab-css'>new tab</button>
+      |`
+          : snippet.name.endsWith('svg')
+          ? `<button class='set-background'>set background</button>
+          <!-- <button class='preview-svg'>preview</button> -->
+          <button class='new-tab-svg'>new tab</button>
       |`
           : `<button class='logger'>log</button>
       <button class='alerter'>alert</button>
@@ -276,7 +282,7 @@ const replaceWithEditor = (snippet) => {
       tab: '\t',
       indentOn: /[(\[\{]$/,
     });
-  } else if (snippet.name.endsWith('.html')) {
+  } else if (snippet.name.endsWith('.html') || snippet.name.endsWith('.svg')) {
     snippet.containerEditor.className = 'editor language-html';
     snippet.jar = CodeJar(snippet.containerEditor, highlight, {
       tab: '\t',
@@ -420,6 +426,45 @@ for (const snippet of state.snippets) {
         } else {
           e.target.innerText = 'apply style';
         }
+      });
+    snippet.root
+      .getElementsByClassName('new-tab-css')[0]
+      .addEventListener('click', () => {
+        console.log(`\n========== ${snippet.name} ==========\n`);
+        const x = window.open();
+        x.document.open();
+        x.document.write(`<style>${snippet.code}</style>`);
+        x.document.close();
+      });
+  } else if (snippet.name.endsWith('svg')) {
+    let isBackground = false;
+    snippet.root
+      .getElementsByClassName('set-background')[0]
+      .addEventListener('click', (e) => {
+        console.log(`\n========== ${snippet.name} ==========\n`);
+        if (isBackground) {
+          document.body.style.backgroundImage = '';
+          isBackground = false;
+        }
+
+        if (e.target.innerText.includes('set')) {
+          document.body.style.backgroundImage = `url("data:image/svg+xml,${encodeURI(
+            snippet.code,
+          )}")`;
+          e.target.innerText = 'remove background';
+          isBackground = true;
+        } else {
+          e.target.innerText = 'set background';
+        }
+      });
+    snippet.root
+      .getElementsByClassName('new-tab-svg')[0]
+      .addEventListener('click', () => {
+        console.log(`\n========== ${snippet.name} ==========\n`);
+        const x = window.open();
+        x.document.open();
+        x.document.write(snippet.code);
+        x.document.close();
       });
   } else if (snippet.name.endsWith('txt')) {
     snippet.root

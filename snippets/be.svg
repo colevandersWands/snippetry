@@ -1,0 +1,9 @@
+<svg version="1.1" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+
+  <rect width="33.33%" height="100%" fill="black" />
+
+  <rect width="33.33%" height="100%" fill="yellow" x="33.33%" />
+
+  <rect width="33.33%" height="100%" fill="red" x="66.66%" />
+
+</svg>

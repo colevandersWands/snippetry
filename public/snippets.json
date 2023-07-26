@@ -28,6 +28,11 @@
 			"tags": []
 		},
 		{
+			"name": "be.css",
+			"code": ".belge,\n.belgisch,\n.belgian,\nbody {\n  background: linear-gradient(\n    90deg,\n    rgb(0, 0, 0) 33.33%,\n    rgb(255, 233, 54) 33.33%,\n    rgb(255, 233, 54) 66.66%,\n    rgb(255, 15, 33) 66.66%\n  );\n}\n",
+			"tags": []
+		},
+		{
 			"name": "be.de.txt",
 			"code": "SSSSSSSGGGGGGGRRRRRRR\nSSSSSSSGGGGGGGRRRRRRR\nSSSSSSSGGGGGGGRRRRRRR\nSSSSSSSGGGGGGGRRRRRRR\nSSSSSSSGGGGGGGRRRRRRR\n",
 			"tags": []
@@ -38,18 +43,23 @@
 			"tags": []
 		},
 		{
+			"name": "be.html",
+			"code": "<!DOCTYPE html>\n<html lang=\"be\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>BE</title>\n  </head>\n  <body>\n    <div\n      style=\"\n        display: flex;\n        flex-direction: row;\n        justify-content: space-around;\n        height: 100%;\n        width: 100%;\n      \"\n    >\n      <div style=\"background-color: black; height: 100%; width: 100%\"></div>\n      <div style=\"background-color: yellow; height: 100%; width: 100%\"></div>\n      <div style=\"background-color: red; height: 100%; width: 100%\"></div>\n    </div>\n  </body>\n</html>\n",
+			"tags": []
+		},
+		{
 			"name": "be.nl.txt",
 			"code": "ZZZZZZZGGGGGGGRRRRRRR\nZZZZZZZGGGGGGGRRRRRRR\nZZZZZZZGGGGGGGRRRRRRR\nZZZZZZZGGGGGGGRRRRRRR\nZZZZZZZGGGGGGGRRRRRRR\n",
 			"tags": []
 		},
 		{
-			"name": "belgium.css",
-			"code": ".belge,\n.belgisch,\n.belgian,\nbody {\n  background: linear-gradient(\n    90deg,\n    rgb(0, 0, 0) 33.33%,\n    rgb(255, 233, 54) 33.33%,\n    rgb(255, 233, 54) 66.66%,\n    rgb(255, 15, 33) 66.66%\n  );\n}\n",
+			"name": "be.svg",
+			"code": "<svg version=\"1.1\" width=\"100%\" height=\"100%\" xmlns=\"http://www.w3.org/2000/svg\">\n\n  <rect width=\"33.33%\" height=\"100%\" fill=\"black\" />\n\n  <rect width=\"33.33%\" height=\"100%\" fill=\"yellow\" x=\"33.33%\" />\n\n  <rect width=\"33.33%\" height=\"100%\" fill=\"red\" x=\"66.66%\" />\n\n</svg>\n",
 			"tags": []
 		},
 		{
 			"name": "callout-stack.js",
-			"code": "const calloutStack = (m = '') =>\n  eval(m.split('').reduce((a, n) => `(${n}=()=>${a})()`, m));\n\ncalloutStack('jenga');\n\n// tags: useless\n",
+			"code": "const calloutStack = (msg = '') =>\n  eval(msg.split('').reduce((acc, next) => `(${next} = () => ${acc})()`, msg));\n\ncalloutStack('jenga');\n\n// tags: useless\n",
 			"tags": [
 				"useless"
 			]
