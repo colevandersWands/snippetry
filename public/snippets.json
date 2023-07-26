@@ -48,6 +48,11 @@
 			"tags": []
 		},
 		{
+			"name": "be.js",
+			"code": "console.log('%c↺ 90°', 'font-weight: bold; font-size: xx-large;');\n\nfor (const color of ['black', 'yellow', 'red']) {\n  let bar = [];\n  for (let height = 0; height < 10; height++) {\n    let column = [];\n    for (let width = 0; width < 35; width++) {\n      column.push(' ');\n    }\n    bar.push(column);\n  }\n  console.log(\n    `%c${bar.flatMap((column) => column.join('')).join('\\n')}`,\n    `background-color: ${color};`,\n  );\n}\n",
+			"tags": []
+		},
+		{
 			"name": "be.nl.txt",
 			"code": "ZZZZZZZGGGGGGGRRRRRRR\nZZZZZZZGGGGGGGRRRRRRR\nZZZZZZZGGGGGGGRRRRRRR\nZZZZZZZGGGGGGGRRRRRRR\nZZZZZZZGGGGGGGRRRRRRR\n",
 			"tags": []
