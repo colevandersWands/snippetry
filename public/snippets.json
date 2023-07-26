@@ -49,7 +49,7 @@
 		},
 		{
 			"name": "callout-stack.js",
-			"code": "const calloutStack = (m = '') =>\n  eval(m.split('').reduce((a, n) => `(${n}=()=>${a})()`, m));\n\ncalloutStack('jenga');\n\n// tags: useless\n",
+			"code": "const calloutStack = (msg = '') =>\n  eval(msg.split('').reduce((acc, next) => `(${next} = () => ${acc})()`, msg));\n\ncalloutStack('jenga');\n\n// tags: useless\n",
 			"tags": [
 				"useless"
 			]
