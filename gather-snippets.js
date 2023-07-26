@@ -15,7 +15,7 @@ const IGNORE = ['.draft', '.sandbox'];
 
 const snippetFileNames = (await readdir(SNIPPETS_ROOT))
   .filter((item) => !IGNORE.some((ext) => item.includes(ext)))
-  .filter((item) => KEEP.some((ext) => item.includes(ext)));
+  .filter((item) => KEEP.some((ext) => item.endsWith(ext)));
 
 const snippetCode = await Promise.all(
   snippetFileNames.map((fileName) =>

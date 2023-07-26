@@ -5,9 +5,8 @@
     "save": true,
     "run": true,
     "debug": true,
-    "openIn": true,
-    "variables": true,
-    "pseudo": true,
+    "environment": true,
+    "tests": true,
     "clearScheduled": true,
     "parsons": false
   }

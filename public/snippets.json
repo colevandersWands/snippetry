@@ -200,11 +200,6 @@
 			"tags": []
 		},
 		{
-			"name": "lenses.json",
-			"code": "{\n  \"--port\": 3456,\n\n  \"study\": {\n    \"save\": true,\n    \"run\": true,\n    \"debug\": true,\n    \"openIn\": true,\n    \"variables\": true,\n    \"pseudo\": true,\n    \"clearScheduled\": true,\n    \"parsons\": false\n  }\n}\n",
-			"tags": []
-		},
-		{
 			"name": "mirror.css",
 			"code": "body {\n  -moz-transform: scale(-1, 1);\n  -webkit-transform: scale(-1, 1);\n  -o-transform: scale(-1, 1);\n  -ms-transform: scale(-1, 1);\n  transform: scale(-1, 1);\n}\n",
 			"tags": []
