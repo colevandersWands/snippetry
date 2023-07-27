@@ -19,7 +19,10 @@ const SEPARATOR = '-=-=-=-';
 
 const href = new URL(window.location.href);
 
-const state = await fetch('./public/snippets.json').then((res) => res.json());
+const [state, snips] = await Promise.all([
+  fetch('./public/snippets.json').then((res) => res.json()),
+  fetch('./public/snips.json').then((res) => res.json()),
+]);
 
 // initialize tags
 const persistedTagsEncoded = href.searchParams.get('tags');
@@ -384,9 +387,37 @@ document.getElementById('tags').appendChild(filterList(state.tags, 'tags'));
 
 const snippetsRoot = document.getElementById('snippets');
 
-for (const snippet of state.snippets) {
+// always render empty snippet first
+renderSnippet(state.snippets[0]);
+snippetsRoot.appendChild(state.snippets[0].root);
+state.snippets[0].ignore = true;
+
+// https://stackoverflow.com/a/46545530
+const snippetsToRender = state.snippets
+  .slice(1)
+  .map((value) => ({ value, sort: Math.random() }))
+  .sort((a, b) => a.sort - b.sort)
+  .map(({ value }) => value);
+
+for (const snippet of snippetsToRender) {
   renderSnippet(snippet);
   snippetsRoot.appendChild(snippet.root);
+  if (snips.length > 0 && Math.random() < 0.05) {
+    const snip = snips[Math.floor(Math.random() * snips.length)];
+    const snipEl = document.createElement('textarea');
+    snipEl.style = `border: none; resize: none; height: ${
+      snip.split('\n').length * 1.2
+    }em; width: ${
+      snip
+        .split('\n')
+        .reduce(
+          (longest, next) => (longest.length > next.length ? longest : next),
+          '',
+        ).length * 0.6
+    }em;`;
+    snipEl.value = snip;
+    snippetsRoot.appendChild(snipEl);
+  }
 }
 
 for (const snippet of state.snippets) {

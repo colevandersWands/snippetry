@@ -19,7 +19,7 @@ jobs:
           node-version: 'lts/*'
 
       - name: Gather
-        run: node gather-snippets.js
+        run: npm publish
 
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v4.7.2
