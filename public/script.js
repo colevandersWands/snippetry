@@ -161,6 +161,8 @@ const renderCode = (snippet) => {
       ? 'html'
       : snippet.name.endsWith('css')
       ? 'css'
+      : snippet.name.endsWith('json')
+      ? 'json'
       : 'txt'
   }"><code></code></pre>`;
   containerHighlight.firstChild.firstChild.textContent = snippet.code;
@@ -194,6 +196,9 @@ const renderSnippet = (snippet) => {
           ? `<button class='set-background'>set background</button>
           <!-- <button class='preview-svg'>preview</button> -->
           <button class='new-tab-svg'>new tab</button>
+      |`
+          : snippet.name.endsWith('json')
+          ? `<button class='log-json'>log</button>
       |`
           : `<button class='logger'>log</button>
       <button class='alerter'>alert</button>
@@ -292,6 +297,11 @@ const replaceWithEditor = (snippet) => {
     });
   } else if (snippet.name.endsWith('.css')) {
     snippet.containerEditor.className = 'editor language-css';
+    snippet.jar = CodeJar(snippet.containerEditor, highlight, {
+      tab: '\t',
+    });
+  } else if (snippet.name.endsWith('.json')) {
+    snippet.containerEditor.className = 'editor language-js';
     snippet.jar = CodeJar(snippet.containerEditor, highlight, {
       tab: '\t',
     });
@@ -416,7 +426,9 @@ for (const snippet of snippetsToRender) {
       .split('\n')
       .reduce((a, b) => (a.length < b.length ? b : a), '').length;
 
-    snippetsRoot.appendChild(snipEl);
+    const snipWrapper = document.createElement('pre');
+    snipWrapper.appendChild(snipEl);
+    snippetsRoot.appendChild(snipWrapper);
   }
 }
 
@@ -512,6 +524,10 @@ for (const snippet of state.snippets) {
         x.document.write(`<pre>${snippet.code}</pre>`);
         x.document.close();
       });
+  } else if (snippet.name.endsWith('json')) {
+    snippet.root
+      .getElementsByClassName('log-json')[0]
+      .addEventListener('click', () => console.log(JSON.parse(snippet.code)));
   }
 
   snippet.root

@@ -94,6 +94,11 @@
 			"tags": []
 		},
 		{
+			"name": "curio.json",
+			"code": "{\n  \"asd\": [1, true],\n  \"e\": null\n}\n",
+			"tags": []
+		},
+		{
 			"name": "declenche.html",
 			"code": "<button id=\"déclenche\">once you start ...</button>\n\n<script>\n  déclenche.addEventListener('click', () => {\n    console.log('again');\n    déclenche.dispatchEvent(new Event('click'));\n  });\n</script>\n",
 			"tags": []
@@ -209,11 +214,6 @@
 		{
 			"name": "la-trahison-de-l-ascii.js",
 			"code": "/*\n  La Trahison de l'ASCII\n*/\n\n(function () {\n  console.assert(this != 'pipe');\n}).call(\n  `\n ___\n(__ '-._                _____\n   '-._ '-._          .'     '.\n       '-._ '-._     .=========.\n           '._ /'-..-          .\n              '-._             .\n                  '-.._______.'\n`,\n);\n\n// https://ascii.co.uk/art/pipe\n",
-			"tags": []
-		},
-		{
-			"name": "lenses.json",
-			"code": "{\n  \"--port\": 3456,\n\n  \"study\": {\n    \"save\": true,\n    \"run\": true,\n    \"debug\": true,\n    \"environment\": true,\n    \"tests\": true,\n    \"clearScheduled\": true,\n    \"parsons\": false\n  }\n}\n",
 			"tags": []
 		},
 		{
