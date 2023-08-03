@@ -1,4 +1,4 @@
-name: Gather Snippets
+name: Publish
 
 on:
   push:
@@ -18,11 +18,13 @@ jobs:
         with:
           node-version: 'lts/*'
 
-      - name: Gather
+      - name: Publishing
         run: npm publish
+        env:
+          NPM_CONFIG_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v4.7.2
         with:
-          commit_message: gather snippets
+          commit_message: published
           branch: ${{ github.head_ref }}

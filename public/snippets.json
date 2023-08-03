@@ -157,7 +157,7 @@
 		},
 		{
 			"name": "flag-translator.mjs",
-			"code": "import { alertStory } from './story-in-a-story.mjs';\n\nlet lang = '';\nwhile (\n  !lang &&\n  lang.toLowerCase() !== 'de' &&\n  lang.toLowerCase() !== 'fr' &&\n  lang.toLowerCase() !== 'nl'\n) {\n  lang = prompt('Select your language:\\n- DE\\n- FR\\n- NL');\n}\n\nawait alertStory(\n  `be.${lang.toLowerCase()}.txt`,\n  'You should understand this flag:',\n);\n\nalert('Welcome to Belgium!');\n",
+			"code": "import { alertStory } from './story-in-a-story.mjs';\n\nlet lang = '';\nwhile (\n  !lang &&\n  lang.toLowerCase() !== 'de' &&\n  lang.toLowerCase() !== 'fr' &&\n  lang.toLowerCase() !== 'nl'\n) {\n  lang = prompt('Select your language:\\n- DE\\n- FR\\n- NL');\n}\n\nawait alertStory(\n  `be.${lang.toLowerCase()}.txt`,\n  'You should understand this flag:\\n\\n',\n);\n\nalert('Welcome to Belgium!');\n",
 			"tags": []
 		},
 		{
@@ -339,7 +339,7 @@
 		},
 		{
 			"name": "story-in-a-story.mjs",
-			"code": "export const runStory = async (storyTitle = '', transition = storyTitle) => {\n  console.group(`%c${transition}`, 'font-weight: bold;');\n  try {\n    await import(storyTitle);\n  } catch (err) {\n    console.error(err);\n  }\n  console.groupEnd();\n};\n\nexport const logStory = async (storyTitle = '', transition = storyTitle) => {\n  console.group(`%c${transition}`, 'font-weight: bold;');\n  try {\n    console.log(await fetch(storyTitle).then((res) => res.text()));\n  } catch (err) {\n    console.error(err);\n  }\n  console.groupEnd();\n};\n\nexport const alertStory = async (storyTitle = '', transition = storyTitle) => {\n  try {\n    alert(\n      `${transition}\\n\\n${await fetch(storyTitle).then((res) => res.text())}`,\n    );\n  } catch (err) {\n    alert(err.toString());\n  }\n};\n\nexport default { runStory, logStory, alertStory };\n\n// tags: minibrary\n",
+			"code": "export const runStory = async (storyTitle = '', transition = storyTitle) => {\n  if (transition) console.group(`%c${transition}`, 'font-weight: bold;');\n  try {\n    await import(storyTitle);\n  } catch (err) {\n    console.error(err);\n  }\n  if (transition) console.groupEnd();\n};\n\nexport const logStory = async (storyTitle = '', transition = '') => {\n  if (transition) console.group(`%c${transition}`, 'font-weight: bold;');\n  try {\n    console.log(await fetch(storyTitle).then((res) => res.text()));\n  } catch (err) {\n    console.error(err);\n  }\n  if (transition) console.groupEnd();\n};\n\nexport const alertStory = async (storyTitle = '', transition = '') => {\n  try {\n    alert(`${transition}${await fetch(storyTitle).then((res) => res.text())}`);\n  } catch (err) {\n    alert(err.toString());\n  }\n};\n\nexport default { runStory, logStory, alertStory };\n\n// tags: minibrary\n",
 			"tags": [
 				"minibrary"
 			]
