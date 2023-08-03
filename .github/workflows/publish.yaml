@@ -19,9 +19,7 @@ jobs:
           node-version: 'lts/*'
 
       - name: Publishing
-        run: npm publish
-        env:
-          NPM_CONFIG_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run publish
 
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v4.7.2
