@@ -94,11 +94,6 @@
 			"tags": []
 		},
 		{
-			"name": "curio.json",
-			"code": "{\n  \"asd\": [1, true],\n  \"e\": null\n}\n",
-			"tags": []
-		},
-		{
 			"name": "declenche.html",
 			"code": "<button id=\"déclenche\">once you start ...</button>\n\n<script>\n  déclenche.addEventListener('click', () => {\n    console.log('again');\n    déclenche.dispatchEvent(new Event('click'));\n  });\n</script>\n",
 			"tags": []
@@ -139,6 +134,11 @@
 			"tags": [
 				"sketch"
 			]
+		},
+		{
+			"name": "empty.json",
+			"code": "{\n  \"empty\": true\n}\n",
+			"tags": []
 		},
 		{
 			"name": "existential-void.js",
