@@ -1,37 +1,43 @@
+const project = (frame) =>
+  Array.isArray(frame)
+    ? Array.isArray(frame[0])
+      ? frame.forEach(project)
+      : console.log(...frame)
+    : console.log(frame);
+
 const defaultConfig = {
-  args: [],
-  frameRate: 50,
+  async: true,
+  frameRate: 10,
   maxTime: Infinity,
   maxFrames: Infinity,
+  clear: console.clear,
+  project,
+  wrap: () => {},
 };
 
-const project = (frame) =>
-  Array.isArray(frame) ? console.log(...frame) : console.log(frame);
-
-export default function projector(reel, userConfig = {}) {
-  const config = Object.assign({}, defaultConfig, userConfig);
+export const projector = (reel, userConfig = {}) => {
   const spool = reel();
+  const config = Object.assign({}, defaultConfig, userConfig);
+  const status = { frames: 0, time: 0 };
 
-  let frames = 0;
-  let time = 0;
-  let intervalId;
-  const unspool = () => {
-    const frame = spool.next();
-    if (frame.done || time > config.maxTime || frames > config.maxFrames) {
-      clearInterval(intervalId);
-    } else {
-      console.clear();
-      if (Array.isArray(frame.value)) {
-        frame.value.forEach(project);
-      } else {
-        project(frame.value);
-      }
-      frames++;
-      time += config.frameRate;
+  const unspool = (frame = spool.next()) =>
+    frame.done ||
+    (status.time += 1000 / config.frameRate) > config.maxTime ||
+    ++status.frames > config.maxFrames
+      ? (config.wrap(), false)
+      : (config.clear(), config.project(frame.value), true);
+
+  if (config.async) {
+    config.wrap = () => clearInterval(screening);
+    const screening = setInterval(unspool, 1000 / config.frameRate);
+  } else {
+    while (unspool()) {
+      const frameStart = Date.now();
+      while (Date.now() - frameStart < 1000 / config.frameRate);
     }
-  };
+  }
+};
 
-  intervalId = setInterval(unspool, config.frameRate, ...config.args);
-}
+export default projector;
 
 // tags: minibrary

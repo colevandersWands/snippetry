@@ -399,23 +399,23 @@ const snippetsToRender = state.snippets
   .sort((a, b) => a.sort - b.sort)
   .map(({ value }) => value);
 
+const postableSnips = [...snips];
 for (const snippet of snippetsToRender) {
   renderSnippet(snippet);
   snippetsRoot.appendChild(snippet.root);
-  if (snips.length > 0 && Math.random() < 0.05) {
-    const snip = snips[Math.floor(Math.random() * snips.length)];
+  if (postableSnips.length > 0 && Math.random() < 0.05) {
+    const snip =
+      postableSnips[Math.floor(Math.random() * postableSnips.length)];
+    postableSnips.splice(postableSnips.indexOf(snip), 1);
+
     const snipEl = document.createElement('textarea');
-    snipEl.style = `border: none; resize: none; height: ${
-      snip.split('\n').length * 1.2
-    }em; width: ${
-      snip
-        .split('\n')
-        .reduce(
-          (longest, next) => (longest.length > next.length ? longest : next),
-          '',
-        ).length * 0.6
-    }em;`;
+    snipEl.style = 'border: none; resize: none;';
     snipEl.value = snip;
+    snipEl.rows = snip.split('\n').length;
+    snipEl.cols = snip
+      .split('\n')
+      .reduce((a, b) => (a.length < b.length ? b : a), '').length;
+
     snippetsRoot.appendChild(snipEl);
   }
 }

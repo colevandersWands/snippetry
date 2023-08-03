@@ -129,6 +129,13 @@
 			]
 		},
 		{
+			"name": "eat-sleep-rave.js",
+			"code": "import('./projector.mjs').then(({ projector }) => {\n  const vagueRecollection = {\n    get eat() {\n      console.log(`%c💩 ${prompt('feed me!')} 💩`, 'font-size: xx-large');\n    },\n    get sleep() {\n      const siesta = Date.now();\n      while (Date.now() - siesta < 5000);\n    },\n    get rave() {\n      const lasers = () =>\n        Math.random() < 0.2\n          ? ['*', '@', '#', '%', '&', '!', '$'][Math.floor(Math.random() * 26)]\n          : ' ';\n      function* lightShow() {\n        while ('still standing')\n          yield Array(30)\n            .fill('')\n            .map(() => [\n              `%c${(() => Array(60).fill(' ').map(lasers).join(''))()}`,\n              // https://css-tricks.com/snippets/javascript/random-hex-color/\n              `color: #${Math.floor(Math.random() * 16777215).toString(16)}`,\n            ]);\n      }\n      projector(lightShow, { maxTime: 10000, async: false });\n    },\n  };\n  const repeat = true;\n\n  with (vagueRecollection) {\n    do {\n      eat;\n      sleep;\n      rave;\n    } while (repeat);\n  }\n});\n\n// tags: sketch\n",
+			"tags": [
+				"sketch"
+			]
+		},
+		{
 			"name": "existential-void.js",
 			"code": "/*\n  A: I disappear and leave you.\n  E: You didn’t disappear.\n  A: Well, I did and then appeared again. The void does not accept me, sir.\n*/\n\nconsole.assert(void 'me', 'the void accepts');\n",
 			"tags": []
@@ -147,6 +154,11 @@
 			"tags": [
 				"frivolous"
 			]
+		},
+		{
+			"name": "flag-translator.mjs",
+			"code": "import { alertStory } from './story-in-a-story.mjs';\n\nlet lang = '';\nwhile (\n  !lang &&\n  lang.toLowerCase() !== 'de' &&\n  lang.toLowerCase() !== 'fr' &&\n  lang.toLowerCase() !== 'nl'\n) {\n  lang = prompt('Select your language:\\n- DE\\n- FR\\n- NL');\n}\n\nawait alertStory(\n  `be.${lang.toLowerCase()}.txt`,\n  'You should understand this flag:',\n);\n\nalert('Welcome to Belgium!');\n",
+			"tags": []
 		},
 		{
 			"name": "flashlight.css",
@@ -200,6 +212,11 @@
 			"tags": []
 		},
 		{
+			"name": "lenses.json",
+			"code": "{\n  \"--port\": 3456,\n\n  \"study\": {\n    \"save\": true,\n    \"run\": true,\n    \"debug\": true,\n    \"environment\": true,\n    \"tests\": true,\n    \"clearScheduled\": true,\n    \"parsons\": false\n  }\n}\n",
+			"tags": []
+		},
+		{
 			"name": "mirror.css",
 			"code": "body {\n  -moz-transform: scale(-1, 1);\n  -webkit-transform: scale(-1, 1);\n  -o-transform: scale(-1, 1);\n  -ms-transform: scale(-1, 1);\n  transform: scale(-1, 1);\n}\n",
 			"tags": []
@@ -246,7 +263,7 @@
 		},
 		{
 			"name": "projector.mjs",
-			"code": "const defaultConfig = {\n  args: [],\n  frameRate: 50,\n  maxTime: Infinity,\n  maxFrames: Infinity,\n};\n\nconst project = (frame) =>\n  Array.isArray(frame) ? console.log(...frame) : console.log(frame);\n\nexport default function projector(reel, userConfig = {}) {\n  const config = Object.assign({}, defaultConfig, userConfig);\n  const spool = reel();\n\n  let frames = 0;\n  let time = 0;\n  let intervalId;\n  const unspool = () => {\n    const frame = spool.next();\n    if (frame.done || time > config.maxTime || frames > config.maxFrames) {\n      clearInterval(intervalId);\n    } else {\n      console.clear();\n      if (Array.isArray(frame.value)) {\n        frame.value.forEach(project);\n      } else {\n        project(frame.value);\n      }\n      frames++;\n      time += config.frameRate;\n    }\n  };\n\n  intervalId = setInterval(unspool, config.frameRate, ...config.args);\n}\n\n// tags: minibrary\n",
+			"code": "const project = (frame) =>\n  Array.isArray(frame)\n    ? Array.isArray(frame[0])\n      ? frame.forEach(project)\n      : console.log(...frame)\n    : console.log(frame);\n\nconst defaultConfig = {\n  async: true,\n  frameRate: 10,\n  maxTime: Infinity,\n  maxFrames: Infinity,\n  clear: console.clear,\n  project,\n  wrap: () => {},\n};\n\nexport const projector = (reel, userConfig = {}) => {\n  const spool = reel();\n  const config = Object.assign({}, defaultConfig, userConfig);\n  const status = { frames: 0, time: 0 };\n\n  const unspool = (frame = spool.next()) =>\n    frame.done ||\n    (status.time += 1000 / config.frameRate) > config.maxTime ||\n    ++status.frames > config.maxFrames\n      ? (config.wrap(), false)\n      : (config.clear(), config.project(frame.value), true);\n\n  if (config.async) {\n    config.wrap = () => clearInterval(screening);\n    const screening = setInterval(unspool, 1000 / config.frameRate);\n  } else {\n    while (unspool()) {\n      const frameStart = Date.now();\n      while (Date.now() - frameStart < 1000 / config.frameRate);\n    }\n  }\n};\n\nexport default projector;\n\n// tags: minibrary\n",
 			"tags": [
 				"minibrary"
 			]
@@ -263,7 +280,7 @@
 		},
 		{
 			"name": "rainstorm.mjs",
-			"code": "import projector from './projector.mjs';\n\n// https://www.asciiart.eu/nature/clouds\nconst cloud = `\n            .-~~~-.\n    .- ~ ~-(       )_ _\n   /                    ~ -.\n  |                          ',\n   \\\\                         .'\n     ~- ._ ,. ,.,.,., ,.. -~`;\n//  https://ascii.co.uk/art/lightning\nconst lightning = `${`\n                  ,/\n                ,'/\n              ,' /\n            ,'  /_____,\n         .'____    ,'\n             /  ,'\n            / ,'\n           /,'\n          /'`}${Array(21).fill('\\n').join('')}`;\nconst ground = `___.-------._____/¯¯¯¯¯¯\\`----,____`;\n\nconst drop = () => (Math.random() < 0.2 ? ',' : ' ');\nconst row = () => [' ', ' ', ...Array(13).fill(' ').map(drop)];\n\nfunction* rainstorm(rain = Array(31).fill('').map(row)) {\n  while (rainstorm) {\n    rain.pop(), rain.unshift(row());\n    const flash = Math.random() < 0.1;\n    yield [\n      [`%c${cloud}`, `color: ${flash ? 'lightgrey' : 'grey'};`],\n      flash\n        ? [`%c${lightning}`, 'color: orange;']\n        : [`%c${rain.flatMap((r) => r.join(' ')).join('\\n')}`, 'color: blue;'],\n      [`%c${ground}`, `color: ${flash ? 'lightgreen' : 'green'};`],\n    ];\n  }\n}\nprojector(rainstorm, { frameRate: 400, maxFrames: 100 });\n\n// tags: reel, sketch\n",
+			"code": "import projector from './projector.mjs';\n\n// https://www.asciiart.eu/nature/clouds\nconst cloud = `\n            .-~~~-.\n    .- ~ ~-(       )_ _\n   /                    ~ -.\n  |                          ',\n   \\\\                         .'\n     ~- ._ ,. ,.,.,., ,.. -~`;\n//  https://ascii.co.uk/art/lightning\nconst lightning = `${`\n                  ,/\n                ,'/\n              ,' /\n            ,'  /_____,\n         .'____    ,'\n             /  ,'\n            / ,'\n           /,'\n          /'`}${Array(21).fill('\\n').join('')}`;\nconst ground = `___.-------._____/¯¯¯¯¯¯\\`----,____`;\n\nconst drop = () => (Math.random() < 0.2 ? ',' : ' ');\nconst row = () => [' ', ' ', ...Array(13).fill(' ').map(drop)];\n\nfunction* rainstorm(rain = Array(31).fill('').map(row)) {\n  while (rainstorm) {\n    rain.pop(), rain.unshift(row());\n    const flash = Math.random() < 0.1;\n    yield [\n      [`%c${cloud}`, `color: ${flash ? 'lightgrey' : 'grey'};`],\n      flash\n        ? [`%c${lightning}`, 'color: orange;']\n        : [`%c${rain.flatMap((r) => r.join(' ')).join('\\n')}`, 'color: blue;'],\n      [`%c${ground}`, `color: ${flash ? 'lightgreen' : 'green'};`],\n    ];\n  }\n}\nprojector(rainstorm, { frameRate: 7, maxFrames: 100 });\n\n// tags: reel, sketch\n",
 			"tags": [
 				"reel",
 				"sketch"
@@ -322,14 +339,14 @@
 		},
 		{
 			"name": "story-in-a-story.mjs",
-			"code": "const storyInAStory = async (narrativeTitle = '') => {\n  console.group(`%c${narrativeTitle}`, 'font-weight: bold;');\n  try {\n    await import(narrativeTitle);\n  } catch (err) {\n    console.error(err);\n  }\n  console.groupEnd();\n};\n\nexport { storyInAStory };\nexport default storyInAStory;\n\n// tags: minibrary\n",
+			"code": "export const runStory = async (storyTitle = '', transition = storyTitle) => {\n  console.group(`%c${transition}`, 'font-weight: bold;');\n  try {\n    await import(storyTitle);\n  } catch (err) {\n    console.error(err);\n  }\n  console.groupEnd();\n};\n\nexport const logStory = async (storyTitle = '', transition = storyTitle) => {\n  console.group(`%c${transition}`, 'font-weight: bold;');\n  try {\n    console.log(await fetch(storyTitle).then((res) => res.text()));\n  } catch (err) {\n    console.error(err);\n  }\n  console.groupEnd();\n};\n\nexport const alertStory = async (storyTitle = '', transition = storyTitle) => {\n  try {\n    alert(\n      `${transition}\\n\\n${await fetch(storyTitle).then((res) => res.text())}`,\n    );\n  } catch (err) {\n    alert(err.toString());\n  }\n};\n\nexport default { runStory, logStory, alertStory };\n\n// tags: minibrary\n",
 			"tags": [
 				"minibrary"
 			]
 		},
 		{
 			"name": "take-five.js",
-			"code": "const FIVE_MINUTES = 300000; // milliseconds\n\nconst clock_out = Date.now();\n\nconst on_break = () => Date.now() - clock_out < FIVE_MINUTES;\n\nget_some_fresh_air: while (on_break()) {\n  alert('break time, take 5!');\n}\n\n// tags: wellbeing\n",
+			"code": "const FIVE_MINUTES = 300000; // milliseconds\nconst CLOCK_OUT = Date.now();\n\nconst on_break = () => Date.now() - CLOCK_OUT < FIVE_MINUTES;\n\nget_some_fresh_air: while (on_break()) {\n  alert('break time, take 5!');\n}\n\n// tags: wellbeing\n",
 			"tags": [
 				"wellbeing"
 			]
@@ -407,6 +424,11 @@
 			"tags": [
 				"minibrary"
 			]
+		},
+		{
+			"name": "useless-machine-1.html",
+			"code": "<input type=\"checkbox\" onclick=\"setTimeout(() => this.checked = false, 500)\" />\n",
+			"tags": []
 		},
 		{
 			"name": "var-let-const.js",

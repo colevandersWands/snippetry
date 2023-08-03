@@ -37,6 +37,6 @@ function* rainstorm(rain = Array(31).fill('').map(row)) {
     ];
   }
 }
-projector(rainstorm, { frameRate: 400, maxFrames: 100 });
+projector(rainstorm, { frameRate: 7, maxFrames: 100 });
 
 // tags: reel, sketch

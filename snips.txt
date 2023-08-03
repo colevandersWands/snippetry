@@ -3,20 +3,19 @@ Oooo
  ^^^
 
 
-snip
+-snip-
 
 
 ~~~,-,">
 
 
-snip
+-snip-
 
 
 <!--
 
 
-snip
-
+-snip-
 
           _____
  ____   /       \
@@ -25,6 +24,20 @@ snip
        |_|_| |_|_|
 
 
-snip
+-snip-
+
+\>-,-,-,--<𝁽𝀅_
 
 
+-snip-
+
+
+___ : programming language :: linguistic relativity : natural language
+
+
+-snip-
+
+
+js : programming language :?: english : natural language
+
+-snip-

@@ -1,0 +1,18 @@
+<template></template>
+
+<script>
+  class UselessMachine extends HTMLElement {
+    constructor() {
+      // debugger;
+      super();
+      // shadow dom
+    }
+    onclick() {
+      console.log('asdf');
+    }
+  }
+
+  customElements.define('useless-machine', UselessMachine);
+</script>
+
+<useless-machine></useless-machine>

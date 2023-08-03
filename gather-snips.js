@@ -4,7 +4,7 @@ import { join } from 'path';
 // ---------- file path constants ----------
 
 const SNIPS_LIVE_HERE = join('snips.txt');
-const SNIP_HERE = 'snip';
+const SNIP_HERE = '-snip-';
 const PUBLIC_SNIPS = join('public', 'snips.json');
 
 // ---------- build array of snips ----------

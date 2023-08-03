@@ -1,0 +1,20 @@
+<script>
+  class UselessMachine extends HTMLInputElement {
+    constructor() {
+      // debugger;
+      super();
+      console.log('huh');
+      this.innerHTML = 'asdf';
+      this.setAttribute('type', 'checkbox');
+    }
+    onclick() {
+      console.log('asdf');
+    }
+  }
+
+  customElements.define('useless-machine', UselessMachine, {
+    extends: 'input',
+  });
+</script>
+
+<input is="useless-machine" />
