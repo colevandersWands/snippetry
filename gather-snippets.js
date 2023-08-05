@@ -58,7 +58,7 @@ const tags = Array.from(
 
 await writeFile(
   PUBLIC_SNIPPETS,
-  JSON.stringify({ tags, snippets }, null, '\t'),
+  JSON.stringify({ tags, snippets }, null),
   (err) => err && console.error(err),
 );
 

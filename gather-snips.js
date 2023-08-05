@@ -25,7 +25,7 @@ const snips = rawSnips
 
 await writeFile(
   PUBLIC_SNIPS,
-  JSON.stringify(snips, null, '\t'),
+  JSON.stringify(snips, null),
   (err) => err && console.error(err),
 );
 
