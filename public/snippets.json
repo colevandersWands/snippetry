@@ -9,7 +9,6 @@
 		"remix",
 		"sketch",
 		"testing",
-		"twabble",
 		"useful",
 		"useless",
 		"wellbeing",
@@ -74,9 +73,16 @@
 			"tags": []
 		},
 		{
-			"name": "breathless.js",
-			"code": "(function breathless(slowness = 500, slowerness = 1.01) {\n  const breath = setTimeout(breathless, (slowness *= slowerness), slowness);\n  console.log(['hold', 'breath in', 'hold', 'breath out'][breath % 4]);\n})();\n",
+			"name": "be.txt",
+			"code": "🇧🇪\n",
 			"tags": []
+		},
+		{
+			"name": "breathless.js",
+			"code": "(function breathless(slowness = 500, slowerness = 1.01) {\n  const breath = setTimeout(breathless, (slowness *= slowerness), slowness);\n  console.log(['hold', 'breath in', 'hold', 'breath out'][breath % 4]);\n})();\n\n// tags: wellbeing\n",
+			"tags": [
+				"wellbeing"
+			]
 		},
 		{
 			"name": "callout-stack.js",
@@ -179,13 +185,6 @@
 			"code": "import { steamroll } from './steamroll.mjs';\n\nfetch('./python-by-any-other-name.js')\n  .then((res) => res.text())\n  .then(steamroll)\n  .then(console.log)\n  .catch(console.error);\n\n// tags: frivolous\n",
 			"tags": [
 				"frivolous"
-			]
-		},
-		{
-			"name": "fin-people.txt",
-			"code": "There sat no turtle nor turtlje, not twee herbivores. It were vegans met gluten-baked silverfish fins, fantastic meubles suitable for deep comfort.\n\n\n( tags: twabble )\n",
-			"tags": [
-				"twabble"
 			]
 		},
 		{

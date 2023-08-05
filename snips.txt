@@ -44,3 +44,11 @@ js : programming language :?: english : natural language
 
 
 "," : js :?: ";" : english
+
+-snip-
+
+🐓 🥚 🐣 🐥 🐔 ... 🍗 :(
+
+-snip-
+
+🐔 <-?-> 🥚

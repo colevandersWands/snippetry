@@ -2,3 +2,5 @@
   const breath = setTimeout(breathless, (slowness *= slowerness), slowness);
   console.log(['hold', 'breath in', 'hold', 'breath out'][breath % 4]);
 })();
+
+// tags: wellbeing
