@@ -1,5 +1,8 @@
 {
   "--port": 3456,
+  "--defaults": {
+    ".html": "study"
+  },
 
   "study": {
     "save": true,

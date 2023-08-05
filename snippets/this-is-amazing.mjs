@@ -7,10 +7,10 @@ const amazing = function wow() {
 describe("this: it's amazing", () => {
   _this('is a string', () => {
     const beAmazed = amazing();
-    expect(typeof beAmazed).toStrictEqual('string');
+    expect(typeof beAmazed).toEqual('string');
   });
   _this('is "amazing"', () => {
     const beAmazed = amazing();
-    expect(beAmazed).toStrictEqual('amazing');
+    expect(beAmazed).toEqual('amazing');
   });
 });

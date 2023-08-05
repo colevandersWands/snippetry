@@ -32,7 +32,7 @@ Oooo
 -snip-
 
 
-___ : programming language :: linguistic relativity : natural language
+_?_ : programming language :: linguistic relativity : natural language
 
 
 -snip-
@@ -41,3 +41,6 @@ ___ : programming language :: linguistic relativity : natural language
 js : programming language :?: english : natural language
 
 -snip-
+
+
+"," : js :?: ";" : english

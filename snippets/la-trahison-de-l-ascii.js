@@ -1,9 +1,5 @@
-/*
-  La Trahison de l'ASCII
-*/
-
-(function () {
-  console.assert(this != 'pipe');
+(function la_trahison_de_l_ascii() {
+  console.assert(this !== 'pipe');
 }).call(
   `
  ___

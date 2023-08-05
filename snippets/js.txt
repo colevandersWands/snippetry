@@ -1,0 +1,8 @@
+let input = prompt('enter some text to reverse') || '';
+
+let reversed = '';
+for (const char of input) {
+  reversed = char + reversed;
+}
+
+alert(reversed);

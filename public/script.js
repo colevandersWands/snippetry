@@ -157,7 +157,9 @@ const renderCode = (snippet) => {
   containerHighlight.innerHTML = `<pre class="editor language-${
     snippet.name.endsWith('js')
       ? 'js'
-      : snippet.name.endsWith('html') || snippet.name.endsWith('svg')
+      : snippet.name.endsWith('html') ||
+        snippet.name.endsWith('htm') ||
+        snippet.name.endsWith('svg')
       ? 'html'
       : snippet.name.endsWith('css')
       ? 'css'
@@ -185,7 +187,7 @@ const renderSnippet = (snippet) => {
           ? `<button class='runner'>run</button>
       <button class='debugger'>debug</button>
       |`
-          : snippet.name.endsWith('html')
+          : snippet.name.endsWith('html') || snippet.name.endsWith('htm')
           ? `<button class='tabber'>new tab</button>
       |`
           : snippet.name.endsWith('css')
@@ -194,7 +196,7 @@ const renderSnippet = (snippet) => {
       |`
           : snippet.name.endsWith('svg')
           ? `<button class='set-background'>set background</button>
-          <!-- <button class='preview-svg'>preview</button> -->
+          <button class='set-icon'>set icon</button>
           <button class='new-tab-svg'>new tab</button>
       |`
           : snippet.name.endsWith('json')
@@ -290,7 +292,11 @@ const replaceWithEditor = (snippet) => {
       tab: '\t',
       indentOn: /[(\[\{]$/,
     });
-  } else if (snippet.name.endsWith('.html') || snippet.name.endsWith('.svg')) {
+  } else if (
+    snippet.name.endsWith('.html') ||
+    snippet.name.endsWith('.htm') ||
+    snippet.name.endsWith('.svg')
+  ) {
     snippet.containerEditor.className = 'editor language-html';
     snippet.jar = CodeJar(snippet.containerEditor, highlight, {
       tab: '\t',
@@ -444,7 +450,7 @@ for (const snippet of state.snippets) {
       .addEventListener('click', function debug() {
         runCode(snippet, true);
       });
-  } else if (snippet.name.endsWith('html')) {
+  } else if (snippet.name.includes('.htm')) {
     snippet.root
       .getElementsByClassName('tabber')[0]
       .addEventListener('click', () => newTabHTML(snippet));
@@ -498,6 +504,26 @@ for (const snippet of state.snippets) {
           isBackground = true;
         } else {
           e.target.innerText = 'set background';
+        }
+      });
+    let isIcon = false;
+    const iconEl = document.getElementById('icon');
+    snippet.root
+      .getElementsByClassName('set-icon')[0]
+      .addEventListener('click', (e) => {
+        console.log(`\n========== ${snippet.name} ==========\n`);
+
+        if (isIcon) {
+          iconEl.href = './public/favicon.ico';
+          isIcon = false;
+        }
+
+        if (e.target.innerText.includes('set')) {
+          iconEl.href = `data:image/svg+xml,${encodeURI(snippet.code)}`;
+          e.target.innerText = 'remove icon';
+          isIcon = true;
+        } else {
+          e.target.innerText = 'set icon';
         }
       });
     snippet.root

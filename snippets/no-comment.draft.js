@@ -1,3 +1,0 @@
-<!--
-  something with HTML comments
--->

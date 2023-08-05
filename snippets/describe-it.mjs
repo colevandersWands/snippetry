@@ -9,6 +9,7 @@ export const describe = (name = '', testFunction = () => {}) => {
   }
   _console_.groupEnd();
 };
+export const suite = describe;
 
 export const it = (name = '', testFunction = () => {}) => {
   const out = Object.assign({}, _console_);
@@ -23,14 +24,15 @@ export const it = (name = '', testFunction = () => {}) => {
     thrown = err;
   }
   if (thrown)
-    out.groupCollapsed(`%c✖ FAIL: ${name}`, 'font-weight: bold; color: red;');
+    out.groupCollapsed(`%c✖ NO: ${name}`, 'font-weight: bold; color: red;');
   else
-    out.groupCollapsed(`%c√ PASS: ${name}`, 'font-weight: bold; color: green;');
+    out.groupCollapsed(`%c√ YES: ${name}`, 'font-weight: bold; color: green;');
   callOuts.forEach((callOut) => out[callOut.key](...callOut.args));
   thrown && out.error(thrown);
   out.groupEnd(), Object.assign(_console_, out);
 };
+export const test = it;
 
-export default { describe, it };
+export default { describe, suite, it, test };
 
 // tags: testing, minibrary

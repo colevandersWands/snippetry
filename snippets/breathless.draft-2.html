@@ -1,0 +1,58 @@
+<title>Breathless</title>
+
+<style>
+  /* way too long, and CSS doesn't golf well */
+  body {
+    display: flex;
+  }
+
+  .circle {
+    margin: auto;
+    background-color: #010f1c;
+    height: 50%;
+    width: 50%;
+    border-radius: 50%;
+  }
+
+  .circle.grow {
+    animation: grow 3s linear forwards;
+  }
+
+  /* can these become one keyframe that's updated by JS? */
+  @keyframes grow {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.2);
+    }
+  }
+
+  .circle.shrink {
+    animation: shrink 3s linear forwards;
+  }
+
+  @keyframes shrink {
+    from {
+      transform: scale(1.2);
+    }
+
+    to {
+      transform: scale(1);
+    }
+  }
+</style>
+
+<div class="circle" id="container"></div>
+
+<script>
+  (function breathless(slowness = 500, slowerness = 1.01) {
+    const breath = setTimeout(breathless, (slowness *= slowerness), slowness);
+    // change classes instead of logging
+    //  can you dynamically change a keyframes?
+    // console.log(['hold', 'breath in', 'hold', 'breath out'][breath % 4]);
+  })();
+  setInterval(breathAnimation, totalTime);
+</script>
+
+<!-- inspiration: https://github.com/bradtraversy/vanillawebprojects/tree/master/relaxer-app -->

@@ -13,6 +13,7 @@ export const expect = (exp, not = false) => ({
     }
   },
   toThrow(typeOrMessage) {
+    // what's the simplest usefulest?
     let threw, error;
     try {
       exp();

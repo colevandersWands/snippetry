@@ -62,4 +62,4 @@ await writeFile(
   (err) => err && console.error(err),
 );
 
-console.log('------ done gathering snippets! ------');
+console.log('------ done gathering snippets ------');
