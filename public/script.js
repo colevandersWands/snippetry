@@ -79,6 +79,9 @@ const assert = (assertion, ...messages) => {
   console.groupEnd();
 };
 
+const evaller = document.createElement('iframe');
+evaller.style.display = 'none';
+
 let firstRun = true;
 const runCode = (snippet = {}, debug = false) => {
   if (firstRun) {
@@ -90,9 +93,6 @@ const runCode = (snippet = {}, debug = false) => {
 
   console.log(`\n========== ${snippet.name} ==========\n`);
 
-  const evaller = document.createElement('iframe');
-  evaller.style.display = 'none';
-  evaller.id = Math.random();
   evaller.src = `./snippets/${snippet.name}`;
 
   const finalCode = debug
@@ -209,10 +209,14 @@ const renderSnippet = (snippet) => {
       }
     </span>
     <button class='editoringer'>edit</button>
-    <button class='copier'>copy</button>
+    <button class='copier'>copy</button>${
+      snippet.noLinks
+        ? ''
+        : `
     |
     <button class='linker'>link</button>
-    <button class='githubber'>source</button>
+    <button class='githubber'>source</button>`
+    }
   </div>
 </div>`;
 
@@ -401,21 +405,29 @@ document.getElementById('search-field').value = state.query;
 
 document.getElementById('tags').appendChild(filterList(state.tags, 'tags'));
 
-const snippetsRoot = document.getElementById('snippets');
-
-// always render empty snippet first
-renderSnippet(state.snippets[0]);
-snippetsRoot.appendChild(state.snippets[0].root);
-state.snippets[0].ignore = true;
-
-// https://stackoverflow.com/a/46545530
+const emptySnippets = [];
 const snippetsToRender = state.snippets
-  .slice(1)
+  .filter((snippet) => {
+    if (snippet.name[0] === '.') {
+      snippet.noLinks = true;
+      renderSnippet(snippet);
+      emptySnippets.push(snippet);
+      return false;
+    } else {
+      return true;
+    }
+  })
   .map((value) => ({ value, sort: Math.random() }))
   .sort((a, b) => a.sort - b.sort)
   .map(({ value }) => value);
 
 const postableSnips = [...snips];
+
+const snippetsRoot = document.getElementById('snippets');
+snippetsRoot.appendChild(
+  emptySnippets[Math.floor(Math.random() * emptySnippets.length)].root,
+);
+
 for (const snippet of snippetsToRender) {
   renderSnippet(snippet);
   snippetsRoot.appendChild(snippet.root);
@@ -564,7 +576,7 @@ for (const snippet of state.snippets) {
 
   snippet.root
     .getElementsByClassName('linker')[0]
-    .addEventListener('click', () => {
+    ?.addEventListener('click', () => {
       const url = `${window.location.origin}/${
         window.location.pathname
       }?query=${snippet.name}&danger=${state.liveDangerously ? 'yes' : 'no'}`;
@@ -573,7 +585,7 @@ for (const snippet of state.snippets) {
 
   snippet.root
     .getElementsByClassName('githubber')[0]
-    .addEventListener('click', () =>
+    ?.addEventListener('click', () =>
       window.open(`${REPO}/tree/main/snippets/${snippet.name}`, '_blank'),
     );
 
@@ -607,3 +619,18 @@ document.getElementById('search-field').addEventListener('input', (e) => {
 });
 
 filterSnippets();
+
+// --- MDN Potluck ---
+
+const docSearchQueries = Reflect.ownKeys(window);
+document
+  .getElementById('mdn-potluck')
+  .addEventListener('click', function randomMDNPotluck(e) {
+    e.preventDefault();
+    const randomDocsQuery =
+      docSearchQueries[Math.floor(Math.random() * docSearchQueries.length)];
+    window.open(
+      `https://developer.mozilla.org/en-US/search?q=${randomDocsQuery}`,
+      '_blank',
+    );
+  });

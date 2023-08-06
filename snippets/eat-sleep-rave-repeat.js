@@ -27,6 +27,8 @@ import('./projector.mjs').then(({ projector }) => {
   };
   const repeat = true;
 
+  // --- eat, sleep, rave, repeat ---
+
   with (vagueRecollection) {
     do {
       eat;
@@ -36,4 +38,4 @@ import('./projector.mjs').then(({ projector }) => {
   }
 });
 
-// tags: sketch
+// tags: sketch, reel

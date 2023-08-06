@@ -1,0 +1,47 @@
+<style>
+  body {
+    background-color: #0f9900;
+  }
+  .breath {
+    height: 100%;
+    width: 100%;
+    background: radial-gradient(circle, #d13ffb 10%, #0f9900 50%);
+  }
+  .breath.hold {
+    transform: scale(1.5);
+  }
+  .breath.ing {
+    animation: ing linear forwards;
+  }
+  @keyframes ing {
+    from {
+    }
+    to {
+    }
+  }
+</style>
+
+<div class="breath" id="focal"></div>
+
+<script>
+  const cssRs = Array.from(document.styleSheets[0].cssRules);
+  const breathing = cssRs.find((r) => r.selectorText === '.breath.ing').style;
+  const fromTo = (from, to) => (
+    (cssRs[4][0].style.transform = from), (cssRs[4][1].style.transform = to)
+  );
+
+  (function breathless(slowness = 1000, slowerness = 1.05) {
+    breathing.animationDuration = slowness + 'ms';
+    const breath = setTimeout(breathless, (slowness *= slowerness), slowness);
+    const phase = ['hold out', 'in', 'hold in', 'out'][breath % 4];
+
+    if (phase === 'in') fromTo('scale(1)', 'scale(1.5)');
+    else if (phase === 'out') fromTo('scale(1.5)', 'scale(1)');
+
+    if (phase === 'hold in') focal.className = 'breath hold';
+    else if (phase === 'hold out') focal.className = 'breath';
+    else focal.className = 'breath ing';
+  })();
+</script>
+
+<!-- inspiration: https://github.com/bradtraversy/vanillawebprojects/tree/master/relaxer-app -->

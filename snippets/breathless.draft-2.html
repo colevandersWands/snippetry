@@ -1,58 +1,56 @@
-<title>Breathless</title>
+<title>breathless</title>
 
 <style>
-  /* way too long, and CSS doesn't golf well */
   body {
-    display: flex;
+    background-color: #0f9900;
   }
-
-  .circle {
-    margin: auto;
-    background-color: #010f1c;
-    height: 50%;
-    width: 50%;
-    border-radius: 50%;
+  .breath {
+    height: 100%;
+    width: 100%;
+    background: radial-gradient(circle, #d13ffb 10%, #0f9900 50%);
   }
-
-  .circle.grow {
-    animation: grow 3s linear forwards;
+  .breath.in {
+    animation: in linear forwards;
   }
-
-  /* can these become one keyframe that's updated by JS? */
-  @keyframes grow {
+  @keyframes in {
     from {
       transform: scale(1);
     }
     to {
-      transform: scale(1.2);
+      transform: scale(1.5);
     }
   }
-
-  .circle.shrink {
-    animation: shrink 3s linear forwards;
+  .breath.out {
+    animation: out linear forwards;
   }
-
-  @keyframes shrink {
+  @keyframes out {
     from {
-      transform: scale(1.2);
+      transform: scale(1.5);
     }
-
     to {
       transform: scale(1);
     }
   }
 </style>
 
-<div class="circle" id="container"></div>
+<div class="breath" id="focal"></div>
 
 <script>
-  (function breathless(slowness = 500, slowerness = 1.01) {
+  const cssRs = Array.from(document.styleSheets[0].cssRules);
+  const breathIn = cssRs.find((r) => r.selectorText === '.breath.in').style;
+  const breathOut = cssRs.find((r) => r.selectorText === '.breath.out').style;
+
+  (function breathless(slowness = 1000, slowerness = 1.05) {
     const breath = setTimeout(breathless, (slowness *= slowerness), slowness);
-    // change classes instead of logging
-    //  can you dynamically change a keyframes?
-    // console.log(['hold', 'breath in', 'hold', 'breath out'][breath % 4]);
+    const phase = ['hold', 'in', 'hold', 'out'][breath % 4];
+    if (phase === 'in') {
+      breathIn.animationDuration = slowness + 'ms';
+      focal.className = 'breath in';
+    } else if (phase === 'out') {
+      breathOut.animationDuration = slowness + 'ms';
+      focal.className = 'breath out';
+    }
   })();
-  setInterval(breathAnimation, totalTime);
 </script>
 
 <!-- inspiration: https://github.com/bradtraversy/vanillawebprojects/tree/master/relaxer-app -->
