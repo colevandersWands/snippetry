@@ -2,7 +2,7 @@
 // the only value stored is 'mu'
 // the two keys are 'whol' & 'rede'
 //  but somehow defined by each other
-// !!  reflect
+// reflect
 //  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect
 
 // ----------
@@ -59,4 +59,52 @@ console.log(r.Wholism, w.Reductionism);
 
 // console.log(mu.wholism);
 
-// https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.IEpeeWykfDy_wVjvK7vkbwHaFM%26pid%3DApi&f=1&ipt=56cc492262d99d03355a67f077fe81f82294d9fe9d833d737b488de925b889f0&ipo=images
+// t
+
+// --- generator? ---
+
+// ------ simple object references ------
+
+const reductionism = {
+  get wholism() {
+    return mu;
+  },
+};
+const wholism = {
+  get reductionism() {
+    return mu;
+  },
+};
+const mu = {
+  wholism: reductionism,
+  reductionism: wholism,
+};
+
+// const reductionism = mu;
+// const wholism = mu;
+// const mu = {
+//   get reductionism() {
+//     return wholism;
+//   },
+//   get wholism() {
+//     return reductionism;
+//   },
+// };
+
+// const mu = {
+//   wholism: {
+//     get reductionism() {
+//       return { mu };
+//     },
+//   },
+//   reductionism: {
+//     get wholism() {
+//       return { mu };
+//     },
+//   },
+// };
+
+// const mu = {
+//   wholism: { reductionism: { mu } },
+//   reductionism: { wholism: { mu } },
+// };

@@ -1,0 +1,16 @@
+<canvas id="belgium" width="100vw" height="100vh"> </canvas>
+
+<script>
+  belgium.width = screen.width;
+  belgium.height = screen.height;
+
+  const regions = screen.width / 3;
+
+  const be = belgium.getContext('2d');
+  be.fillStyle = 'black';
+  be.fillRect(0, 0, regions, screen.height);
+  be.fillStyle = 'yellow';
+  be.fillRect(regions, 0, regions, screen.height);
+  be.fillStyle = 'red';
+  be.fillRect(regions + regions, 0, regions, screen.height);
+</script>

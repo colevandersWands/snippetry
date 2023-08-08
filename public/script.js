@@ -437,7 +437,7 @@ for (const snippet of snippetsToRender) {
     postableSnips.splice(postableSnips.indexOf(snip), 1);
 
     const snipEl = document.createElement('textarea');
-    snipEl.style = 'border: none; resize: none;';
+    snipEl.style = 'border: none; resize: none; overflow: hidden;';
     snipEl.value = snip;
     snipEl.rows = snip.split('\n').length;
     snipEl.cols = snip

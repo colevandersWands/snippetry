@@ -23,8 +23,8 @@
     (cssRs[4][0].style.transform = from), (cssRs[4][1].style.transform = to)
   );
 
-  (function breathless(slowness = 250, slowerness = 1.05) {
-    const breath = setTimeout(breathless, (slowness *= slowerness), slowness);
+  (function breathless(slowness = 100, slowerness = 100) {
+    const breath = setTimeout(breathless, (slowness += slowerness), slowness);
     const phase = ['hold out', 'in', 'hold in', 'out'][breath % 4];
 
     breathing.animationDuration = slowness + 'ms';
