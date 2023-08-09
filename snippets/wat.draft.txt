@@ -1,0 +1,18 @@
+<!-- a page that calls itself first as HTML and secondly as JavaScript -->
+
+<!--
+self.postMessage('reached JS "file"');
+/*
+-->
+<!DOCTYPE html>
+<script>
+var w1 = new Worker('#1');
+w1.onmessage = function (e) {
+    console.log(e.data); // 'reached JS "file"
+};
+</script>
+<!--
+*/
+-->
+
+<!-- https://riptutorial.com/javascript/example/9722/using-html-comments-in-javascript--bad-practice- -->

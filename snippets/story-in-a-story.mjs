@@ -1,4 +1,4 @@
-export const runStory = async (storyTitle = '', transition = storyTitle) => {
+export const runStory = async (storyTitle = '', transition = '') => {
   if (transition) console.group(`%c${transition}`, 'font-weight: bold;');
   try {
     await import(storyTitle);
@@ -26,6 +26,6 @@ export const alertStory = async (storyTitle = '', transition = '') => {
   }
 };
 
-export default { runStory, logStory, alertStory };
+export default runStory;
 
 // tags: minibrary

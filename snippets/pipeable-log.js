@@ -1,6 +1,4 @@
-const log = (thing) => (
-  console.groupCollapsed(thing), console.trace(), console.groupEnd(), thing
-);
+const log = (thing) => (console.log(thing), thing);
 
 log('l' + log('o' + log('g')));
 

@@ -22,6 +22,8 @@ mu.reductionism.wholism; // mu
 mu.wholism.reductionism.mu;
 mu.reductionism.wholism.mu;
 
+mu; // reductionism, wholism
+
 // remix: https://blog.p-petrov.com/assets/images/imgs_geb/mu.png
 // credit: Douglas Hofstadter
 // tags: wuzzle
