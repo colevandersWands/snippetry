@@ -7,7 +7,7 @@ export const unspoken = new Proxy(unspeaker, {
 });
 
 speechSynthesis.getVoices();
-export const spoken = (function introduce(voiceConfig = {}, mute = false) {
+export const Spoken = (function introduce(voiceConfig = {}, mute = false) {
   const speaker = new Proxy(
     function speak() {
       return speaker;
@@ -37,16 +37,16 @@ export const spoken = (function introduce(voiceConfig = {}, mute = false) {
 
 export default unspoken;
 
-// tags: minibrary, useless
+// tags: minibrary
 
 // --- wait, wat? ---
 
-const { _, l_ } = unspoken;
-// const { _, l_ } = spoken;
+const { _, i_ } = unspoken;
+// const { _, i_ } = Spoken;
 
 _.This.curiosity.lets.you.write.any.chain.you.want(..._.within.JS.syntax);
 _.Your.comments.will.be.executed, _.but.they["won't"].DO.anything;
 _.Operators.are.now(_.sort.of).punctuation - _.with.a.little.imagination;
 _.What.are.you.waiting.for?.___.Execute.your.comments['!'];
 
-l_('@').l_('@').l_('@') <= _.snail.train;
+i_('@').i_('@').i_('@') <= _.snail.train;

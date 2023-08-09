@@ -1,5 +1,5 @@
-import { spoken as HTML } from './executable-comment.mjs';
+import { Spoken as _  } from './executable-comment.mjs';
 
 <!-- wat! -->
 
-HTML.comments.are.not.allowed.in.modules;
+_.HTML.comments.are.not.allowed.in.modules;
