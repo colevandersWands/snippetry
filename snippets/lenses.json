@@ -11,6 +11,7 @@
     "environment": true,
     "tests": true,
     "clearScheduled": true,
-    "parsons": false
+    "parsons": false,
+    "dark": false
   }
 }

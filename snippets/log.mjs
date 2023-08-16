@@ -1,15 +1,25 @@
-export const log = (thing) => (
-  console.groupCollapsed(thing), console.trace(), console.groupEnd(), thing
+export const out = console;
+
+export const log = (...things) => (
+  out.groupCollapsed(...things), out.trace(), out.groupEnd(), things[0]
 );
 
-export const out = Object.entries(console).reduce(
-  (all, next) => ({
+export const levels = Object.keys(out).reduce(
+  (all, key) => ({
     ...all,
-    [next[0]]: (thing) => (console[next[0]](thing), thing),
+    [key]: (...things) => (out[key](...things), things[0]),
   }),
   {},
 );
 
-export default Object.assign(log, out);
+export const tag = Object.keys(out).reduce(
+  (all, key) => ({
+    ...all,
+    [key]: (tag) => (...things) => (out[key](tag, ...things), things[0]),
+  }),
+  {},
+);
+
+export default Object.assign(log, levels);
 
 // tags:  minibrary, useful

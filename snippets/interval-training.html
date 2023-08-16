@@ -1,0 +1,29 @@
+<script type="module">
+  import noises from './noises.mjs';
+
+  alert(
+    'use the mouse and arrow keys to change two tones\n\n' +
+      'click the screen to begin',
+  );
+
+  document.body.addEventListener('click', function initNoises() {
+    const { frequency: mouseFreq, volume: mouseVol } = noises().play();
+    const mouseTone = (e) => {
+      mouseVol(1 / (e.screenY / screen.height));
+      mouseFreq((e.screenX / screen.width) * 880);
+    };
+    document.body.addEventListener('mousemove', mouseTone);
+
+    const keyState = { freq: 440, vol: 1 };
+    const { frequency: keyFreq, volume: keyVol } = noises().play();
+    const arrowsTone = (e) => {
+      if (e.key === 'ArrowUp') keyVol((keyState.vol += 0.05));
+      else if (e.key === 'ArrowDown') keyVol((keyState.vol -= 0.05));
+      else if (e.key === 'ArrowRight') keyFreq((keyState.freq += 1));
+      else if (e.key === 'ArrowLeft') keyFreq((keyState.freq -= 1));
+    };
+    document.body.addEventListener('keydown', arrowsTone);
+
+    document.body.removeEventListener('click', initNoises);
+  });
+</script>

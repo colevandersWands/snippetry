@@ -17,6 +17,7 @@ const characterCount = snippet
   .split('')
   .filter((char) => /[A-Za-z]/.test(char)).length;
 
+console.log(snippet);
 describe(`What is ${snippetName}?`, () => {
   test('Is it a drabble?', () => expect(wordCount).toEqual(100));
   test('Is it a twabble?', () => expect(characterCount).toEqual(100));
@@ -31,7 +32,8 @@ alert(
       : wordCount === 100
       ? 'is a drabble.'
       : 'is a twabble.'
-  }`,
+  }:\n
+  ${snippet}`,
 );
 
 // so un-international, so brittle

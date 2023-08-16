@@ -155,7 +155,9 @@ const copyCode = (code, message = 'copied!') => {
 const renderCode = (snippet) => {
   const containerHighlight = document.createElement('div');
   containerHighlight.innerHTML = `<pre class="editor language-${
-    snippet.name.endsWith('js')
+    snippet.name.includes('.txt')
+      ? 'txt'
+      : snippet.name.endsWith('js')
       ? 'js'
       : snippet.name.endsWith('html') ||
         snippet.name.endsWith('htm') ||
@@ -291,10 +293,17 @@ const replaceWithEditor = (snippet) => {
 
   snippet.containerEditor = document.createElement('pre');
   if (snippet.name.endsWith('js')) {
-    snippet.containerEditor.className = 'editor language-js';
+    snippet.containerEditor.className = `editor language-${
+      snippet.name.includes('.txt') ? 'txt' : 'js'
+    }`;
     snippet.jar = CodeJar(snippet.containerEditor, highlight, {
       tab: '\t',
       indentOn: /[(\[\{]$/,
+    });
+  } else if (snippet.name.includes('.txt')) {
+    snippet.containerEditor.className = 'editor language-text';
+    snippet.jar = CodeJar(snippet.containerEditor, () => {}, {
+      tab: '\t',
     });
   } else if (
     snippet.name.endsWith('.html') ||
