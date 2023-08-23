@@ -32,6 +32,6 @@ function cantorize(incomplete, i = 0) {
   const maybeMissing = new Element(numberToCheck);
   if (!incomplete.has(maybeMissing)) {
     incomplete.add(maybeMissing);
-    cantorize(incomplete, i++);
+    cantorize(incomplete, i + 1);
   }
 }
