@@ -1,25 +1,25 @@
-const unspeaker = () => unspoken;
-export const unspoken = new Proxy(unspeaker, {
+const unspeaker = () => _unspoken_;
+export const _unspoken_ = new Proxy(unspeaker, {
   get(_, comment) {
-    return comment === Symbol.toPrimitive ? () => 'unspoken' : unspoken;
+    return comment === Symbol.toPrimitive ? () => 'unspoken' : _unspoken_;
   },
 });
 
 speechSynthesis.getVoices();
-export const Spoken = (function introduce(voiceConfig = {}, mute = false) {
-  const spoken = new Proxy(
-    function speaker() {
-      return spoken;
+export const _Spoken_ = (function introduce(voiceConfig = {}, mute = false) {
+  const Spoken = new Proxy(
+    function Speaker() {
+      return Spoken;
     },
     {
       get(_, comment, __) {
         if (comment === Symbol.toPrimitive) return () => 'Spoken';
-        if (comment === Symbol.iterator) return (mute = true), spoken;
-        if (mute) return comment === 'done' && (mute = false), spoken;
+        if (comment === Symbol.iterator) return (mute = true), Spoken;
+        if (mute) return comment === 'done' && (mute = false), Spoken;
         speechSynthesis.speak(
           Object.assign(new SpeechSynthesisUtterance(comment), voiceConfig),
         );
-        return spoken;
+        return Spoken;
       },
       construct(_, args = []) {
         if (args[0]?.voice)
@@ -30,17 +30,17 @@ export const Spoken = (function introduce(voiceConfig = {}, mute = false) {
       },
     },
   );
-  return spoken;
+  return Spoken;
 })();
 
-export default unspoken;
+export default _unspoken_;
 
 // tags: minibrary
 
 // --- wait, wat? ---
 
-const { _ } = unspoken;
-// const { _ } = Spoken;
+const { _ } = _unspoken_;
+// const { _ } = _Spoken_;
 
 _.This.curiosity.lets.you.write.any.chain.you.want(..._.within.JS.syntax);
 _.Your.comments.will.be.executed, _.but.they["won't"].DO.anything;
