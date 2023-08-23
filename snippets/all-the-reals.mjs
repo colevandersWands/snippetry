@@ -8,25 +8,25 @@ const one = new Element(1);
 reals.add(zero);
 reals.add(one);
 
-const fillReals = (left, right) => {
+const allTheRealsBetween = (left, right) => {
   const middle = new Element((left.getValue() + right.getValue()) / 2);
   if (!reals.has(middle)) {
     reals.add(middle);
-    fillReals(left, middle);
-    fillReals(middle, right);
+    allTheRealsBetween(left, middle);
+    allTheRealsBetween(middle, right);
   }
 };
-fillReals(zero, one);
+allTheRealsBetween(zero, one);
 
-const addNextMissingReal = (incomplete, i = 0) => {
+const cantorize = (incomplete, i = 0) => {
   const numberToCheck = incomplete.getByOrder(i).getValue();
   numberToCheck[i] = numberToCheck[i] + 1;
   const maybeMissing = new Element(numberToCheck);
   if (!incomplete.has(maybeMissing)) {
     incomplete.add(maybeMissing);
-    addNextMissingReal(incomplete, i++);
+    cantorize(incomplete, i++);
   }
 };
-addNextMissingReal(reals);
+cantorize(reals);
 
 console.log(...reals);
