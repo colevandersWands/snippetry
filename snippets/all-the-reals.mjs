@@ -7,7 +7,7 @@ const one = new Element(1);
 
 reals.add(zero);
 reals.add(one);
-addRealsBetween(zero, one);
+addBetween(reals)(zero, one);
 
 cantorize(reals);
 
@@ -15,13 +15,15 @@ console.log(...reals);
 
 // --- --- --- --- --- ---
 
-function addRealsBetween(left, right) {
-  const middle = new Element((left.getValue() + right.getValue()) / 2);
-  if (!reals.has(middle)) {
-    reals.add(middle);
-    addRealsBetween(left, middle);
-    addRealsBetween(middle, right);
-  }
+function addBetween(set) {
+  return (left, right) => {
+    const middle = new Element((left.getValue() + right.getValue()) / 2);
+    if (!set.has(middle)) {
+      set.add(middle);
+      addRealsBetween(left, middle);
+      addRealsBetween(middle, right);
+    }
+  };
 }
 
 function cantorize(incomplete, i = 0) {
