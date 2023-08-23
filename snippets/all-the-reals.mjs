@@ -16,12 +16,12 @@ console.log(...reals);
 // --- --- --- --- --- ---
 
 function addBetween(set) {
-  return (left, right) => {
+  return function addingBetween(left, right) {
     const middle = new Element((left.getValue() + right.getValue()) / 2);
     if (!set.has(middle)) {
       set.add(middle);
-      addRealsBetween(left, middle);
-      addRealsBetween(middle, right);
+      addingBetween(left, middle);
+      addingBetween(middle, right);
     }
   };
 }
