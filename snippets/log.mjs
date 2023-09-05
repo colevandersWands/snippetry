@@ -15,7 +15,9 @@ export const levels = Object.keys(out).reduce(
 export const tag = Object.keys(out).reduce(
   (all, key) => ({
     ...all,
-    [key]: (tag) => (...things) => (out[key](tag, ...things), things[0]),
+    [key]:
+      (tag) =>
+      (...things) => (out[key](tag, ...things), things[0]),
   }),
   {},
 );

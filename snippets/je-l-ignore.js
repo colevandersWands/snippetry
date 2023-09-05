@@ -19,6 +19,7 @@ console.log(
 try {
   (function la_chute(etage) {
     console.log('étage ' + etage + ', jusqu’ici tout va bien.');
+
     la_chute(etage - 1);
   })(combien);
 } catch (l_importance) {

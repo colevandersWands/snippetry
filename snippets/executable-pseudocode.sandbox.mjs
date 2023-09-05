@@ -20,8 +20,6 @@ _.asdf(a).qwer['!'].e;
 // useful for potemkin programs
 const e = new _(2);
 
-await _();
-
 // is valid, but never iterates
 for (const key in _) {
   console.log(key);
@@ -30,9 +28,9 @@ for (const key in _) {
 x(...y);
 console.log(...y);
 
-// is valid, iterates a fixed number of times
+// is valid, iterates a fixed number times
 for (const x of _) {
-  console.log(x);
+  console.log('in of ', x);
 }
 
 // irrelevant because of module
@@ -40,3 +38,24 @@ for (const x of _) {
 // with (_) {
 //   console.log('turtle', turtle);
 // }
+
+console.log('string tag? ' + _.toString());
+
+// !! how ? can it convert to falsy?
+console.log('converting to boolean');
+console.log(!a);
+if (x) {
+  console.log('should evaluate to falsy');
+}
+// while (y) {
+//   console.log('to avoid infinite loops');
+// }
+y && console.log('nope');
+
+// never resolves, is that ok?
+//  the program still terminates
+//  but the code after is never executed (+1?)
+console.log('pre await');
+await _();
+// await _;
+console.log('post await');

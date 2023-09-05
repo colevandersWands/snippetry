@@ -1,19 +1,21 @@
-const executablePseudocode = 'Potemkin Program';
+const Executable_Pseudocode = 'Potemkin Program';
 
 const Potemkin_Program = new Proxy(
   {
-    [executablePseudocode]: function () {
+    [Executable_Pseudocode]: function () {
       return Potemkin_Program;
     },
-  }[executablePseudocode],
+  }[Executable_Pseudocode],
   {
     get(_, key) {
-      if (key === Symbol.toPrimitive) return () => executablePseudocode;
+      console.log(key);
+      if (key === Symbol.toPrimitive) return () => Executable_Pseudocode;
       if (key === Symbol.iterator) {
-        return function* Potemkin() {
-          for (let i = 0; i < executablePseudocode.length; i++)
-            yield Potemkin_Program;
-        };
+        return {
+          [Executable_Pseudocode]: function* () {
+            for (const character of Executable_Pseudocode) yield Potemkin_Program;
+          },
+        }[Executable_Pseudocode];
       }
       return Potemkin_Program;
     },
