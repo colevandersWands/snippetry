@@ -5,12 +5,19 @@ export const literize = (fn, argsFormat) => {
 
   return {
     [literateFunctionName]: (_, ...args) => {
-      if (argsFormat === 'keyed') {
-        return fn(args.reduce((all, next) => ({ ...all, ...next }), {}));
-      } else if (Array.isArray(argsFormat)) {
+      if (Array.isArray(argsFormat) && argsFormat.every((i) => typeof i === 'string')) {
+				const keyed = {}
+				for (let i = 0; i < argsFormat.length; i++) {
+					keyed[argsFormat[i]] = args[i]
+				}
+        return fn(keyed);
+      } else if (
+        Array.isArray(argsFormat) &&
+        argsFormat.every((i) => typeof i === 'number')
+      ) {
         const shuffled = [];
         for (let i = 0; i < args.length; i++) {
-          if (typeof argsFormat[i] === 'number') {
+          if (argsFormat[i] !== undefined) {
             shuffled[argsFormat[i] - 1] = args[i];
           } else {
             shuffled[i] = args[i];

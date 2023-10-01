@@ -1,154 +1,9 @@
+import { REPO, SEPARATOR, HREF } from './src/CONSTANTS.js';
+import { state } from './src/state.js';
+
+import { copyCode, filterList, runCode } from './src/utils/index.js';
+
 import { CodeJar } from './lib/codejar.min.js';
-
-// ----- console greeting -----
-
-console.log(`
-Welcome to Snippetry!
-
-You're in the right place.
-
-`);
-
-// ----- constants -----
-
-const REPO = 'https://github.com/colevandersWands/snippetry';
-
-const SEPARATOR = '-=-=-=-';
-
-// ----- initialize state -----
-
-const href = new URL(window.location.href);
-
-const [state, snips] = await Promise.all([
-  fetch('./public/snippets.json').then((res) => res.json()),
-  fetch('./public/snips.json').then((res) => res.json()),
-]);
-
-// initialize tags
-const persistedTagsEncoded = href.searchParams.get('tags');
-const persistedTags = persistedTagsEncoded
-  ? decodeURI(persistedTagsEncoded)
-      .split(',')
-      .filter((persistedTag) => state.tags.includes(persistedTag))
-  : '';
-state.tags = state.tags.map((tag) => ({
-  value: tag,
-  selected: persistedTags.includes(tag) ? true : false,
-}));
-
-// initialize query
-const persistedQueryEncoded = href.searchParams.get('query');
-state.query = persistedQueryEncoded ? decodeURI(persistedQueryEncoded) : '';
-
-// initialize dangerous life
-state.liveDangerously =
-  !href.searchParams.has('danger') || href.searchParams.get('danger') !== 'yes'
-    ? false
-    : true;
-
-// ----- utilities -----
-
-const filterList = (entries, key) => {
-  const entryContainer = document.createElement('ul');
-  for (const entry of entries) {
-    const id = key + SEPARATOR + entry.value;
-    const entryLi = document.createElement('span');
-    entryLi.innerHTML = `<input id="${id}" type="checkbox" ${
-      entry.selected ? 'checked' : ''
-    }/><label for="${id}">${entry.value}  </label>`;
-    entryContainer.appendChild(entryLi);
-  }
-  return entryContainer;
-};
-
-const assert = (assertion, ...messages) => {
-  if (assertion) {
-    console.groupCollapsed(
-      '%c√ YES ',
-      'font-weight: bold; color: green;',
-      ...messages,
-    );
-  } else {
-    console.groupCollapsed(
-      '%c✖ NO ',
-      'font-weight: bold; color: red;',
-      ...messages,
-    );
-  }
-  console.trace();
-  console.groupEnd();
-};
-
-const evaller = document.createElement('iframe');
-evaller.style.display = 'none';
-
-let firstRun = true;
-const runCode = (snippet = {}, debug = false) => {
-  if (firstRun) {
-    alert(
-      "open your dev console to see the program's logs \n(if you're using a desktop)",
-    );
-    firstRun = false;
-  }
-
-  console.log(`\n========== ${snippet.name} ==========\n`);
-
-  evaller.src = `./snippets/${snippet.name}`;
-
-  const finalCode = debug
-    ? '/* ------------------------ */ debugger;\n\n\n\n\n' +
-      snippet.code +
-      '\n\n\n\n\n/* ------------------------ */ debugger;'
-    : snippet.code;
-
-  evaller.onload = () => {
-    evaller.contentWindow.console.assert = assert;
-
-    const script = document.createElement('script');
-    if (snippet.name.endsWith('.mjs')) {
-      script.type = 'module';
-    }
-    script.innerHTML = finalCode;
-
-    evaller.contentDocument.body.appendChild(script);
-  };
-
-  snippet.root.appendChild(evaller);
-};
-
-const copyCode = (code, message = 'copied!') => {
-  if (!navigator.clipboard) {
-    fallbackCopyTextToClipboard(code);
-    return;
-  }
-  navigator.clipboard.writeText(code).then(
-    function () {
-      // console.log('Async: Copying to clipboard was successful!');
-      alert(message);
-    },
-    function (err) {
-      // console.error('Async: Could not copy text: ', err);
-      fallbackCopyTextToClipboard(code);
-    },
-  );
-
-  function fallbackCopyTextToClipboard(text) {
-    var textArea = document.createElement('textarea');
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    try {
-      var successful = document.execCommand('copy');
-      alert(successful ? message : "nope, couldn't copy the link.\ntry again");
-    } catch (err) {
-      alert("nope, couldn't copy the link.\ntry again");
-    }
-
-    document.body.removeChild(textArea);
-    window.scrollTo(0, 0);
-  }
-};
 
 // ----- (re)render snippets -----
 
@@ -273,11 +128,7 @@ const filterSnippets = () => {
     state.liveDangerously ? 'yes' : 'no'
   }`;
 
-  window.history.replaceState(
-    {},
-    '',
-    `${href.origin + href.pathname}?${params}`,
-  );
+  window.history.replaceState({}, '', `${HREF.origin + HREF.pathname}?${params}`);
 };
 
 // https://medv.io/codejar/
@@ -338,10 +189,7 @@ const replaceWithEditor = (snippet) => {
     },
   });
 
-  snippet.root.replaceChild(
-    snippet.containerEditor,
-    snippet.containerHighlight,
-  );
+  snippet.root.replaceChild(snippet.containerEditor, snippet.containerHighlight);
 };
 
 const newTabHTML = (snippet) => {
@@ -381,7 +229,7 @@ const newTabHTML = (snippet) => {
 
 const dangerZones = document.getElementsByClassName('danger-zone');
 const toggleDanger = (e) => {
-  const params = new URLSearchParams(href.search);
+  const params = new URLSearchParams(HREF.search);
   if (e.target.checked) {
     for (const zone of dangerZones) {
       zone.classList.remove('hidden');
@@ -396,7 +244,7 @@ const toggleDanger = (e) => {
   window.history.replaceState(
     {},
     '',
-    `${href.origin + href.pathname}?${params.toString()}`,
+    `${HREF.origin + HREF.pathname}?${params.toString()}`,
   );
   state.liveDangerously = !state.liveDangerously;
 };
@@ -430,7 +278,7 @@ const snippetsToRender = state.snippets
   .sort((a, b) => a.sort - b.sort)
   .map(({ value }) => value);
 
-const postableSnips = [...snips];
+const postableSnips = [...state.snips];
 
 const snippetsRoot = document.getElementById('snippets');
 snippetsRoot.appendChild(
@@ -441,8 +289,7 @@ for (const snippet of snippetsToRender) {
   renderSnippet(snippet);
   snippetsRoot.appendChild(snippet.root);
   if (postableSnips.length > 0 && Math.random() < 0.05) {
-    const snip =
-      postableSnips[Math.floor(Math.random() * postableSnips.length)];
+    const snip = postableSnips[Math.floor(Math.random() * postableSnips.length)];
     postableSnips.splice(postableSnips.indexOf(snip), 1);
 
     const snipEl = document.createElement('textarea');
@@ -478,25 +325,23 @@ for (const snippet of state.snippets) {
   } else if (snippet.name.endsWith('css')) {
     const snippetStyle = document.createElement('style');
     let isApplied = false;
-    snippet.root
-      .getElementsByClassName('styler')[0]
-      .addEventListener('click', (e) => {
-        console.log(`\n========== ${snippet.name} ==========\n`);
-        // apply to body to override other styles
-        if (isApplied) {
-          document.body.removeChild(snippetStyle);
-          isApplied = false;
-        }
+    snippet.root.getElementsByClassName('styler')[0].addEventListener('click', (e) => {
+      console.log(`\n========== ${snippet.name} ==========\n`);
+      // apply to body to override other styles
+      if (isApplied) {
+        document.body.removeChild(snippetStyle);
+        isApplied = false;
+      }
 
-        if (e.target.innerText.includes('apply')) {
-          snippetStyle.innerHTML = snippet.code;
-          document.body.appendChild(snippetStyle);
-          e.target.innerText = 'remove style';
-          isApplied = true;
-        } else {
-          e.target.innerText = 'apply style';
-        }
-      });
+      if (e.target.innerText.includes('apply')) {
+        snippetStyle.innerHTML = snippet.code;
+        document.body.appendChild(snippetStyle);
+        e.target.innerText = 'remove style';
+        isApplied = true;
+      } else {
+        e.target.innerText = 'apply style';
+      }
+    });
     snippet.root
       .getElementsByClassName('new-tab-css')[0]
       .addEventListener('click', () => {
@@ -529,24 +374,22 @@ for (const snippet of state.snippets) {
       });
     let isIcon = false;
     const iconEl = document.getElementById('icon');
-    snippet.root
-      .getElementsByClassName('set-icon')[0]
-      .addEventListener('click', (e) => {
-        console.log(`\n========== ${snippet.name} ==========\n`);
+    snippet.root.getElementsByClassName('set-icon')[0].addEventListener('click', (e) => {
+      console.log(`\n========== ${snippet.name} ==========\n`);
 
-        if (isIcon) {
-          iconEl.href = './public/favicon.ico';
-          isIcon = false;
-        }
+      if (isIcon) {
+        iconEl.href = './public/favicon.ico';
+        isIcon = false;
+      }
 
-        if (e.target.innerText.includes('set')) {
-          iconEl.href = `data:image/svg+xml,${encodeURI(snippet.code)}`;
-          e.target.innerText = 'remove icon';
-          isIcon = true;
-        } else {
-          e.target.innerText = 'set icon';
-        }
-      });
+      if (e.target.innerText.includes('set')) {
+        iconEl.href = `data:image/svg+xml,${encodeURI(snippet.code)}`;
+        e.target.innerText = 'remove icon';
+        isIcon = true;
+      } else {
+        e.target.innerText = 'set icon';
+      }
+    });
     snippet.root
       .getElementsByClassName('new-tab-svg')[0]
       .addEventListener('click', () => {
@@ -563,14 +406,12 @@ for (const snippet of state.snippets) {
     snippet.root
       .getElementsByClassName('alerter')[0]
       .addEventListener('click', () => alert(snippet.code));
-    snippet.root
-      .getElementsByClassName('tabby')[0]
-      .addEventListener('click', () => {
-        const x = window.open();
-        x.document.open();
-        x.document.write(`<pre>${snippet.code}</pre>`);
-        x.document.close();
-      });
+    snippet.root.getElementsByClassName('tabby')[0].addEventListener('click', () => {
+      const x = window.open();
+      x.document.open();
+      x.document.write(`<pre>${snippet.code}</pre>`);
+      x.document.close();
+    });
   } else if (snippet.name.endsWith('json')) {
     snippet.root
       .getElementsByClassName('log-json')[0]
@@ -583,14 +424,12 @@ for (const snippet of state.snippets) {
       copyCode(snippet.code, `${snippet.name} ->  snippet is copied`),
     );
 
-  snippet.root
-    .getElementsByClassName('linker')[0]
-    ?.addEventListener('click', () => {
-      const url = `${window.location.origin}/${
-        window.location.pathname
-      }?query=${snippet.name}&danger=${state.liveDangerously ? 'yes' : 'no'}`;
-      copyCode(url, `${url} ->  URL is copied`);
-    });
+  snippet.root.getElementsByClassName('linker')[0]?.addEventListener('click', () => {
+    const url = `${window.location.origin}/${window.location.pathname}?query=${
+      snippet.name
+    }&danger=${state.liveDangerously ? 'yes' : 'no'}`;
+    copyCode(url, `${url} ->  URL is copied`);
+  });
 
   snippet.root
     .getElementsByClassName('githubber')[0]
@@ -599,17 +438,15 @@ for (const snippet of state.snippets) {
     );
 
   let editable = false;
-  snippet.root
-    .getElementsByClassName('editoringer')[0]
-    .addEventListener('click', (e) => {
-      if (editable) {
-        snippet.jar.updateCode(snippet.originalCode);
-      } else {
-        editable = true;
-        e.target.innerText = 'reset';
-        replaceWithEditor(snippet);
-      }
-    });
+  snippet.root.getElementsByClassName('editoringer')[0].addEventListener('click', (e) => {
+    if (editable) {
+      snippet.jar.updateCode(snippet.originalCode);
+    } else {
+      editable = true;
+      e.target.innerText = 'reset';
+      replaceWithEditor(snippet);
+    }
+  });
 }
 
 document.getElementById('tags').addEventListener('change', (e) => {

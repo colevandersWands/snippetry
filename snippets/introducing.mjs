@@ -1,16 +1,11 @@
 speechSynthesis.getVoices();
 
-export default function introducing(name = '', voiceConfig = {}) {
+export const introducing = (name = '', voiceConfig = {}) => {
   const speaker = {
     [name]: (text = '', speakConfig = {}) => {
       console.log(`%c${name}%c: ${text}`, 'font-style: italic;', '');
 
-      const utteranceConfig = Object.assign(
-        {},
-        voiceConfig,
-        speaker[name],
-        speakConfig,
-      );
+      const utteranceConfig = Object.assign({}, voiceConfig, speaker[name], speakConfig);
       if (utteranceConfig?.voice) {
         utteranceConfig.voice = speechSynthesis
           .getVoices()
@@ -28,6 +23,13 @@ export default function introducing(name = '', voiceConfig = {}) {
     },
   };
   return speaker[name];
-}
+};
+
+export const theArrivalOf = async (name = '', voiceConfig = {}, delay = 200) => {
+  await new Promise((res) => setTimeout(res, delay));
+  return introducing(name, voiceConfig);
+};
+
+export default introducing;
 
 // tags: minibrary

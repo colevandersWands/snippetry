@@ -12,8 +12,8 @@ describe('literize wraps a function so it can be called as a tagged string liter
       expect(shuffled`${1}${2}${3}${4}${5}`).toEqual([4, 2, 1, 3, 5]);
     });
     test('it structures keyed arguments into one object', () => {
-      const keyed = literize((arg) => arg, 'keyed');
-      expect(keyed`${{ c: 3 }}${{ a: 1 }}${{ b: 2 }}`).toEqual({ a: 1, b: 2, c: 3 });
+      const keyed = literize((arg) => arg, ['a', 'b', 'c']);
+      expect(keyed`${1}${2}${3}`).toEqual({ a: 1, b: 2, c: 3 });
     });
   });
   describe('literize returns a function with a descriptive name', () => {

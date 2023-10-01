@@ -1,4 +1,4 @@
-import tracedLog from '../snippets/log.mjs';
+// import tracedLog from '../snippets/log.mjs';
 import togglog from '../snippets/togglog.mjs';
 
 // const log = togglog({ out: tracedLog });
@@ -75,4 +75,15 @@ thissing: {
   (function ([string]) {
     log(this, string);
   }).bind('hello')`world`;
+}
+
+raw: {
+  log.on;
+
+  const argRaw = (strings) => log(strings.raw);
+  argRaw(`asdf${1}fdsa${2}qwer`); // undefined
+  argRaw`asdf${1}fdsa${2}qwer`; // ['asdf', 'fdsa', 'qwer']
+
+  log(String.raw`asdf${1}fdsa${2}qwer`); // 'asdf1fdsa2qwer';
+  log(String.raw(`asdf${1}fdsa${2}qwer`)); // TypeError: Cannot convert undefined or null to object
 }

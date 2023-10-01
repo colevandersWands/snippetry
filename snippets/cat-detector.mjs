@@ -1,32 +1,28 @@
-import introducing from './introducing.mjs';
+import { theArrivalOf } from './introducing.mjs';
 
-const Cat_Detector = async () => {
-  let volume = 0.5;
-  const _The_Inspector_ = introducing('The Inspector', {
-    voice: 'Tessa',
-    volume: 0.5,
-  });
+let voice = 'Tessa';
+let volume = 0.4;
 
-  await _The_Inspector_(
-    'In a moment you will be prompted to enter some text, please type "cat".',
-  );
+const _The_Inspector_ = await theArrivalOf('The Inspector', { voice, volume });
 
-  let isNotACat = true;
-  while (isNotACat) {
-    const maybeACat = prompt() || '';
+await _The_Inspector_(
+  'In a moment you will be prompted to enter some text, please type "cat".',
+);
 
-    if (maybeACat?.toLowerCase() === 'cat') {
-      await _The_Inspector_(
-        'Thank you for following directions, you may leave now.',
-      );
-      isNotACat = false;
-    } else {
-      await _The_Inspector_(
-        `"${maybeACat}" is most certainly not a cat.  Try again.`,
-        { volume: (volume += 0.1), voice: volume >= 1 ? 'Anna' : 'Tessa' },
-      );
-    }
+let isNotACat = true;
+while (isNotACat) {
+  const maybeACat = prompt() || '';
+
+  if (maybeACat?.toLowerCase() === 'cat') {
+    await _The_Inspector_('Thank you for following directions, you may leave now.');
+    isNotACat = false;
+  } else {
+    volume += 0.1;
+    if (voice === 'Tessa' && volume > 1) voice = 'Anna';
+  
+    await _The_Inspector_(
+      `"${maybeACat}" is most certainly not a cat.  Try again.`, 
+      { volume, voice, }
+    );
   }
-};
-
-setTimeout(Cat_Detector, 100);
+}
