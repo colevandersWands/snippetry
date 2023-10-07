@@ -1,3 +1,5 @@
+// see ../generated
+
 /*
   reads JSON files as code
   supports?

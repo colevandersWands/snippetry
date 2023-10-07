@@ -11,14 +11,25 @@ const PUBLIC_SNIPS = join('public', 'snips.json');
 
 const rawSnips = await readFile(SNIPS_LIVE_HERE, 'utf-8');
 
+const log = (thing) => (console.log(thing), thing);
+
 const snips = rawSnips
   .split(SNIP_HERE)
-  .map((snip) =>
-    snip
-      .split('\n')
-      .filter((ln) => ln)
-      .join('\n'),
-  )
+  .map((snip) => {
+    const split = snip.split('\n');
+
+    for (const line of [...split]) {
+      if (!line.trim()) split.shift();
+      else break;
+    }
+
+    for (const line of [...split].reverse()) {
+      if (!line.trim()) split.pop();
+      else break;
+    }
+
+    return split.join('\n');
+  })
   .filter((snip) => snip);
 
 // ---------- write snip data to public folder ----------

@@ -1,0 +1,16 @@
+<!-- https://www.phind.com/agent?cache=cln08l98h000al508gc60msg4 -->
+
+<script>
+  class UselessMachine extends HTMLElement {
+		constructor() {
+			super();
+			this.addEventListener('click', () => {
+				this.remove();
+			});
+		}
+	}
+
+	customElements.define('useless-machine', UselessMachine);
+</script>
+
+<useless-machine></useless-machine>

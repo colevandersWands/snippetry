@@ -58,4 +58,21 @@ js : programming language :?: english : natural language
 be a big fish, in the right small pond, at the right time
 
 -snip-
+  
+       
 
+
+The best authors and 
+the best JavaScript developers are those who 
+    obsess about language, who 
+    explore and experiment with language every day 
+            and in doing so develop their own 
+    style,                          their own 
+    idioms,                     and their own 
+    expression.
+   
+->  Angus Croll
+
+       
+
+-snip-

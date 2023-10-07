@@ -1,0 +1,15 @@
+{
+  "--defaults": {
+    ".html": "study"
+  },
+
+  "study": {
+    "save": true,
+    "run": true,
+    "debug": true,
+    "environment": true,
+    "clearScheduled": true,
+    "parsons": false,
+    "dark": false
+  }
+}

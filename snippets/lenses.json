@@ -1,5 +1,4 @@
 {
-  "--port": 3456,
   "--defaults": {
     ".html": "study"
   },
@@ -9,8 +8,8 @@
     "run": true,
     "debug": true,
     "environment": true,
-    "tests": true,
     "clearScheduled": true,
-    "parsons": false
+    "parsons": false,
+    "dark": false
   }
 }

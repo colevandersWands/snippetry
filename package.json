@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "draft": "cd ./snippets && lenses",
-    "publish": "node gather-snippets.js & node gather-snips.js"
+    "publish": "node gather-snippets.js & node gather-snips.js",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --silent "
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   },
   "homepage": "https://colevandersWands.github.io/snippetry",
   "devDependencies": {
+    "jest-cli": "^29.7.0",
     "study-lenses": "^0.0.170"
   }
 }

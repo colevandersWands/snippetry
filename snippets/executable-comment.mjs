@@ -1,52 +1,48 @@
-const unspeaker = () => unspoken;
-export const unspoken = new Proxy(unspeaker, {
+const unspeaker = () => _unspoken_;
+export const _unspoken_ = new Proxy(unspeaker, {
   get(_, comment) {
-    if (comment === Symbol.toPrimitive) return () => 'unspoken';
-    return unspoken;
+    return comment === Symbol.toPrimitive ? () => 'unspoken' : _unspoken_;
   },
 });
 
 speechSynthesis.getVoices();
-export const Spoken = (function introduce(voiceConfig = {}, mute = false) {
-  const speaker = new Proxy(
-    function speak() {
-      return speaker;
+export const _Spoken_ = (function introduce(voiceConfig = {}, mute = false) {
+  const Spoken = new Proxy(
+    function Speaker() {
+      return Spoken;
     },
     {
-      get(_, comment) {
-        if (comment === Symbol.toPrimitive) return () => 'spoken';
-        if (comment === Symbol.iterator) return (mute = true), speaker;
-        if (mute) comment === 'done' && (mute = false);
-        else
-          speechSynthesis.speak(
-            Object.assign(new SpeechSynthesisUtterance(comment), voiceConfig),
-          );
-        return speaker;
+      get(_, comment, __) {
+        if (comment === Symbol.toPrimitive) return () => 'Spoken';
+        if (comment === Symbol.iterator) return (mute = true), Spoken;
+        if (mute) return comment === 'done' && (mute = false), Spoken;
+        speechSynthesis.speak(
+          Object.assign(new SpeechSynthesisUtterance(comment), voiceConfig),
+        );
+        return Spoken;
       },
-      construct(_, config) {
-        if (config[0].voice)
-          config[0].voice = speechSynthesis
+      construct(_, args = []) {
+        if (args[0]?.voice)
+          args[0].voice = speechSynthesis
             .getVoices()
-            .find((voice) => voice.voiceURI === config[0].voice);
-        return introduce(config[0]);
+            .find((voice) => voice.name === args[0].voice);
+        return introduce(args[0] || {});
       },
     },
   );
-  return speaker;
+  return Spoken;
 })();
 
-export default unspoken;
+export default _unspoken_;
 
 // tags: minibrary
 
 // --- wait, wat? ---
 
-const { _, i_ } = unspoken;
-// const { _, i_ } = Spoken;
+const { _ } = _unspoken_;
+// const { _ } = _Spoken_;
 
 _.This.curiosity.lets.you.write.any.chain.you.want(..._.within.JS.syntax);
 _.Your.comments.will.be.executed, _.but.they["won't"].DO.anything;
 _.Operators.are.now(_.sort.of).punctuation - _.with.a.little.imagination;
 _.What.are.you.waiting.for?.___.Execute.your.comments['!'];
-
-i_('@').i_('@').i_('@') <= _.snail.train;
