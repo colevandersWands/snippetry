@@ -1,0 +1,40 @@
+<script>
+  class Hydra extends HTMLElement {
+    constructor() {
+      super();
+      this.attachShadow({ mode: 'open' });
+      this.shadowRoot.innerHTML = `
+      <style>
+        .duplicate {
+          cursor: pointer;
+          padding: 10px;
+          margin-bottom: 10px;
+        }
+      </style>
+      <div class="duplicate">click to remove element</div>
+    `;
+      this.shadowRoot
+        .querySelector('.duplicate')
+        .addEventListener('click', this.decapitate.bind(this));
+    }
+
+    decapitate() {
+      const beforeHead = document.createElement('hi-dra');
+      this.parentNode.insertBefore(beforeHead, this);
+      const afterHead = document.createElement('hi-dra');
+      this.after(afterHead);
+
+      const deadHead = document.createElement('div');
+      deadHead.innerText = 'xxxxx';
+      this.parentNode.replaceChild(deadHead, this);
+    }
+  }
+
+  customElements.define('hi-dra', Hydra);
+</script>
+
+<hi-dra></hi-dra>
+
+<!-- https://www.phind.com/agent?cache=cln08inxx0005l508e8vrlqbj -->
+
+<!-- tags: coAIthored -->

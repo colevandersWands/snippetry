@@ -26,3 +26,6 @@ class Togglog:
                 logs.insert(0, f"ln {str(list(traceback.walk_stack(None))[0][1])}:")
             self.out(*logs)
         return rest[-1]
+
+
+# tags: minibrary

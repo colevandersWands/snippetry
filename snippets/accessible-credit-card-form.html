@@ -1,0 +1,42 @@
+<style>
+  .container { width: 20em; margin: 0 auto; }
+  .form-group input { width: 100%; }
+</style>
+
+<div class="container">
+  <h2>Accessible Credit Card Form</h2>
+  <form>
+    <div class="form-group">
+      <label for="cardNumber">Card Number:</label>
+      <input type="password" id="cardNumber" name="cardNumber" placeholder="Enter card number" />
+    </div>
+    <div class="form-group">
+      <label for="cardName">Cardholder Name:</label>
+      <input type="password" id="cardName" name="cardName" placeholder="Enter cardholder name" />
+    </div>
+    <div class="form-group">
+      <label for="expiryDate">Expiry Date:</label>
+      <input type="password" id="expiryDate" name="expiryDate" placeholder="MM/YY" />
+    </div>
+    <div class="form-group">
+      <label for="cvv">CVV:</label>
+      <input type="password" id="cvv" name="cvv" placeholder="Enter CVV" />
+    </div>
+    <div class="form-group">
+      <input type="button" value="Validate" onclick="validateCreditCard()" />
+    </div>
+  </form>
+</div>
+
+<script>
+  function validateCreditCard() {
+    var speech = new SpeechSynthesisUtterance();
+    speech.text = `Card Number: ${ document.getElementById('cardNumber').value }.
+                   Cardholder Name: ${ document.getElementById('cardName').value }.
+                   Expiry Date: ${ document.getElementById('expiryDate').value }.
+                   CVV: ${ document.getElementById('cvv').value }.`;
+    speechSynthesis.speak(speech);
+  }
+</script>
+
+<!-- tags: coAIthored -->

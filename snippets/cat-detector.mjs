@@ -19,10 +19,10 @@ while (isNotACat) {
   } else {
     volume += 0.1;
     if (voice === 'Tessa' && volume > 1) voice = 'Anna';
-  
-    await _The_Inspector_(
-      `"${maybeACat}" is most certainly not a cat.  Try again.`, 
-      { volume, voice, }
-    );
+
+    await _The_Inspector_(`"${maybeACat}" is most certainly not a cat.  Try again.`, {
+      volume,
+      voice,
+    });
   }
 }

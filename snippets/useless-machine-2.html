@@ -1,12 +1,10 @@
-<!-- https://www.phind.com/agent?cache=cln08l98h000al508gc60msg4 -->
-
 <script>
   class UselessMachine extends HTMLInputElement {
     constructor() {
       super();
       this.type = 'checkbox';
       this.addEventListener('click', () => {
-        setTimeout(() => this.checked = false, 500);
+        setTimeout(() => (this.checked = false), 500);
       });
     }
   }
@@ -14,4 +12,8 @@
   customElements.define('useless-machine', UselessMachine, { extends: 'input' });
 </script>
 
-<input is="useless-machine">
+<input is="useless-machine" />
+
+<!-- https://www.phind.com/agent?cache=cln08l98h000al508gc60msg4 -->
+
+<!-- tags: coAIthored -->

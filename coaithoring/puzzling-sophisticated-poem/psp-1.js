@@ -1,9 +1,12 @@
 /*
-	This poem tells the story of a programmer on a quest to solve a riddle hidden within the code. Along the way, they encounter obstacles in the form of syntax errors and bugs. With determination and debugging skills, they overcome these challenges and reach the final test. The poem captures the essence of the coding journey, where perseverance and problem-solving lead to victory.
+  This poem tells the story of a programmer on a quest to solve a riddle hidden within the code.
+  Along the way, they encounter obstacles in the form of syntax errors and bugs.
+  With determination and debugging skills, they overcome these challenges and reach the final test.
+  The poem captures the essence of the coding journey, where perseverance and problem-solving lead to victory.
 
-	I hope you enjoy this puzzling and sophisticated JavaScript poem! Let me know if you have any questions or if there's anything else I can assist you with.
+	I hope you enjoy this puzzling and sophisticated JavaScript poem!
+  Let me know if you have any questions or if there's anything else I can assist you with.
 */
-
 
 // In the realm of code, a story unfolds
 // A tale of mystery, where secrets are told
@@ -37,7 +40,6 @@ const journey = () => {
 
     // But the journey continues, the story unwinds
     // Seeking perfection, in the code that binds
-
     if (i === obstacles.length - 1) {
       // Victory is near, the final test awaits
       console.log("Congratulations! You've reached the gates");
@@ -49,10 +51,10 @@ const journey = () => {
 journey();
 
 
-/* 	generator: https://www.phind.com/agent?cache=cln0bq31a0027jz08b4dc5qrh	
-		prompt: 
+/* 	generator: https://www.phind.com/agent?cache=cln0bq31a0027jz08b4dc5qrh
+		prompt:
 	can you write a puzzling and sophisticated poem in JavaScript
-		that is shorter than 41 lines?  
+		that is shorter than 41 lines?
 	The variable names, comments and formatting should help tell the story
 */
 

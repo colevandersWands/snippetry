@@ -30,7 +30,7 @@ const snippets = snippetFileNames.map((name, i) => ({
 
 // ---------- find tags for each snippets ----------
 
-const tagsRegex = /(\(|\/\/|<!\-\-|\/\*)[\s]*tags[\s]*:/gi;
+const tagsRegex = /(\(|\/\/|<!\-\-|\/\*|\#)[\s]*tags[\s]*:/gi;
 for (const snippet of snippets) {
   snippet.tags = snippet.code
     .split('\n')
