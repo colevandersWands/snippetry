@@ -1,9 +1,10 @@
+import { CodeJar } from './lib/codejar.min.js';
+import { evaluate } from './lib/scheme-dot-json.js';
+
 import { REPO, SEPARATOR, HREF } from './src/CONSTANTS.js';
 import { state } from './src/state.js';
 
 import { copyCode, filterList, newTabHTML, runCode } from './src/utils/index.js';
-
-import { CodeJar } from './lib/codejar.min.js';
 
 // ----- (re)render snippets -----
 
@@ -61,7 +62,11 @@ const renderSnippet = (snippet) => {
           <button class='new-tab-svg'>new tab</button>
       |`
           : snippet.name.endsWith('json')
-          ? `<button class='log-json'>log</button>
+          ? `${
+              snippet.name.endsWith('scm.json')
+                ? '<button class="run-json">run</button> '
+                : ''
+            }<button class='log-json'>log</button>
       |`
           : snippet.name.endsWith('txt')
           ? `<button class='logger'>log</button>
@@ -397,6 +402,11 @@ for (const snippet of state.snippets) {
     snippet.root
       .getElementsByClassName('log-json')[0]
       .addEventListener('click', () => console.log(JSON.parse(snippet.code)));
+    if (snippet.name.endsWith('scm.json')) {
+      snippet.root
+        .getElementsByClassName('run-json')[0]
+        .addEventListener('click', () => evaluate(JSON.parse(snippet.code)));
+    }
   }
 
   snippet.root

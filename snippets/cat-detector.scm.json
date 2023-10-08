@@ -1,0 +1,11 @@
+[["define", "maybe a cat",
+    ["log", "%cthis may or may not be a cat:", "font-style: italic",
+      ["prompt", "please enter 'cat'"]]],
+  ["alert",
+    ["if",
+      ["=", "maybe a cat", null],
+      "fine, give up",
+      ["if",
+        ["=", "maybe a cat", "cat"],
+        "thank you for the cat",
+        ["+", "'", "maybe a cat", "' is not a cat"]]]]]
