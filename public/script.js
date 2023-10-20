@@ -1,5 +1,5 @@
 import { CodeJar } from './lib/codejar.min.js';
-import { evaluate } from './lib/scheme-dot-json.js';
+import { evaluate } from './lib/scheme-dot-json/index.js';
 
 import { REPO, SEPARATOR, HREF } from './src/CONSTANTS.js';
 import { state } from './src/state.js';
@@ -10,7 +10,7 @@ import { copyCode, filterList, newTabHTML, runCode } from './src/utils/index.js'
 
 const renderCode = (snippet) => {
   const containerHighlight = document.createElement('div');
-  containerHighlight.innerHTML = `<pre class="editor language-${
+  containerHighlight.innerHTML = `<pre class="editor"><code class="language-${
     snippet.name.includes('.txt')
       ? 'txt'
       : snippet.name.endsWith('js')
@@ -21,6 +21,8 @@ const renderCode = (snippet) => {
       ? 'html'
       : snippet.name.endsWith('css')
       ? 'css'
+      : snippet.name.endsWith('scm.json')
+      ? 'scmjson rainbow-braces'
       : snippet.name.endsWith('json')
       ? 'json'
       : snippet.name.endsWith('yaml')
@@ -28,10 +30,11 @@ const renderCode = (snippet) => {
       : snippet.name.endsWith('py')
       ? 'python'
       : 'txt'
-  }"><code></code></pre>`;
+  } match-braces"></code></pre>`;
+
   containerHighlight.firstChild.firstChild.textContent = snippet.code;
 
-  Prism.highlightElement(containerHighlight.firstChild);
+  Prism.highlightElement(containerHighlight.firstChild.firstChild);
 
   return { containerHighlight };
 };
@@ -154,17 +157,19 @@ const replaceWithEditor = (snippet) => {
   snippet.originalCode = snippet.code;
 
   snippet.containerEditor = document.createElement('pre');
+  snippet.containerEditor.appendChild(document.createElement('code'))
+
   if (snippet.name.endsWith('js')) {
-    snippet.containerEditor.className = `editor language-${
+    snippet.containerEditor.className = `editor match-braces language-${
       snippet.name.includes('.txt') ? 'txt' : 'js'
     }`;
-    snippet.jar = CodeJar(snippet.containerEditor, highlight, {
+    snippet.jar = CodeJar(snippet.containerEditor.firstChild, highlight, {
       tab: '\t',
       indentOn: /[(\[\{]$/,
     });
   } else if (snippet.name.includes('.txt')) {
-    snippet.containerEditor.className = 'editor language-text';
-    snippet.jar = CodeJar(snippet.containerEditor, () => {}, {
+    snippet.containerEditor.className = 'editor match-braces language-text';
+    snippet.jar = CodeJar(snippet.containerEditor.firstChild, () => {}, {
       tab: '\t',
     });
   } else if (
@@ -172,33 +177,38 @@ const replaceWithEditor = (snippet) => {
     snippet.name.endsWith('.htm') ||
     snippet.name.endsWith('.svg')
   ) {
-    snippet.containerEditor.className = 'editor language-html';
-    snippet.jar = CodeJar(snippet.containerEditor, highlight, {
+    snippet.containerEditor.className = 'editor match-braces language-html';
+    snippet.jar = CodeJar(snippet.containerEditor.firstChild, highlight, {
       tab: '\t',
     });
   } else if (snippet.name.endsWith('.css')) {
-    snippet.containerEditor.className = 'editor language-css';
-    snippet.jar = CodeJar(snippet.containerEditor, highlight, {
+    snippet.containerEditor.className = 'editor match-braces language-css';
+    snippet.jar = CodeJar(snippet.containerEditor.firstChild, highlight, {
       tab: '\t',
     });
   } else if (snippet.name.endsWith('.json')) {
-    snippet.containerEditor.className = 'editor language-js';
-    snippet.jar = CodeJar(snippet.containerEditor, highlight, {
+    if (snippet.name.endsWith('.scm.json')) {
+      snippet.containerEditor.className +=
+        'editor language-scmjson match-braces rainbow-braces';
+    } else {
+      snippet.containerEditor.className = 'editor language-json match-braces';
+    }
+    snippet.jar = CodeJar(snippet.containerEditor.firstChild, highlight, {
       tab: '\t',
     });
   } else if (snippet.name.endsWith('.yaml')) {
-    snippet.containerEditor.className = 'editor language-yaml';
-    snippet.jar = CodeJar(snippet.containerEditor, highlight, {
+    snippet.containerEditor.className = 'editor match-braces language-yaml';
+    snippet.jar = CodeJar(snippet.containerEditor.firstChild, highlight, {
       tab: '\t',
     });
   } else if (snippet.name.endsWith('.py')) {
-    snippet.containerEditor.className = 'editor language-python';
-    snippet.jar = CodeJar(snippet.containerEditor, highlight, {
+    snippet.containerEditor.className = 'editor match-braces language-python';
+    snippet.jar = CodeJar(snippet.containerEditor.firstChild, highlight, {
       tab: 's',
     });
   } else {
-    snippet.containerEditor.className = 'editor language-text';
-    snippet.jar = CodeJar(snippet.containerEditor, () => {}, {
+    snippet.containerEditor.className = 'editor match-braces language-text';
+    snippet.jar = CodeJar(snippet.containerEditor.firstChild, () => {}, {
       tab: '\t',
     });
   }

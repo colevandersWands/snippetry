@@ -24,3 +24,5 @@ export const togglog = ({ write = true, out = console.log, label = null } = {}) 
 export default togglog;
 
 // tags: minibrary
+
+
