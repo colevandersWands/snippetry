@@ -18,7 +18,7 @@ console.log(...reals);
 async function addBetween(set) {
   return function addingBetween(left, right) {
     const middle = new Element((left.getValue() + right.getValue()) / 2);
-    if (!set.has(middle)) {
+      if (!set.has(middle)) {
       set.add(middle);
       addingBetween(left, middle);
       addingBetween(middle, right);
