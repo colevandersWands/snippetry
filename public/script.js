@@ -13,6 +13,8 @@ const renderCode = (snippet) => {
   containerHighlight.innerHTML = `<pre class="editor"><code class="language-${
     snippet.name.includes('.txt')
       ? 'txt'
+      : snippet.name.endsWith('scm.js')
+      ? 'js rainbow-braces'
       : snippet.name.endsWith('js')
       ? 'js'
       : snippet.name.endsWith('html') ||
@@ -157,7 +159,7 @@ const replaceWithEditor = (snippet) => {
   snippet.originalCode = snippet.code;
 
   snippet.containerEditor = document.createElement('pre');
-  snippet.containerEditor.appendChild(document.createElement('code'))
+  snippet.containerEditor.appendChild(document.createElement('code'));
 
   if (snippet.name.endsWith('js')) {
     snippet.containerEditor.className = `editor match-braces language-${
@@ -186,13 +188,13 @@ const replaceWithEditor = (snippet) => {
     snippet.jar = CodeJar(snippet.containerEditor.firstChild, highlight, {
       tab: '\t',
     });
+  } else if (snippet.name.endsWith('.scm.json')) {
+    snippet.containerEditor.className = 'editor language-scmjson match-braces';
+    snippet.jar = CodeJar(snippet.containerEditor.firstChild, highlight, {
+      tab: '\t',
+    });
   } else if (snippet.name.endsWith('.json')) {
-    if (snippet.name.endsWith('.scm.json')) {
-      snippet.containerEditor.className +=
-        'editor language-scmjson match-braces rainbow-braces';
-    } else {
-      snippet.containerEditor.className = 'editor language-json match-braces';
-    }
+    snippet.containerEditor.className = 'editor language-json match-braces';
     snippet.jar = CodeJar(snippet.containerEditor.firstChild, highlight, {
       tab: '\t',
     });
@@ -212,6 +214,12 @@ const replaceWithEditor = (snippet) => {
       tab: '\t',
     });
   }
+
+  if (snippet.name.includes('.scm')) {
+    snippet.containerEditor.className +=
+      'rainbow-braces';
+  }
+
   snippet.jar.updateCode(snippet.originalCode);
 
   Object.defineProperty(snippet, 'code', {
@@ -472,7 +480,7 @@ filterSnippets();
 const docSearchQueries = Reflect.ownKeys(window);
 document
   .getElementById('mdn-potluck')
-  .addEventListener('click', function randomMDNPotluck(e) {
+  .addEventListener('click', function MDNPotluck(e) {
     e.preventDefault();
     const randomDocsQuery =
       docSearchQueries[Math.floor(Math.random() * docSearchQueries.length)];

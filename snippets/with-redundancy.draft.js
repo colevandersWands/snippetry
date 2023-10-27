@@ -1,3 +1,3 @@
-with (window){
-  alert(prompt('') || '');
+with (window) {
+  alert(prompt(''));
 }

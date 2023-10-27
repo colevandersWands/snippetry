@@ -1,6 +1,5 @@
 // for funsole
 
-// prettier-ignore
 export const emoj = (text = '') => {
   if (typeof text != 'string') console.log(text);
   else console.log( Object.entries({

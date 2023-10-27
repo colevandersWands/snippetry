@@ -1,0 +1,13 @@
+("define", ("get a cat", "message"),
+  (("define", "maybe", ("*log", "prompt", "message")),
+  ("cond",
+    (("=", "maybe", null),
+      (("alert", "there is no escape"), ("get a cat", "message"))),
+    (("not", ("=", "maybe", "cat")),
+      (("alert", ("+", "'", "maybe", "' is not cat")), ("get a cat", "message"))),
+    ("else", ("maybe")))));
+
+("get a cat", "'cat' please");
+
+("alert", "thank you for the cat");
+

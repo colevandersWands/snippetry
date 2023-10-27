@@ -3,7 +3,6 @@
 // ? testing quines ?
 
 // from beautify javascript
-// prettier-ignore
 (function f() { console.log('(' + f.toString() + ')()') })()
 
 ;
@@ -24,7 +23,6 @@ function quine() {
 
 // ---- from other sources ----
 
-// prettier-ignore
 { // !! evaluates to itself, not logs itself
   // https://ethmcc.github.io/a-javascript-quine/
   $=_=>`$=${$};$()`;$()
@@ -34,7 +32,6 @@ function quine() {
   func=_=>`func=${func};func();`;func();
 }
 
-// prettier-ignore
 {
   // https://josephpetitti.com/blog/quines-in-javascript
   s=console.log;r=x=>x.replace(/\\/g,"\\\\").replace(/"/g,"\\\"");u="s(\"s=console.log;r=\"+r+\";u=\\\"\"+r(u)+\"\\\";\"+u);";s("s=console.log;r="+r+";u=\""+r(u)+"\";"+u);
@@ -42,7 +39,6 @@ function quine() {
   r=x=>console.log(`r=${r};r()`);r()
 }
 
-// prettier-ignore
 {
   // https://gist.github.com/cowboy/6966747ad374fb97b0ab
   //  enter, non-weak quines

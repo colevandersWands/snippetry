@@ -2,7 +2,7 @@ export const togglog = ({ write = true, out = console.log, label = null } = {}) 
   const log = (...things) => {
     if (label !== null) things.unshift(label);
     if (write) out(...things);
-    return things.pop();
+    return things.at(-1);
   };
 
   Object.defineProperties(log, {
