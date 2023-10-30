@@ -3,10 +3,13 @@
   `only implement `define`, everything else is dev-provided
 */
 
+export const compile = (...args) => [...args];
+const run = () => {};
+
 // --- operator signature spering
 
 // at "compile time", args are closed, at "runtime", run is passed.  to be used or ignored
-const operator = (...args) => (run) => {};
+const operator = (run, ...args) => {};
 
 // --- library drafting
 

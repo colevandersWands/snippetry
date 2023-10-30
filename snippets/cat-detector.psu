@@ -1,0 +1,8 @@
+maybe <- null
+
+WHILE maybe IS NOT "cat"
+  maybe <- INPUT "cat please"
+  DISPLAY helpful feedback
+END WHILE
+
+DISPLAY "thank you for the cat"

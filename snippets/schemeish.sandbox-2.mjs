@@ -1,6 +1,6 @@
 import schemeish, { define, eq, cond, plus, otherwise, not } from './schemeish.draft.mjs';
 
-const { compile: _, runCompiled } = schemeish();
+const { compile: _, run } = schemeish();
 
 const program = _(
   _(define, _('$getACat', '$message'),
@@ -18,5 +18,6 @@ const program = _(
   _(alert, 'thank you for the cat')
 );
 
+console.log(program);
 
-runCompiled(program);
+// run(program);

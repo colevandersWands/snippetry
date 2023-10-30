@@ -1,0 +1,1 @@
+while (prompt('hello') !== 'world');

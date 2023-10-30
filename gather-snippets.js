@@ -7,7 +7,7 @@ const SNIPPETS_ROOT = join('snippets');
 
 const PUBLIC_SNIPPETS = join('public', 'snippets.json');
 
-const KEEP = ['.js', '.mjs', '.html', '.css', '.txt', '.svg', '.json', '.py', '.yaml'];
+const KEEP = ['.js', '.mjs', '.html', '.css', '.txt', '.svg', '.json', '.py', '.yaml', '.psu'];
 
 const IGNORE = ['.draft', '.sandbox', '.spec', 'lenses.json'];
 

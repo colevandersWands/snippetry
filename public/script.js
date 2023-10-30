@@ -31,6 +31,8 @@ const renderCode = (snippet) => {
       ? 'yaml'
       : snippet.name.endsWith('py')
       ? 'python'
+      : snippet.name.endsWith('psu')
+      ? 'psu'
       : 'txt'
   } match-braces"></code></pre>`;
 
@@ -50,7 +52,7 @@ const renderSnippet = (snippet) => {
   <div class="down">
     <span class="danger-zone hidden">
       ${
-        snippet.name.endsWith('js')
+        snippet.name.endsWith('js') || snippet.name.endsWith('psu')
           ? `<button class='runner'>run</button>
       <button class='debugger'>debug</button>
       |`
@@ -174,6 +176,12 @@ const replaceWithEditor = (snippet) => {
     snippet.jar = CodeJar(snippet.containerEditor.firstChild, () => {}, {
       tab: '\t',
     });
+  } else if (snippet.name.endsWith('.psu')) {
+    snippet.containerEditor.className = 'editor match-braces language-psu';
+    snippet.containerEditor.firstChild.className += ' language-psu';
+    snippet.jar = CodeJar(snippet.containerEditor.firstChild, () => {}, {
+      tab: '\t',
+    });
   } else if (
     snippet.name.endsWith('.html') ||
     snippet.name.endsWith('.htm') ||
@@ -216,8 +224,7 @@ const replaceWithEditor = (snippet) => {
   }
 
   if (snippet.name.includes('.scm')) {
-    snippet.containerEditor.className +=
-      'rainbow-braces';
+    snippet.containerEditor.className += 'rainbow-braces';
   }
 
   snippet.jar.updateCode(snippet.originalCode);
@@ -311,7 +318,18 @@ for (const snippet of snippetsToRender) {
 }
 
 for (const snippet of state.snippets) {
-  if (snippet.name.endsWith('js')) {
+  if (snippet.name.endsWith('psu')) {
+    snippet.root
+      .getElementsByClassName('runner')[0]
+      .addEventListener('click', function run() {
+        eval(snippet.code);
+      });
+    snippet.root
+      .getElementsByClassName('debugger')[0]
+      .addEventListener('click', function debug() {
+        eval(`debugger;\n\n${snippet.code}\n\ndebugger;`);
+      });
+  } else if (snippet.name.endsWith('js')) {
     snippet.root
       .getElementsByClassName('runner')[0]
       .addEventListener('click', function run() {
@@ -478,14 +496,12 @@ filterSnippets();
 // --- MDN Potluck ---
 
 const docSearchQueries = Reflect.ownKeys(window);
-document
-  .getElementById('mdn-potluck')
-  .addEventListener('click', function MDNPotluck(e) {
-    e.preventDefault();
-    const randomDocsQuery =
-      docSearchQueries[Math.floor(Math.random() * docSearchQueries.length)];
-    window.open(
-      `https://developer.mozilla.org/en-US/search?q=${randomDocsQuery}`,
-      '_blank',
-    );
-  });
+document.getElementById('mdn-potluck').addEventListener('click', function MDNPotluck(e) {
+  e.preventDefault();
+  const randomDocsQuery =
+    docSearchQueries[Math.floor(Math.random() * docSearchQueries.length)];
+  window.open(
+    `https://developer.mozilla.org/en-US/search?q=${randomDocsQuery}`,
+    '_blank',
+  );
+});

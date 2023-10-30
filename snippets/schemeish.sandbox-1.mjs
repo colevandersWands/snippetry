@@ -1,6 +1,6 @@
 import schemeish, { define, eq, cond, plus, otherwise, not } from './schemeish.draft.mjs';
 
-const { runCompiled } = schemeish();
+const { run } = schemeish();
 
 const program = [
   [define, ['$getACat', '$message'],
@@ -19,4 +19,4 @@ const program = [
 
 console.log(program())
 
-runCompiled(program);
+run(program);

@@ -21,6 +21,12 @@ pre[class*='language-'] {
   -ms-hyphens: none;
   hyphens: none;
 }
+code[class*='language-psu'],
+pre[class*='language-psu'] {
+  font-family: 'Courier New', Courier, monospace;
+  line-height: 1em;
+  font-size: 0.95em;
+}
 code[class*='language-'] ::-moz-selection,
 code[class*='language-']::-moz-selection,
 pre[class*='language-'] ::-moz-selection,
