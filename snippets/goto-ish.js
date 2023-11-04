@@ -8,3 +8,5 @@ compliment: {
   if (!wants_a_compliment) break compliment;
   alert('well done, good work');
 }
+
+// tags: the fun parts

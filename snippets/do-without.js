@@ -6,4 +6,4 @@ do {
   }
 } while (null);
 
-// tags: wuzzle
+// tags: wuzzle, the fun parts

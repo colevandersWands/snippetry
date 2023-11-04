@@ -38,4 +38,4 @@ import('./projector.mjs').then(({ projector }) => {
   }
 });
 
-// tags: sketch, reel
+// tags: sketch, reel, the fun parts

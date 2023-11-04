@@ -9,7 +9,7 @@ const PUBLIC_SNIPPETS = join('public', 'snippets.json');
 
 const KEEP = ['.js', '.mjs', '.html', '.css', '.txt', '.svg', '.json', '.py', '.yaml', '.psu'];
 
-const IGNORE = ['.draft', '.sandbox', '.spec', 'lenses.json'];
+const IGNORE = ['.draft', '.sandbox', '.notes', '.spec', 'lenses.json'];
 
 // ---------- build array of snippet objects ----------
 
