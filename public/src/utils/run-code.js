@@ -35,7 +35,7 @@ export const runCode = (snippet = {}, debug = false) => {
     evaller.contentWindow.console.assert = assert;
 
     const script = document.createElement('script');
-    if (snippet.name.endsWith('.mjs')) {
+    if (snippet.name.includes('.mjs')) {
       script.type = 'module';
     }
     script.innerHTML = finalCode;

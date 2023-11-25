@@ -1,0 +1,39 @@
+<title>cat detector</title>
+
+<style>
+  .computery {
+    font-family: monospace;
+    color: chartreuse;
+    background-color: black;
+    height: 10em;
+    width: 10em;
+  }
+</style>
+
+<input id="catext" type="text" placeholder="cat, please." />
+
+<pre id="detection" class="computery"></pre>
+
+<script>
+  const CAT = ` 
+   .       .
+   |\\_---_/|
+  /   o o   \\
+  |    U    |
+  \\  ._I_.  /
+   '-_____-'`;
+   
+  const NOT_CAT = `
+    \\ \\  / /
+     \\ \\/ /
+      \\  /
+      /  \\
+     / /\\ \\
+    / /  \\ \\`;
+
+  catext.addEventListener('input', () =>
+    catext.value.toLowerCase() === 'cat'
+      ? (detection.innerText = CAT)
+      : (detection.innerText = NOT_CAT),
+  );
+</script>

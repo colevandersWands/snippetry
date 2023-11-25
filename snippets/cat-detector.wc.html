@@ -1,0 +1,9 @@
+<title>cat detector</title>
+
+<cat-detector></cat-detector>
+
+<script type="module">
+  import { detectorFactory } from './detector-factory.mjs';
+
+  customElements.define('cat-detector', detectorFactory('cat'));
+</script>

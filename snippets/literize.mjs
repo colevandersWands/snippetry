@@ -6,10 +6,10 @@ export const literize = (fn, argsFormat) => {
   return {
     [literateFunctionName]: (_, ...args) => {
       if (Array.isArray(argsFormat) && argsFormat.every((i) => typeof i === 'string')) {
-				const keyed = {}
-				for (let i = 0; i < argsFormat.length; i++) {
-					keyed[argsFormat[i]] = args[i]
-				}
+        const keyed = {};
+        for (let i = 0; i < argsFormat.length; i++) {
+          keyed[argsFormat[i]] = args[i];
+        }
         return fn(keyed);
       } else if (
         Array.isArray(argsFormat) &&

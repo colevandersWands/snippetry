@@ -1,0 +1,22 @@
+<svg width="350" height="200" xmlns="http://www.w3.org/2000/svg">
+  <!-- <text>
+    This is
+    <tspan font-weight="bold" fill="red">bold and red</tspan>
+    <tspan font-weight="bold" fill="red" dy="2em">bold and red</tspan>
+  </text> -->
+
+  <text x="0" y="0" font-size="20" dy="0">
+    <tspan x="0" dy=".6em">tspan line 1</tspan>
+    <tspan x="0" dy="1.2em">tspan line 2</tspan>
+    <tspan x="0" dy="1.2em">tspan line 3</tspan>
+  </text>
+
+  <style>
+    <![CDATA[
+      text{
+        dominant-baseline: hanging;
+        font: 28px Verdana, Helvetica, Arial, sans-serif;
+      }
+    ]]>
+  </style>
+</svg>

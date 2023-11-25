@@ -1,0 +1,30 @@
+<cat-detector></cat-detector>
+
+<script>
+  class CatDetector extends HTMLElement {
+    constructor() {
+      super();
+
+      const input = document.createElement('input');
+      input.placeholder = 'cat';
+      input.style.width = '2em';
+      input.addEventListener('input', () => {
+        const length = input.value.length;
+        const value = input.value;
+        if (
+          length === 0 ||
+          length > 3 ||
+          (length === 1 && value.toLowerCase() !== 'c') ||
+          (length === 2 && value.toLowerCase() !== 'ca') ||
+          (length === 3 && value.toLowerCase() !== 'cat')
+        ) {
+          input.value = '';
+        }
+      });
+
+      this.appendChild(input);
+    }
+  }
+
+  customElements.define('cat-detector', CatDetector);
+</script>
