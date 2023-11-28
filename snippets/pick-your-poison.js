@@ -1,6 +1,4 @@
-const poison = confirm(
-  'Pick Your Poison.\n\n- Iteration: [ok]\n- Recursion: [cancel]',
-)
+const poison = confirm('Pick Your Poison.\n\n- Iteration: [ok]\n- Recursion: [cancel]')
   ? 'iterate'
   : 'recurse';
 
@@ -22,3 +20,5 @@ if (poison === 'iterate') {
     const id = setInterval(() => (console.log(id), exponterval()));
   })();
 }
+
+// tags: wuzzle

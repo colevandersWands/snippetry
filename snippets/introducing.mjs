@@ -5,7 +5,7 @@ export const introducing = (name = '', voiceConfig = {}) => {
     [name]: (text = '', speakConfig = {}) => {
       console.log(`%c${name}%c: ${text}`, 'font-style: italic;', '');
 
-      const utteranceConfig = Object.assign({}, voiceConfig, speaker[name], speakConfig);
+      const utteranceConfig = Object.assign({}, voiceConfig, speaker, speakConfig);
       if (utteranceConfig?.voice) {
         utteranceConfig.voice = speechSynthesis
           .getVoices()
@@ -21,8 +21,15 @@ export const introducing = (name = '', voiceConfig = {}) => {
         speechSynthesis.speak(utterance);
       });
     },
-  };
-  return speaker[name];
+  }[name];
+
+  speaker.recite = async (textPath = '') =>
+    fetch(textPath)
+      .then((res) => res.text())
+      .then(speaker)
+      .catch(console.error);
+
+  return speaker;
 };
 
 export const theArrivalOf = async (name = '', voiceConfig = {}, delay = 200) => {

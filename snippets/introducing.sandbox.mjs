@@ -1,6 +1,8 @@
-import introducing from './introducing.mjs';
+import { introducing, theArrivalOf } from './introducing.mjs';
 
 const Robert = introducing('Robert Fletcher');
+
+console.log(Robert.recite);
 
 console.log(Robert.name);
 
@@ -20,3 +22,9 @@ setTimeout(() => {
   Robert.voice = 'Fiona';
   Robert('as Fiona', { pitch: 1, rate: 1 });
 }, 50);
+
+await Robert.recite('./be.nl.txt');
+
+theArrivalOf('Pierre', { voice: 'Organ' }, 1000).then((Pierre) => Pierre('hello'));
+
+console.log('done');

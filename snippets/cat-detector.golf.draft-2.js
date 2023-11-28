@@ -1,0 +1,1 @@
+p=()=>i=prompt('"cat" please');for(p();!(i?.toLowerCase()=='cat'?(alert(`thank you for the ${i}`),1):alert(`"${i}" is not "cat"`));p());
