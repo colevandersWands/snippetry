@@ -333,8 +333,15 @@ const renderSnippet = (snippet, delay = 0) => {
   }, delay);
 };
 
+const snips = document.getElementsByTagName('TEXTAREA');
 const filterSnippets = () => {
   const ignoreTags = state.tags.every((tag) => !tag.selected);
+
+  if (!ignoreTags || state.query !== '') {
+    for (const snip of snips) snip.style.display = 'none';
+  } else {
+    for (const snip of snips) snip.style.display = 'block';
+  }
 
   for (const snippet of state.snippets) {
     const tagsAreSelected =

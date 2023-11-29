@@ -1,39 +1,42 @@
-export default function turtlje(c = document.createElement('canvas')) {
+export const turtlje = (c = document.createElement('canvas')) => {
   c = typeof c === 'string' ? document.getElementById(c) : c;
   const pad = c.getContext('2d');
-
-  const s = { col: 'black', width: 1, deg: 0, x: c.width / 2, y: c.height / 2 };
-
+  const state = { col: 'black', width: 1, deg: 0, x: c.width / 2, y: c.height / 2 };
   const turtle = {
     backward: (pixels) => forward(-pixels),
-    color: (col) => ((s.col = col), turtle),
-    dot: (diameter) => (
-      pad.beginPath(),
-      pad.arc(s.x, s.y, diameter / 2, 0, 2 * Math.PI),
-      (pad.fillStyle = s.col),
-      (pad.lineWidth = s.width),
-      pad.fill(),
-      turtle
-    ),
-    forward: (pixels) => (
-      pad.beginPath(),
-      pad.moveTo(s.x, s.y),
-      pad.lineTo(
-        (s.x += -Math.cos((s.deg / 180) * Math.PI) * pixels),
-        (s.y += -Math.sin((s.deg / 180) * Math.PI) * pixels),
-      ),
-      (pad.strokeStyle = s.col),
-      (pad.lineWidth = s.width),
-      pad.stroke(),
-      turtle
-    ),
-    goto: (x, y) => ((s.x = x + c.width / 2), (s.y = y + c.height / 2), turtle),
+    color: (col) => ((state.col = col), turtle),
+    dot: (diameter) => {
+      pad.beginPath();
+      pad.arc(state.x, state.y, diameter / 2, 0, 2 * Math.PI);
+      pad.fillStyle = state.col;
+      pad.lineWidth = state.width;
+      pad.fill();
+      return turtle; },
+    forward: (pixels) => {
+      pad.beginPath();
+      pad.moveTo(state.x, state.y);
+      state.x += -Math.cos((state.deg / 180) * Math.PI) * pixels;
+      state.y += -Math.sin((state.deg / 180) * Math.PI) * pixels;
+      pad.lineTo(state.x, state.y);
+      pad.strokeStyle = state.col;
+      pad.lineWidth = state.width;
+      pad.stroke();
+      return turtle; },
+    goto: (x, y) => {
+      state.x = x + c.width / 2;
+      state.y = y + c.height / 2;
+      return turtle; },
     left: (deg) => turtle.right(-deg),
-    right: (deg) => ((s.deg = (deg + s.deg) % 360), turtle),
-    width: (pixels) => ((s.width = pixels), turtle),
+    right: (deg) => {
+      state.deg = (deg + state.deg) % 360;
+      return turtle; },
+    width: (pixels) => {
+      state.width = pixels;
+      return turtle; },
   };
+  return { _pad: pad, _state: state, ...turtle };
+};
 
-  return { ...turtle, state: s, pad };
-}
+export default turtlje;
 
 // tags: minibrary

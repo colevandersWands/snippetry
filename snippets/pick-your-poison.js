@@ -1,4 +1,6 @@
-const poison = confirm('Pick Your Poison.\n\n- Iteration: [ok]\n- Recursion: [cancel]')
+const poison = confirm(`Pick Your Poison.
+- Iteration: [ok]
+- Recursion: [cancel]`)
   ? 'iterate'
   : 'recurse';
 
@@ -7,17 +9,20 @@ if (poison === 'iterate') {
     console.log(poison);
   }
 } else if (poison === 'recurse') {
-  (function bottomlessish() {
+  (function bottomless_ish() {
     console.log(poison);
     try {
-      bottomlessish();
+      bottomless_ish();
     } catch (_) {
-      bottomlessish();
+      bottomless_ish();
     }
   })();
 } else {
-  (function exponterval() {
-    const id = setInterval(() => (console.log(id), exponterval()));
+  (function nextInterval() {
+    const id = setInterval(() => {
+      console.log(id);
+      nextInterval();
+    });
   })();
 }
 

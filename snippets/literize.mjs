@@ -3,7 +3,7 @@ export const literize = (fn, argsFormat) => {
     ? `literate${fn.name[0].toUpperCase() + fn.name.substr(1)}`
     : 'literateFunction';
 
-  return {
+  const literateFunction = {
     [literateFunctionName]: (_, ...args) => {
       if (Array.isArray(argsFormat) && argsFormat.every((i) => typeof i === 'string')) {
         const keyed = {};
@@ -30,6 +30,8 @@ export const literize = (fn, argsFormat) => {
       ß;
     },
   }[literateFunctionName];
+
+  return literateFunction;
 };
 
 export default literize;

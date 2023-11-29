@@ -1,45 +1,46 @@
-const AudioContext = window.AudioContext || window.webkitAudioContext;
+export const noises = (
+  audioContext = new (window.AudioContext || window.webkitAudioContext)(),
+) => {
+  const noise = {};
 
-export const noises = (audioContext) => {
-  const st = {};
-  st.oscillator = null;
-  st.audioCtx = audioContext || new AudioContext();
-  st.gainNode = st.audioCtx.createGain();
-  st.gainNode.connect(st.audioCtx.destination);
-  st.play = ({
-    frequency = 440,
-    volume = 1,
-    wave = 'sine',
-    delay = 0,
-  } = {}) => {
-    st.oscillator = st.audioCtx.createOscillator();
-    st.oscillator.connect(st.gainNode), st.frequency(frequency);
-    st.wave(wave), st.oscillator.start(delay / 1000);
-    st.volume(volume, delay / 1000);
-    return st;
+  noise.wave = (wave = 'sine') => {
+    noise.oscillator.type = wave;
+    return noise;
   };
-  st.stop = (d = 0) => {
-    st.gainNode.gain.setTargetAtTime(0.001, st.audioCtx.currentTime + d, 0.02);
-    return st.oscillator.stop(st.audioCtx.currentTime + d / 1000), st;
+  noise.volume = (val = 1, d = 0) => {
+    noise.gainNode.gain.setValueAtTime(val, noise.audioCtx.currentTime + d / 1000);
+    return noise;
   };
-  st.frequency = (val = 440, d = 0) => {
-    st?.oscillator.frequency.setValueAtTime(
-      val,
-      st.audioCtx.currentTime + d / 1000,
-    );
-    return st;
+  noise.frequency = (val = 440, d = 0) => {
+    noise.oscillator.frequency.setValueAtTime(val, noise.audioCtx.currentTime + d / 1000);
+    return noise;
   };
-  st.volume = (val = 1, d = 0) => (
-    st.gainNode.gain.setValueAtTime(val, st.audioCtx.currentTime + d / 1000), st
-  );
-  st.wave = (wave = 'sine') => ((st.oscillator.type = wave), st);
-  return st;
+  noise.play = ({ frequency = 440, volume = 1, wave = 'sine', delay = 0 } = {}) => {
+    noise.oscillator = noise.audioCtx.createOscillator();
+    noise.oscillator.connect(noise.gainNode);
+    noise.wave(wave);
+    noise.volume(volume, delay / 1000);
+    noise.frequency(frequency);
+    noise.oscillator.start(delay / 1000);
+    return noise;
+  };
+  noise.stop = (d = 0) => {
+    noise.oscillator.stop(noise.audioCtx.currentTime + d / 1000);
+    return noise;
+  };
+
+  noise.oscillator = null;
+  noise.audioCtx = audioContext;
+  noise.gainNode = noise.audioCtx.createGain();
+
+  noise.gainNode.connect(noise.audioCtx.destination);
+  return noise;
 };
 
 export default noises;
 
 // Original JavaScript code by Chirp Internet: www.chirpinternet.eu
-//  Please acknowledge use of st code by including this header.
+//  Please acknowledge use of noise code by including this header.
 // adapted from: https://www.the-art-of-web.com/javascript/creating-sounds/
 
 // tags: minibrary
