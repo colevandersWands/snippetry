@@ -1,0 +1,30 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" 
+     viewBox="0 0 442 196" width="442" height="196">
+
+  <g transform="translate(11 11) rotate(0 16 58)">
+    <path d="M1 1 C6 20, 28 96, 33 115" stroke="#000000"></path></g>
+  
+  <g transform="translate(10 12) rotate(0 37 29)">
+    <path d="M1 -1 C13 9, 59 48, 71 58" stroke="#000000"></path></g>
+  
+  <g transform="translate(82 72) rotate(0 -19 27)">
+    <path d="M-1 -1 C-8 9, -33 46, -39 56" stroke="#000000"></path></g>
+  
+  <g transform="translate(84 77) rotate(4 108 -4)">
+    <path d="M-1 1 C27 -1, 122 -14, 158 -13 C195 -12, 208 3, 220 10" 
+          stroke="#000000" fill="none"></path></g>
+  
+  <g transform="translate(117 73) rotate(0 -8 17)">
+    <path d="M1 0 C-2 6, -14 29, -17 34" stroke="#000000"></path></g>
+  
+  <g transform="translate(140 73) rotate(0 -6 12)">
+    <path d="M-1 1 C-3 4, -10 19, -12 23" stroke="#000000"></path></g>
+  
+  <g transform="translate(171 69) rotate(0 -4 9)">
+    <path d="M-0 -1 C-2 2, -7 15, -9 18" stroke="#000000"></path></g>
+
+  <g transform="translate(257 65) rotate(0 87 33)">
+    <path d="M-2 1 C10 -8, 47 -66, 69 -53 C90 -40, 108 52, 126 81 C144 110, 167 114, 175 121" 
+          stroke="#000000" fill="none"></path></g>
+    
+</svg>
