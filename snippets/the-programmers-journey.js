@@ -41,13 +41,18 @@ const journey = () => {
 journey();
 
 /*
-  This poem tells the story of a programmer on a quest to solve a riddle hidden within the code.
-  Along the way, they encounter obstacles in the form of syntax errors and bugs.
-  With determination and debugging skills, they overcome these challenges and reach the final test.
-  The poem captures the essence of the coding journey, where perseverance and problem-solving lead to victory.
+  This poem tells the story of a programmer on a quest 
+    to solve a riddle hidden within the code.
+  Along the way, they encounter obstacles in the form of 
+    syntax errors and bugs.
+  With determination and debugging skills, 
+    they overcome these challenges and reach the final test.
+  The poem captures the essence of the coding journey, 
+    where perseverance and problem-solving lead to victory.
 
 	I hope you enjoyed this puzzling and sophisticated JavaScript poem!
-  Let me know if you have any questions or if there's anything else I can assist you with.
+  Let me know if you have any questions 
+    or if there's anything else I can assist you with.
 */
 
 // https://www.phind.com/agent?cache=cln0bq31a0027jz08b4dc5qrh

@@ -1,19 +1,14 @@
-export const deepCompare = (actual, expect) => {
-  return (
-    actual === expect ||
-    Object.is(actual, expect) ||
-    (Object(actual) === actual &&
-      Object(expect) === expect &&
-      ((Array.isArray(actual) &&
-        Array.isArray(expect) &&
-        actual.length === expect.length &&
-        expect.every((expect, index) => deepCompare(actual[index], expect))) ||
-        (Object.keys(actual).length === Object.keys(expect).length &&
-          Object.keys(expect).every((key) =>
-            deepCompare(actual[key], expect[key]),
-          ))))
-  );
-};
+export const deepCompare = (actual, expected) =>
+  actual === expected ||
+  Object.is(actual, expected) ||
+  (Object(actual) === actual &&
+    Object(expected) === expected &&
+    ((Array.isArray(actual) &&
+      Array.isArray(expected) &&
+      actual.length === expected.length &&
+      expected.every((expected, index) => deepCompare(actual[index], expected))) ||
+      (Object.keys(actual).length === Object.keys(expected).length &&
+        Object.keys(expected).every((key) => deepCompare(actual[key], expected[key])))));
 
 export default deepCompare;
 

@@ -14,6 +14,12 @@ import {
   renderMarkdown,
 } from './src/utils/index.js';
 
+let counted = 0;
+const counterval = setInterval(function countingSnippets() {
+  document.title = 'Snippetry #' + counted;
+  if (++counted > state.snippets.length) clearInterval(counterval);
+}, 1000);
+
 // ----- (re)render snippets -----
 
 const renderCode = (snippet) => {
@@ -57,6 +63,8 @@ const renderCode = (snippet) => {
       ? 'markdown'
       : snippet.name.endsWith('psu')
       ? 'psu'
+      : snippet.name.endsWith('.sh')
+      ? 'bash'
       : 'txt'
   } match-braces"></code></pre>`;
 
@@ -322,6 +330,7 @@ const renderSnippet = (snippet, delay = 0) => {
     snippet.root
       .getElementsByClassName('editoringer')[0]
       .addEventListener('click', (e) => {
+        // why no highlight for language-bash?
         if (editable) {
           snippet.jar.updateCode(snippet.originalCode);
         } else {
@@ -333,7 +342,7 @@ const renderSnippet = (snippet, delay = 0) => {
   }, delay);
 };
 
-const snips = document.getElementsByTagName('TEXTAREA');
+const snips = document.getElementsByClassName('snip');
 const filterSnippets = () => {
   const ignoreTags = state.tags.every((tag) => !tag.selected);
 
@@ -381,6 +390,7 @@ const filterSnippets = () => {
 const highlight = (editor) => {
   // highlight.js does not trims old tags,
   // let's do it by this hack.
+  console.log(editor)
   editor.textContent = editor.textContent;
   Prism.highlightElement(editor);
 };
@@ -401,6 +411,12 @@ const replaceWithEditor = (snippet) => {
     });
   } else if (snippet.name.includes('.txt')) {
     snippet.containerEditor.className = 'editor match-braces language-text';
+    snippet.jar = CodeJar(snippet.containerEditor.firstChild, () => {}, {
+      tab: '\t',
+    });
+  } else if (snippet.name.endsWith('.sh')) {
+    // why no highlight for language-bash?
+    snippet.containerEditor.className = 'editor match-braces language-bash';
     snippet.jar = CodeJar(snippet.containerEditor.firstChild, () => {}, {
       tab: '\t',
     });
@@ -523,7 +539,7 @@ const snippetsToRender = state.snippets
   .filter((snippet) => {
     if (snippet.name[0] === '.') {
       snippet.noLinks = true;
-      renderSnippet(snippet);
+      renderSnippet(snippet, 0);
       emptySnippets.push(snippet);
       return false;
     } else {
@@ -544,11 +560,12 @@ snippetsRoot.appendChild(
 for (const snippet of snippetsToRender) {
   renderSnippet(snippet, snippetsToRender.indexOf(snippet) * 2);
   snippetsRoot.appendChild(snippet.root);
-  if (postableSnips.length > 0 && Math.random() < 0.05) {
+
+  if (postableSnips.length > 0 && Math.random() < 0.1) {
     const snip = postableSnips[Math.floor(Math.random() * postableSnips.length)];
     postableSnips.splice(postableSnips.indexOf(snip), 1);
 
-    const snipEl = document.createElement('textarea');
+    const snipEl = document.createElement('TEXTAREA');
     snipEl.style = 'border: none; resize: none; overflow: hidden;';
     snipEl.value = snip;
     snipEl.rows = snip.split('\n').length;
@@ -556,7 +573,8 @@ for (const snippet of snippetsToRender) {
       .split('\n')
       .reduce((a, b) => (a.length < b.length ? b : a), '').length;
 
-    const snipWrapper = document.createElement('pre');
+    const snipWrapper = document.createElement('PRE');
+    snipWrapper.className = 'snip';
     snipWrapper.appendChild(snipEl);
     snippetsRoot.appendChild(snipWrapper);
   }

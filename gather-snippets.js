@@ -7,7 +7,20 @@ const SNIPPETS_ROOT = join('snippets');
 
 const PUBLIC_SNIPPETS = join('public', 'snippets.json');
 
-const KEEP = ['.js', '.mjs', '.html', '.css', '.txt', '.svg', '.json', '.py', '.yaml', '.psu', '.md'];
+const KEEP = [
+  '.js',
+  '.mjs',
+  '.html',
+  '.css',
+  '.txt',
+  '.svg',
+  '.json',
+  '.py',
+  '.yaml',
+  '.psu',
+  '.md',
+  '.sh',
+];
 
 const IGNORE = ['.draft', '.sandbox', '.notes', '.spec', 'lenses.json'];
 
@@ -17,10 +30,18 @@ const snippetFileNames = (await readdir(SNIPPETS_ROOT))
   .filter((item) => !IGNORE.some((ext) => item.includes(ext)))
   .filter((item) => KEEP.some((ext) => item.endsWith(ext)));
 
+const writingEmptyLanguageFiles = [];
+for (const extension of KEEP) {
+  if (!snippetFileNames.some((fileName) => fileName === extension)) {
+    writingEmptyLanguageFiles.push(
+      writeFile(join(SNIPPETS_ROOT, extension), '', 'utf-8'),
+    );
+  }
+}
+await Promise.all(writingEmptyLanguageFiles);
+
 const snippetCode = await Promise.all(
-  snippetFileNames.map((fileName) =>
-    readFile(join(SNIPPETS_ROOT, fileName), 'utf-8'),
-  ),
+  snippetFileNames.map((fileName) => readFile(join(SNIPPETS_ROOT, fileName), 'utf-8')),
 );
 
 const snippets = snippetFileNames.map((name, i) => ({
@@ -49,9 +70,7 @@ for (const snippet of snippets) {
 // ---------- compile meta-data ----------
 
 const tags = Array.from(
-  new Set(
-    snippets.flatMap((snippet) => snippet.tags.map((tag) => tag.toLowerCase())),
-  ),
+  new Set(snippets.flatMap((snippet) => snippet.tags.map((tag) => tag.toLowerCase()))),
 ).sort();
 
 // ---------- write snippet data to public folder ----------
