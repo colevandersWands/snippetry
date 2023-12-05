@@ -21,7 +21,7 @@ const lightning = `${`
           /'`}${Array(21).fill('\n').join('')}`;
 const ground = `___.-------._____/¯¯¯¯¯¯\`----,____`;
 
-const drop = () => (Math.random() < 0.2 ? ',' : ' ');
+const drop = () => (Math.random() < 0.2 ? '💧' : ' ');
 const row = () => [' ', ' ', ...Array(13).fill(' ').map(drop)];
 
 function* rainstorm(rain = Array(31).fill('').map(row)) {
