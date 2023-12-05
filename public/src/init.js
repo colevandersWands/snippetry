@@ -1,4 +1,6 @@
-import '../script.js'
+import '../script.js';
+
+import './comments.js';
 
 console.log(`
 Welcome to Snippetry!

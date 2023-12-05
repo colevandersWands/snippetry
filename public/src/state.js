@@ -1,10 +1,12 @@
 import { HREF } from './CONSTANTS.js';
 
-const [state, snips] = await Promise.all([
-  fetch('./public/snippets.json').then((res) => res.json()),
-  fetch('./public/snips.json').then((res) => res.json()),
+const [state, snips, comments] = await Promise.all([
+  fetch('./public/data/snippets.json').then((res) => res.json()),
+  fetch('./public/data/snips.json').then((res) => res.json()),
+  fetch('./public/data/comments.json').then((res) => res.json()),
 ]);
 
+state.comments = comments;
 state.snips = snips;
 
 // initialize tags

@@ -5,7 +5,7 @@ import { join } from 'path';
 
 const SNIPPETS_ROOT = join('snippets');
 
-const PUBLIC_SNIPPETS = join('public', 'snippets.json');
+const PUBLIC_SNIPPETS = join('public', 'data', 'snippets.json');
 
 const KEEP = [
   '.js',

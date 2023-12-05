@@ -5,7 +5,7 @@ import { join } from 'path';
 
 const SNIPS_LIVE_HERE = join('snips.txt');
 const SNIP_HERE = '-snip-';
-const PUBLIC_SNIPS = join('public', 'snips.json');
+const PUBLIC_SNIPS = join('public', 'data', 'snips.json');
 
 // ---------- build array of snips ----------
 
