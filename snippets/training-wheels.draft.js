@@ -1,7 +1,7 @@
 /*  abondoning draft
   makes more sense to accept a constructor like Array
   then wrap its prototype methods as static methods
-  -> namespace.mjs
+  -> demethod.mjs
 */
 
 (function trainingWheels() {

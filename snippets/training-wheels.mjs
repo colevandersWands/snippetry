@@ -1,10 +1,10 @@
-import { deMethod } from './de-method.mjs';
+import { demethod } from './demethod.mjs';
 
 // --- setup, could happen in a different file ---
 
-deMethod(String, { target: globalThis, prefix: '$str' });
-deMethod(Array, { target: globalThis, prefix: '$arr' });
-deMethod(console, { target: globalThis, statics: true });
+demethod(String, { target: globalThis, prefix: '$str' });
+demethod(Array, { target: globalThis, prefix: '$arr' });
+demethod(console, { target: globalThis, statics: true });
 
 // --- use the functioned methods ---
 

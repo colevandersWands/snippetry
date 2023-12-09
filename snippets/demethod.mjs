@@ -1,24 +1,24 @@
-export const deMethod = (
-  toDeMethod = {},
+export const demethod = (
+  toDemethod = {},
   { target = {}, statics = false, inherited = true, prefix = '' } = {},
 ) => {
-  if (Array.isArray(toDeMethod)) {
-    return toDeMethod.map((x) => deMethod(x, { target, statics, inherited, prefix }));
+  if (Array.isArray(toDemethod)) {
+    return toDemethod.map((x) => demethod(x, { target, statics, inherited, prefix }));
   }
 
-  const toBundle = [];
+  const toWrap = [];
   if (statics) {
-    toBundle.push(...Reflect.ownKeys(toDeMethod).map((key) => 
-      [key, toDeMethod[key], false]
+    toWrap.push(...Reflect.ownKeys(toDemethod).map((key) => 
+      [key, toDemethod[key], false]
     ));
   }
-  if (inherited && toDeMethod.prototype) {
-    toBundle.push(...Reflect.ownKeys(toDeMethod.prototype).map((key) => 
-      [key, toDeMethod.prototype[key], true ]
+  if (inherited && toDemethod.prototype) {
+    toWrap.push(...Reflect.ownKeys(toDemethod.prototype).map((key) => 
+      [key, toDemethod.prototype[key], true ]
     ));
   }
 
-  for (const [name, value, isMethod] of toBundle) {
+  for (const [name, value, isMethod] of toWrap) {
     if (typeof name !== 'string' || name === 'constructor') continue;
     if (typeof value !== 'function') continue;
 
@@ -36,4 +36,4 @@ export const deMethod = (
   return target;
 };
 
-export default deMethod;
+export default demethod;
