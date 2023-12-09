@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "draft": "cd ./snippets && lenses",
-    "publish": "node gather-snippets.js & node gather-snips.js",
+    "gather": "node gather-snippets.js & node gather-snips.js & node gather-comments.js",
     "test": "node --experimental-vm-modules node_modules/.bin/jest --silent "
   },
   "repository": {

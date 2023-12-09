@@ -1,4 +1,4 @@
-name: Publish
+name: Gather
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
   gather-snippets:
     runs-on: ubuntu-latest
-
+  
     steps:
       - uses: actions/checkout@v3
 
@@ -19,10 +19,10 @@ jobs:
           node-version: 'lts/*'
 
       - name: Publishing
-        run: npm run publish
+        run: npm run gather
 
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v4.7.2
         with:
-          commit_message: published
+          commit_message: gathered
           branch: ${{ github.head_ref }}

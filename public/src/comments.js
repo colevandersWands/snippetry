@@ -1,11 +1,17 @@
 import { state } from './state.js';
 
+const formatComment = (comment = '') => `<!--
+
+${comment.replaceAll('-->', '-=>')}
+
+-->`;
+
 // -- initialize comments section ---
 
 const commentsSection = document.getElementById('leave-a-comment');
 
 for (const comment of state.comments) {
-  commentsSection.innerHTML += comment;
+  commentsSection.innerHTML += formatComment(comment);
 }
 
 if (localStorage.getItem('comments')) {
@@ -21,11 +27,7 @@ const comment = document.getElementById('comment');
 commentsSection.addEventListener('keypress', function leaveAComment(e) {
   if (e.key !== 'Enter') return;
 
-  const newComment = `<!--
-
-${comment.value.replaceAll('-->', '-=>')}
-
--->`;
+  const newComment = formatComment(comment.value);
 
   commentsSection.innerHTML += newComment;
 

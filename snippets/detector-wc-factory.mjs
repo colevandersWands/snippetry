@@ -1,4 +1,4 @@
-export const detectorFactory = (thing = 'cat') =>
+export const detectorWCFactory = (thing = 'cat') =>
   class CatDetector extends HTMLElement {
     constructor() {
       super();
@@ -25,6 +25,6 @@ export const detectorFactory = (thing = 'cat') =>
     }
   };
 
-export default detectorFactory;
+export default detectorWCFactory;
 
 // tags: minibrary

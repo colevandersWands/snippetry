@@ -17,13 +17,7 @@ const commentCode = await Promise.all(
 
 // ---------- format comments ----------
 
-const comments = commentFileNames.map(
-  (name, i) => `<!-- ${name}
-
-${commentCode[i].replaceAll('-->', '-=>')}
-
--->`,
-);
+const comments = commentFileNames.map((_, i) => commentCode[i]);
 
 // ---------- write comment data to public folder ----------
 

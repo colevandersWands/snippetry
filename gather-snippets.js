@@ -53,7 +53,7 @@ const snippets = snippetFileNames.map((name, i) => ({
 
 const tagsRegex = /(\(|\/\/|<!\-\-|\/\*|\#)[\s]*tags[\s]*:/gi;
 for (const snippet of snippets) {
-  snippet.tags = snippet.code
+  const tags = snippet.code
     .split('\n')
     .filter((line) => line.match(tagsRegex))
     .map((line) =>
@@ -65,12 +65,16 @@ for (const snippet of snippets) {
     )
     .flatMap((line) => line.split(','))
     .map((tag) => tag.trim().toLowerCase());
+
+  if (tags.length > 0) {
+    snippet.tags = tags;
+  }
 }
 
 // ---------- compile meta-data ----------
 
 const tags = Array.from(
-  new Set(snippets.flatMap((snippet) => snippet.tags.map((tag) => tag.toLowerCase()))),
+  new Set(snippets.flatMap((snippet) => snippet.tags?.map((tag) => tag.toLowerCase()))),
 ).sort();
 
 // ---------- write snippet data to public folder ----------
