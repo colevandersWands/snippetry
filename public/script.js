@@ -390,7 +390,7 @@ const filterSnippets = () => {
 const highlight = (editor) => {
   // highlight.js does not trims old tags,
   // let's do it by this hack.
-  console.log(editor)
+  console.log(editor);
   editor.textContent = editor.textContent;
   Prism.highlightElement(editor);
 };

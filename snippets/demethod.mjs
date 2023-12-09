@@ -29,7 +29,7 @@ export const demethod = (
       : name;
 
     target[bundleName] = isMethod 
-      ? (that, ...args) => value.call(that, ...args) 
+      ? (that, ...args) => value.apply(that, args) 
       : value;
   }
 
@@ -37,3 +37,5 @@ export const demethod = (
 };
 
 export default demethod;
+
+// tags: minibrary

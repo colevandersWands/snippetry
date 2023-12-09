@@ -74,7 +74,11 @@ for (const snippet of snippets) {
 // ---------- compile meta-data ----------
 
 const tags = Array.from(
-  new Set(snippets.flatMap((snippet) => snippet.tags?.map((tag) => tag.toLowerCase()))),
+  new Set(
+    snippets
+      .flatMap((snippet) => snippet.tags?.map((tag) => tag.toLowerCase()))
+      .filter((tag) => tag),
+  ),
 ).sort();
 
 // ---------- write snippet data to public folder ----------

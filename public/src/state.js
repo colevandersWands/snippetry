@@ -9,6 +9,12 @@ const [state, snips, comments] = await Promise.all([
 state.comments = comments;
 state.snips = snips;
 
+// initialize snippets
+for (const snippet of state.snippets) {
+  if (!snippet.tags) snippet.tags = [];
+}
+console.log(state.snippets)
+
 // initialize tags
 const persistedTagsEncoded = HREF.searchParams.get('tags');
 const persistedTags = persistedTagsEncoded
