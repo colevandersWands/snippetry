@@ -14,7 +14,7 @@ const rawSnips = await readFile(SNIPS_LIVE_HERE, 'utf-8');
 const log = (thing) => (console.log(thing), thing);
 
 const snips = rawSnips
-  .split(SNIP_HERE)
+  .split(new RegExp(`${SNIP_HERE}.*`,'ig'))
   .map((snip) => {
     const split = snip.split('\n');
 
