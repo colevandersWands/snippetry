@@ -64,7 +64,7 @@ function serveSnippets(req, res) {
 
 function serveOther(strings = ['']) {
   return function serveData(req, res) {
-    const query = req.query.query.toLowerCase();
+    const query = req.query.query?.toLowerCase() || '';
     const toSend = strings.filter((string) => string.toLowerCase().includes(query));
     res.send(toSend);
   };
