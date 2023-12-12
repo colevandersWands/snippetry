@@ -6,8 +6,8 @@
   "scripts": {
     "draft": "cd ./snippets && lenses",
     "gather": "node gather-snippets.js & node gather-snips.js & node gather-comments.js",
-    "host:dev":"npm run gather & nodemon ./api.js",
-    "host":"npm run gather & node ./api.js"
+    "host:dev":"yarn run gather & nodemon ./api.js",
+    "host":"yarn run gather & node ./api.js"
   },
   "repository": {
     "type": "git",
