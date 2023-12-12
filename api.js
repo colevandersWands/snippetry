@@ -30,20 +30,34 @@ app.get('/api', (_, res) => {
   res.send(`snippetry endpoints: 
 
   /api/comments ? search={search string}
+
   /api/snippets ? search={search string} & tags={tag,tag,...}
                 ? snippet={file-name.ext}
+  
+  /api/snippets/file-name.ext              
+
   /api/snips    ? search={search string}
+  
   /api/tags     ? search={search string}`);
 });
 app.get('/api/comments', serveOther(comments));
 app.get('/api/snippets', serveSnippets);
+app.get('/api/snippets/:fileName', async (req, res) => {
+  try {
+    const code = await readFile(
+      path.join(__dirname, 'snippets', req.params.fileName),
+      'utf-8',
+    );
+    res.set('Content-Type', 'text/plain');
+    res.send(code);
+  } catch (err) {
+    console.error(err)
+    serveCat(req, res);
+  }
+});
 app.get('/api/snips', serveOther(snips));
 app.get('/api/tags', serveOther(snippets.tags));
-app.get('/api/*', async (_, res) => {
-  console.log(leChat);
-  res.set('Content-Type', 'text/plain');
-  res.send(leChat);
-});
+app.get('/api/*', serveCat);
 
 // --- start the server ---
 const port = process.argv[2] || 4567;
@@ -85,6 +99,12 @@ function serveOther(strings = ['']) {
     const toSend = strings.filter((string) => string.toLowerCase().includes(search));
     res.send(toSend);
   };
+}
+
+async function serveCat(_, res) {
+  console.log(leChat);
+  res.set('Content-Type', 'text/plain');
+  res.send(leChat);
 }
 
 // tags: coAIthored
