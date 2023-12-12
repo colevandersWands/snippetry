@@ -314,7 +314,7 @@ const renderSnippet = (snippet, delay = 0) => {
       );
 
     snippet.root.getElementsByClassName('linker')[0]?.addEventListener('click', () => {
-      const url = `${window.location.origin}/${window.location.pathname}?query=${
+      const url = `${window.location.origin}${window.location.pathname}?snippet=${
         snippet.name
       }&danger=${state.liveDangerously ? 'yes' : 'no'}`;
       copyCode(url, `${url} ->  URL is copied`);
@@ -343,47 +343,56 @@ const renderSnippet = (snippet, delay = 0) => {
 };
 
 const snips = document.getElementsByClassName('snip');
-const filterSnippets = () => {
+const filterSnippets = (snippetName = '') => {
   const ignoreTags = state.tags.every((tag) => !tag.selected);
 
-  if (!ignoreTags || state.query !== '') {
+  if (!ignoreTags || state.query !== '' || snippetName) {
     for (const snip of snips) snip.style.display = 'none';
   } else {
     for (const snip of snips) snip.style.display = 'block';
   }
 
-  for (const snippet of state.snippets) {
-    const tagsAreSelected =
-      ignoreTags ||
+  if (snippetName) {
+    for (const snippet of state.snippets) {
+      if (snippet.name === state.snippet) {
+        snippet.visible(true);
+      } else {
+        snippet.visible(false);
+      }
+    }
+  } else {
+    for (const snippet of state.snippets) {
+      const tagsAreSelected =
+        ignoreTags ||
+        state.tags
+          .filter((tag) => tag.selected)
+          .every((tag) => snippet.tags.includes(tag.value));
+
+      if (
+        tagsAreSelected &&
+        (snippet.code.toLowerCase().includes(state.query.toLowerCase()) ||
+          snippet.name.toLowerCase().includes(state.query.toLowerCase()))
+      ) {
+        snippet.visible(true);
+      } else {
+        snippet.visible(false);
+      }
+    }
+    // update URL
+    const tagsParam = encodeURI(
       state.tags
         .filter((tag) => tag.selected)
-        .every((tag) => snippet.tags.includes(tag.value));
+        .map((tag) => tag.value)
+        .join(','),
+    );
+    const queryParam = encodeURI(state.query);
 
-    if (
-      tagsAreSelected &&
-      (snippet.code.toLowerCase().includes(state.query.toLowerCase()) ||
-        snippet.name.toLowerCase().includes(state.query.toLowerCase()))
-    ) {
-      snippet.visible(true);
-    } else {
-      snippet.visible(false);
-    }
+    const params = `query=${queryParam}&tags=${tagsParam}&danger=${
+      state.liveDangerously ? 'yes' : 'no'
+    }`;
+
+    window.history.replaceState({}, '', `${HREF.origin + HREF.pathname}?${params}`);
   }
-
-  // update URL
-  const tagsParam = encodeURI(
-    state.tags
-      .filter((tag) => tag.selected)
-      .map((tag) => tag.value)
-      .join(','),
-  );
-  const queryParam = encodeURI(state.query);
-
-  const params = `query=${queryParam}&tags=${tagsParam}&danger=${
-    state.liveDangerously ? 'yes' : 'no'
-  }`;
-
-  window.history.replaceState({}, '', `${HREF.origin + HREF.pathname}?${params}`);
 };
 
 // https://medv.io/codejar/
@@ -595,7 +604,7 @@ document.getElementById('search-field').addEventListener('input', (e) => {
   filterSnippets();
 });
 
-filterSnippets();
+filterSnippets(state.snippet);
 
 // --- MDN Potluck ---
 

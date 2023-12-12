@@ -21,6 +21,12 @@ $console.log('hoy');
 const _arr = demethod(Array, { prefix: 'arr' });
 console.log(_arr.arrMap([1, 2], (i) => i + 1));
 
-// --- polyfill methods under a prefix demethod
-demethod(Array, { target: globalThis, prefix: '$arr' });
-console.log($arrMap([1, 2, 3], (i) => i + 1));
+// --- polyfill wrapped methods behind a prefix
+demethod(Array, { target: globalThis, prefix: '$arr_' });
+console.log($arr_map([1, 2, 3], (i) => i + 1));
+
+// --- or wrap a single function
+function tagLog(...things) { console.log(this, ...things); }
+tagLog.call('mustard', 'seed', 'sauce');
+const log = demethod(tagLog, { me: true });
+log('mustard', 'seed', 'sauce');

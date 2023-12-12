@@ -6,7 +6,8 @@
   "scripts": {
     "draft": "cd ./snippets && lenses",
     "gather": "node gather-snippets.js & node gather-snips.js & node gather-comments.js",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --silent "
+    "host:dev":"npm run gather & nodemon ./api.js",
+    "host":"npm run gather & node ./api.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,9 @@
   "devDependencies": {
     "jest-cli": "^29.7.0",
     "study-lenses": "^0.0.170"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
   }
 }

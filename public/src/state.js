@@ -13,7 +13,6 @@ state.snips = snips;
 for (const snippet of state.snippets) {
   if (!snippet.tags) snippet.tags = [];
 }
-console.log(state.snippets)
 
 // initialize tags
 const persistedTagsEncoded = HREF.searchParams.get('tags');
@@ -30,6 +29,10 @@ state.tags = state.tags.map((tag) => ({
 // initialize query
 const persistedQueryEncoded = HREF.searchParams.get('query');
 state.query = persistedQueryEncoded ? decodeURI(persistedQueryEncoded) : '';
+
+// initialize snippet
+const persistedSnippetEncoded = HREF.searchParams.get('snippet');
+state.snippet = persistedSnippetEncoded ? decodeURI(persistedSnippetEncoded) : '';
 
 // initialize dangerous life
 state.liveDangerously =
