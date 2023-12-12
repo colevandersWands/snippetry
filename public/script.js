@@ -346,7 +346,7 @@ const snips = document.getElementsByClassName('snip');
 const filterSnippets = (snippetName = '') => {
   const ignoreTags = state.tags.every((tag) => !tag.selected);
 
-  if (!ignoreTags || state.query !== '' || snippetName) {
+  if (!ignoreTags || state.search !== '' || snippetName) {
     for (const snip of snips) snip.style.display = 'none';
   } else {
     for (const snip of snips) snip.style.display = 'block';
@@ -370,8 +370,8 @@ const filterSnippets = (snippetName = '') => {
 
       if (
         tagsAreSelected &&
-        (snippet.code.toLowerCase().includes(state.query.toLowerCase()) ||
-          snippet.name.toLowerCase().includes(state.query.toLowerCase()))
+        (snippet.code.toLowerCase().includes(state.search.toLowerCase()) ||
+          snippet.name.toLowerCase().includes(state.search.toLowerCase()))
       ) {
         snippet.visible(true);
       } else {
@@ -385,9 +385,9 @@ const filterSnippets = (snippetName = '') => {
         .map((tag) => tag.value)
         .join(','),
     );
-    const queryParam = encodeURI(state.query);
+    const searchParam = encodeURI(state.search);
 
-    const params = `query=${queryParam}&tags=${tagsParam}&danger=${
+    const params = `search=${searchParam}&tags=${tagsParam}&danger=${
       state.liveDangerously ? 'yes' : 'no'
     }`;
 
@@ -539,7 +539,7 @@ if (state.liveDangerously) {
   setTimeout(() => toggleDanger({ target: { checked: true } }));
 }
 
-document.getElementById('search-field').value = state.query;
+document.getElementById('search-field').value = state.search;
 
 document.getElementById('tags').appendChild(filterList(state.tags, 'tags'));
 
@@ -599,7 +599,7 @@ document.getElementById('tags').addEventListener('change', (e) => {
 });
 
 document.getElementById('search-field').addEventListener('input', (e) => {
-  state.query = e.target.value;
+  state.search = e.target.value;
 
   filterSnippets();
 });

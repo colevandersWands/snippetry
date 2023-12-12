@@ -1,9 +1,20 @@
+import { readFile } from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 import express from 'express';
 import cors from 'cors';
 
 import comments from './public/data/comments.json' assert { type: 'json' };
 import snippets from './public/data/snippets.json' assert { type: 'json' };
 import snips from './public/data/snips.json' assert { type: 'json' };
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const leChat = await readFile(
+  path.join(__dirname, 'snippets', 'cat-detector.be.js'),
+  'utf-8',
+);
 
 // --- server setup ---
 
@@ -13,20 +24,26 @@ app.use((req, _, next) => (console.log(`${req.method} ${req.url}`), next()));
 app.use(express.static('./'));
 
 // --- define routes ---
+
 app.get('/api', (_, res) => {
   res.set('Content-Type', 'text/plain');
   res.send(`snippetry endpoints: 
 
-  /api/comments ? query={search string}
-  /api/snippets ? query={search string} & tags={tag,tag,...}
+  /api/comments ? search={search string}
+  /api/snippets ? search={search string} & tags={tag,tag,...}
                 ? snippet={file-name.ext}
-  /api/snips    ? query={search string}
-  /api/tags     ? query={search string}`);
+  /api/snips    ? search={search string}
+  /api/tags     ? search={search string}`);
 });
 app.get('/api/comments', serveOther(comments));
 app.get('/api/snippets', serveSnippets);
 app.get('/api/snips', serveOther(snips));
 app.get('/api/tags', serveOther(snippets.tags));
+app.get('/api/*', async (_, res) => {
+  console.log(leChat);
+  res.set('Content-Type', 'text/plain');
+  res.send(leChat);
+});
 
 // --- start the server ---
 const port = process.argv[2] || 4567;
@@ -38,7 +55,7 @@ app.listen(port, () => {
 
 function serveSnippets(req, res) {
   const tags = req.query.tags?.split(',').filter((tag) => tag) || [];
-  const query = req.query.query?.toLowerCase() || '';
+  const search = req.query.search?.toLowerCase() || '';
 
   if (req.query.snippet) {
     res.send(
@@ -56,16 +73,16 @@ function serveSnippets(req, res) {
     )
     .filter(
       (snippet) =>
-        snippet.name.toLowerCase().includes(query) ||
-        snippet.code.toLowerCase().includes(query),
+        snippet.name.toLowerCase().includes(search) ||
+        snippet.code.toLowerCase().includes(search),
     );
   res.send(toSend);
 }
 
 function serveOther(strings = ['']) {
   return function serveData(req, res) {
-    const query = req.query.query?.toLowerCase() || '';
-    const toSend = strings.filter((string) => string.toLowerCase().includes(query));
+    const search = req.query.search?.toLowerCase() || '';
+    const toSend = strings.filter((string) => string.toLowerCase().includes(search));
     res.send(toSend);
   };
 }

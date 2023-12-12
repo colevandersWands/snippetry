@@ -26,9 +26,10 @@ state.tags = state.tags.map((tag) => ({
   selected: persistedTags.includes(tag) ? true : false,
 }));
 
-// initialize query
-const persistedQueryEncoded = HREF.searchParams.get('query');
-state.query = persistedQueryEncoded ? decodeURI(persistedQueryEncoded) : '';
+// initialize search
+const persistedSearchEncoded =
+  HREF.searchParams.get('search') || HREF.searchParams.get('query');
+state.search = persistedSearchEncoded ? decodeURI(persistedSearchEncoded) : '';
 
 // initialize snippet
 const persistedSnippetEncoded = HREF.searchParams.get('snippet');
