@@ -63,11 +63,12 @@ function serveSnippets(req, res) {
   const search = req.query.search?.toLowerCase() || '';
 
   if (req.query.snippet) {
-    res.send([
-      snippets.snippets.find(
-        (snippet) => snippet.name.toLowerCase() === req.query.snippet.toLowerCase(),
-      ),
-    ]);
+    const search = snippets.snippets.find(
+      (snippet) => snippet.name.toLowerCase() === req.query.snippet.toLowerCase(),
+    );
+
+    res.send(search ? search : []);
+    return;
   }
 
   const filteredSnippets = snippets.snippets
