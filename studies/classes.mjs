@@ -17,7 +17,8 @@ const log = togglog();
 
 // ---   ---   ---   ---   ---   ---   ---   ---
 
-spering: {
+{
+  log.label = 'spering: '
   log.on;
 
   class Huh {

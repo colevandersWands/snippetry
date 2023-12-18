@@ -1,20 +1,9 @@
-import { readFile } from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
 import express from 'express';
 import cors from 'cors';
 
 import comments from './public/data/comments.json' assert { type: 'json' };
 import snippets from './public/data/snippets.json' assert { type: 'json' };
 import snips from './public/data/snips.json' assert { type: 'json' };
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-const leChat = await readFile(
-  path.join(__dirname, 'snippets', 'cat-detector.be.js'),
-  'utf-8',
-);
 
 // --- server setup ---
 
@@ -29,37 +18,39 @@ app.get('/api', (_, res) => {
   res.set('Content-Type', 'text/plain');
   res.send(`snippetry endpoints: 
 
-  /api/comments ? search={search string}
+  /api/comments ? search={query}
 
-  /api/snippets ? search={search string} & tags={tag,tag,...}
+  /api/snippets ? search={query} & tags={tag,tag,...}
                 ? snippet={file-name.ext}
   
-  /api/snippets/file-name.ext              
+  /api/snippets / {file-name.ext}              
 
-  /api/snips    ? search={search string}
+  /api/snips    ? search={query}
   
-  /api/tags     ? search={search string}`);
+  /api/tags     ? search={query}
+  
+  /api/*        - ik stuur mijn kat -`);
 });
 app.get('/api/comments', serveOther(comments));
 app.get('/api/snippets', serveSnippets);
 app.get('/api/snippets/:fileName', async (req, res) => {
-  try {
-    const code = await readFile(
-      path.join(__dirname, 'snippets', req.params.fileName),
-      'utf-8',
-    );
-    res.set('Content-Type', 'text/plain');
-    res.send(code);
-  } catch (err) {
-    console.error(err)
-    serveCat(req, res);
+  const snippet = snippets.snippets.find(
+    (snippet) => snippet.name.toLowerCase() === req.params.fileName,
+  );
+
+  res.set('Content-Type', 'text/plain');
+  if (snippet) {
+    res.send(snippet.code);
+  } else {
+    stuurMijnKat(req, res);
   }
 });
 app.get('/api/snips', serveOther(snips));
 app.get('/api/tags', serveOther(snippets.tags));
-app.get('/api/*', serveCat);
+app.get('/api/*', stuurMijnKat);
 
 // --- start the server ---
+
 const port = process.argv[2] || 4567;
 app.listen(port, () => {
   console.log(`Snippetry is running on port ${port}`);
@@ -72,16 +63,14 @@ function serveSnippets(req, res) {
   const search = req.query.search?.toLowerCase() || '';
 
   if (req.query.snippet) {
-    res.send(
-      [
-        snippets.snippets.find(
-          (snippet) => snippet.name.toLowerCase() === req.query.snippet.toLowerCase(),
-        ),
-      ] || [],
-    );
+    res.send([
+      snippets.snippets.find(
+        (snippet) => snippet.name.toLowerCase() === req.query.snippet.toLowerCase(),
+      ),
+    ]);
   }
 
-  const toSend = snippets.snippets
+  const filteredSnippets = snippets.snippets
     .filter((snippet) =>
       tags.length == 0 ? true : snippet.tags?.some((tag) => tags.includes(tag)),
     )
@@ -90,21 +79,41 @@ function serveSnippets(req, res) {
         snippet.name.toLowerCase().includes(search) ||
         snippet.code.toLowerCase().includes(search),
     );
-  res.send(toSend);
+  res.send(filteredSnippets);
 }
 
 function serveOther(strings = ['']) {
   return function serveData(req, res) {
     const search = req.query.search?.toLowerCase() || '';
-    const toSend = strings.filter((string) => string.toLowerCase().includes(search));
-    res.send(toSend);
+    const filtered = strings.filter((string) => string.toLowerCase().includes(search));
+    res.send(filtered);
   };
 }
 
-async function serveCat(_, res) {
-  console.log(leChat);
+const mijnKat = `
+      /\\
+      \\ \\
+       \\ \\
+       / /
+      / /
+     _\\ \\_/\\/\\
+    /  *  \\@@ =
+   |       |Y/
+   |       |~
+    \\ /_\\ /
+     \\\\ //
+      |||
+     _|||_
+    ( / \\ )
+`;
+async function stuurMijnKat(_, res) {
+  // https://www.vlaanderen.be/team-taaladvies/taaladviezen/zijn-kat-sturen
+  console.log('kat gestuurd');
   res.set('Content-Type', 'text/plain');
-  res.send(leChat);
+  // https://user.xmission.com/~emailbox/ascii_cats.htm
+  //  -Skorch
+  res.status(404);
+  res.send(`404: kat gestuurd \n ${mijnKat}`);
 }
 
 // tags: coAIthored

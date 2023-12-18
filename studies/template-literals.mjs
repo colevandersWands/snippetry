@@ -6,7 +6,8 @@ const log = togglog();
 
 // --------- seeded from from MDN docs ---------
 
-calling: {
+{
+  log.label = 'calling: ';
   log.off;
 
   log`hello`;
@@ -26,7 +27,8 @@ commented_calls: {
   // refactored to /snippets/literize.mjs
 }
 
-closuring: {
+{
+  log.label = 'closuring: ';
   log.off;
 
   const template =
@@ -55,7 +57,8 @@ closuring: {
   t3Closure({ name: 'MDN', age: 30 });
 }
 
-strings_caching: {
+{
+  log.label = 'strings caching: ';
   log.off;
 
   const callHistory = [];
@@ -69,7 +72,8 @@ strings_caching: {
   log(callHistory[0] === callHistory[1]);
 }
 
-thissing: {
+{
+  log.label = 'thissing: ';
   log.off;
 
   (function ([string]) {
@@ -77,7 +81,8 @@ thissing: {
   }).bind('hello')`world`;
 }
 
-raw: {
+{
+  log.label = 'raw: ';
   log.on;
 
   const argRaw = (strings) => log(strings.raw);

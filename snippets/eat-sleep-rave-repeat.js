@@ -1,5 +1,6 @@
 import('./projector.mjs').then(({ projector }) => {
-  const vagueRecollection = {
+  
+  const aBeat = {
     get eat() {
       console.log(`%c💩 ${prompt('feed me!')} 💩`, 'font-size: xx-large');
     },
@@ -12,7 +13,7 @@ import('./projector.mjs').then(({ projector }) => {
         Math.random() < 0.2
           ? ['*', '@', '#', '%', '&', '!', '$'][Math.floor(Math.random() * 26)]
           : ' ';
-      function* lightShow() {
+      projector(function* lightShow() {
         while ('still standing')
           yield Array(30)
             .fill('')
@@ -21,15 +22,14 @@ import('./projector.mjs').then(({ projector }) => {
               // https://css-tricks.com/snippets/javascript/random-hex-color/
               `color: #${Math.floor(Math.random() * 16777215).toString(16)}`,
             ]);
-      }
-      projector(lightShow, { maxTime: 10000, async: false });
+      }, { maxTime: 10000, async: false });
     },
   };
   const repeat = true;
 
   // --- eat, sleep, rave, repeat ---
 
-  with (vagueRecollection) {
+  with (aBeat) {
     do {
       eat;
       sleep;

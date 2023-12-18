@@ -1,5 +1,5 @@
 const sequitur = (non = '') => (non ? { [non]: sequitur } : sequitur);
 
-alert(sequitur('hi').hi('bye').bye()('sequitur').sequitur.name);
+console.log('non' + sequitur('hi').hi('bye').bye().name);
 
 // tags: useless, wuzzle
