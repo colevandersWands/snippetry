@@ -23,13 +23,12 @@ export const it = (name = '', testFunction = () => {}) => {
   } catch (err) {
     thrown = err;
   }
-  if (thrown)
-    out.groupCollapsed(`%c✖ NO: ${name}`, 'font-weight: bold; color: red;');
-  else
-    out.groupCollapsed(`%c√ YES: ${name}`, 'font-weight: bold; color: green;');
+  if (thrown) out.groupCollapsed(`%c✖ NO: ${name}`, 'font-weight: bold; color: red;');
+  else out.log(`%c√ YES: ${name}`, 'font-weight: bold; color: green;');
   callOuts.forEach((callOut) => out[callOut.key](...callOut.args));
   thrown && out.error(thrown);
-  out.groupEnd(), Object.assign(_console_, out);
+  (thrown || callOuts.length > 0) && out.groupEnd();
+  Object.assign(_console_, out);
 };
 export const test = it;
 

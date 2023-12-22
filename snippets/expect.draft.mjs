@@ -15,9 +15,8 @@ export const expect = (exp, not = false) => ({
   toThrow(typeOrMessage) {
     // what's the simplest usefulest?
     let threw, error;
-    try {
-      exp();
-    } catch (err) {
+    try { exp(); } 
+    catch (err) {
       (threw = true), (error = err);
     }
     if (not ? threw : !threw) {
