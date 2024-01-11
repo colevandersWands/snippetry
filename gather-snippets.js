@@ -74,7 +74,11 @@ for (const snippet of snippets) {
 // ---------- find fore- and aftlinks in markdown snippets ----------
 
 const markdownSnippets = snippets.filter((snippet) => snippet.name.endsWith('.md'));
+const notMarkdownSnippets = snippets
+  .filter((snippet) => !snippet.name.endsWith('.md'))
+  .map((snippet) => ({ snippet, baseName: snippet.name.split('.').shift() }));
 
+// using remark would make it possible to preserve image link
 const relativeLinkRegex = /\(\.\//gi;
 const anchorLinkRegex = /(\#)[\w\d\-\_]*.md/gi;
 for (const snippet of markdownSnippets) {
@@ -82,6 +86,13 @@ for (const snippet of markdownSnippets) {
   const forelinks = snippet.code.match(anchorLinkRegex);
   if (forelinks) {
     snippet.forelinks = forelinks.map((forelink) => forelink.replace('#', ''));
+  }
+  const markdownBaseName = snippet.name.split('.').shift();
+  for (const notMarkdown of notMarkdownSnippets) {
+    if (!snippet.forelinks) snippet.forelinks = [];
+    if (notMarkdown.baseName === markdownBaseName) {
+      snippet.forelinks.push(notMarkdown.snippet.name);
+    }
   }
 }
 

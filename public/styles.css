@@ -59,6 +59,12 @@ h2 {
   overflow: hidden;
 }
 
+.fore-aft {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .middly {
   /* constrain the tags list to the center 30% ? */
 }

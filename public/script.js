@@ -34,21 +34,29 @@ const renderCode = (snippet) => {
     // }
 
     if (snippet.forelinks || snippet.aftlinks) {
-      container.innerHTML += `<hr>
-        ${
-          snippet.aftlinks
-            ? `<p><em>aftlinks:</em> ${snippet.aftlinks
-                .map((l) => `<a href="#${l}">${l}</a>`)
-                .join(', ')}</p>`
-            : ''
-        }
-        ${
-          snippet.forelinks
-            ? `<p><em>forelinks:</em> ${snippet.forelinks
-                .map((l) => `<a href="#${l}">${l}</a>`)
-                .join(', ')}</p>`
-            : ''
-        }
+      container.innerHTML += `<hr><hr>
+        <div class="fore-aft">
+          <div>${
+            snippet.aftlinks
+              ? `<em>aftlinks:</em> 
+                  <list>
+                    ${snippet.aftlinks
+                      .map((l) => `<li><a href="#${l}">${l}</a></li>`)
+                      .join('')}
+                  </list>`
+              : ''
+          }</div>
+          <div>${
+            snippet.forelinks
+              ? `<em>forelinks:</em> 
+                  <list>
+                    ${snippet.forelinks
+                      .map((l) => `<li><a href="#${l}">${l}</a></li>`)
+                      .join('')}
+                  </list>`
+              : ''
+          }</div>
+        </div>
       `;
     }
 
