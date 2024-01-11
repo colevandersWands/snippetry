@@ -71,6 +71,37 @@ for (const snippet of snippets) {
   }
 }
 
+// ---------- find fore- and aftlinks in markdown snippets ----------
+
+const markdownSnippets = snippets.filter((snippet) => snippet.name.endsWith('.md'));
+
+const relativeLinkRegex = /\(\.\//gi;
+const anchorLinkRegex = /(\#)[\w\d\-\_]*.md/gi;
+for (const snippet of markdownSnippets) {
+  snippet.code = snippet.code.replaceAll(relativeLinkRegex, '(#');
+  const forelinks = snippet.code.match(anchorLinkRegex);
+  if (forelinks) {
+    snippet.forelinks = forelinks.map((forelink) => forelink.replace('#', ''));
+  }
+}
+
+const snippetMap = markdownSnippets
+  .map((snippet) => ((snippet.aftlinks = []), snippet))
+  .reduce((all, next) => ({ ...all, [next.name]: next }), {});
+
+for (const snippet of markdownSnippets) {
+  if (snippet.forelinks) {
+    for (const forelink of snippet.forelinks) {
+      snippetMap[forelink]?.aftlinks.push(snippet.name);
+    }
+  }
+}
+for (const snippet of markdownSnippets) {
+  if (snippet.aftlinks.length === 0) {
+    delete snippet.aftlinks;
+  }
+}
+
 // ---------- compile meta-data ----------
 
 const tags = Array.from(
