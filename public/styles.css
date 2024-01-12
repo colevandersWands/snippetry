@@ -59,10 +59,11 @@ h2 {
   overflow: hidden;
 }
 
-.fore-aft {
+.backlinks {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  list-style-type:none;
 }
 
 .middly {

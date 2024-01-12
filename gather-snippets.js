@@ -71,45 +71,59 @@ for (const snippet of snippets) {
   }
 }
 
-// ---------- find fore- and aftlinks in markdown snippets ----------
+// ---------- find fore- and backlinks in markdown snippets ----------
 
-const markdownSnippets = snippets.filter((snippet) => snippet.name.endsWith('.md'));
+// -- separate markdown and non-markdown snippets --
+//    store in a data container and prepare basename
+const markdownSnippets = snippets
+  .filter((snippet) => snippet.name.endsWith('.md') && snippet.name !== '.md')
+  .map((snippet) => {
+    // convert relative links to anchor tags
+    // using remark instead of regex could preserve relative image links
+    snippet.code = snippet.code.replaceAll(/\(\.\//gi, '(#');
+    return snippet;
+  })
+  .map((snippet) => ({
+    snippet,
+    baseName: snippet.name.split('.').shift(),
+    backlinks: [],
+    forelinks: [],
+  }));
 const notMarkdownSnippets = snippets
   .filter((snippet) => !snippet.name.endsWith('.md'))
   .map((snippet) => ({ snippet, baseName: snippet.name.split('.').shift() }));
 
-// using remark would make it possible to preserve image link
-const relativeLinkRegex = /\(\.\//gi;
-const anchorLinkRegex = /(\#)[\w\d\-\_]*.md/gi;
-for (const snippet of markdownSnippets) {
-  snippet.code = snippet.code.replaceAll(relativeLinkRegex, '(#');
-  const forelinks = snippet.code.match(anchorLinkRegex);
-  if (forelinks) {
-    snippet.forelinks = forelinks.map((forelink) => forelink.replace('#', ''));
+// -- find all outgoing links from markdown files to other markdown files
+for (const mdS of markdownSnippets) {
+  mdS.forelinks = mdS.snippet.code.match(/(\#)[\w\d\-\_]*.md/gi) || [];
+  mdS.forelinks?.map((forelink) => forelink.replace('#', ''));
+}
+
+// -- use previous list to find .md backlinks to all .md snippets
+const markdownSnippestMap = markdownSnippets.reduce(
+  (all, next) => ({ ...all, [next.snippet.name]: next }),
+  {},
+);
+for (const mdS of markdownSnippets) {
+  for (const forelink of mdS.forelinks) {
+    markdownSnippestMap[forelink.replace('#', '')]?.backlinks.push(mdS.snippet.name);
   }
-  const markdownBaseName = snippet.name.split('.').shift();
-  for (const notMarkdown of notMarkdownSnippets) {
-    if (!snippet.forelinks) snippet.forelinks = [];
-    if (notMarkdown.baseName === markdownBaseName) {
-      snippet.forelinks.push(notMarkdown.snippet.name);
+}
+
+// -- find all non-md backlinks based on file basename
+for (const mdS of markdownSnippets) {
+  for (const notMd of notMarkdownSnippets) {
+    if (notMd.baseName === mdS.baseName) {
+      mdS.backlinks.push(notMd.snippet.name);
     }
   }
 }
 
-const snippetMap = markdownSnippets
-  .map((snippet) => ((snippet.aftlinks = []), snippet))
-  .reduce((all, next) => ({ ...all, [next.name]: next }), {});
-
-for (const snippet of markdownSnippets) {
-  if (snippet.forelinks) {
-    for (const forelink of snippet.forelinks) {
-      snippetMap[forelink]?.aftlinks.push(snippet.name);
-    }
-  }
-}
-for (const snippet of markdownSnippets) {
-  if (snippet.aftlinks.length === 0) {
-    delete snippet.aftlinks;
+// -- sort backlinks alphabetically
+for (const mdS of markdownSnippets) {
+  if (mdS.backlinks.length > 0) {
+    mdS.backlinks.sort();
+    mdS.snippet.backlinks = mdS.backlinks;
   }
 }
 

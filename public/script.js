@@ -33,24 +33,14 @@ const renderCode = (snippet) => {
     //   link.target = '_blank';
     // }
 
-    if (snippet.forelinks || snippet.aftlinks) {
+    if (snippet.backlinks) {
       container.innerHTML += `<hr><hr>
-        <div class="fore-aft">
+        <div class="backlinks">
           <div>${
-            snippet.aftlinks
-              ? `<em>aftlinks:</em> 
+            snippet.backlinks
+              ? `<em>backlinks:</em> 
                   <list>
-                    ${snippet.aftlinks
-                      .map((l) => `<li><a href="#${l}">${l}</a></li>`)
-                      .join('')}
-                  </list>`
-              : ''
-          }</div>
-          <div>${
-            snippet.forelinks
-              ? `<em>forelinks:</em> 
-                  <list>
-                    ${snippet.forelinks
+                    ${snippet.backlinks
                       .map((l) => `<li><a href="#${l}">${l}</a></li>`)
                       .join('')}
                   </list>`
