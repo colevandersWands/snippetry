@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: 'lts/*'
 
+      - name: Installing
+        run: npm install
+
       - name: Publishing
         run: npm run publish
 
