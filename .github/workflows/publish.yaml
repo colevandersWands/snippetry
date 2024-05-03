@@ -1,4 +1,4 @@
-name: Build
+name: Publish
 
 on:
   push:
@@ -18,11 +18,11 @@ jobs:
         with:
           node-version: 'lts/*'
 
-      - name: Building
-        run: npm run build
+      - name: Publishing
+        run: npm run publish
 
       - name: Committing
         uses: stefanzweifel/git-auto-commit-action@v4.7.2
         with:
-          commit_message: gathered
+          commit_message: published
           branch: ${{ github.head_ref }}

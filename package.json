@@ -9,7 +9,7 @@
     "bundle:js": "esbuild public/index.js --bundle --outfile=public/bundle/min.js --target=es2022 --format=esm --minify",
     "bundle:css": "esbuild --bundle public/styles.css --outfile=public/bundle/min.css --minify",
     "bundle": "npm run bundle:js & npm run bundle:css",
-    "build": "npm run gather & npm run bundle",
+    "publish": "npm run gather & npm run bundle",
     "host:dev": "yarn run build & nodemon ./api.js",
     "host": "yarn run build & node ./api.js"
   },
