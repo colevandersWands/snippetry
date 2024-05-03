@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  gather-snippets:
+  publish:
     runs-on: ubuntu-latest
   
     steps:
@@ -16,7 +16,7 @@ jobs:
       - name: Setting up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 'lts/*'
+          node-version: 'v16.10.0'
 
       - name: Installing
         run: npm install
