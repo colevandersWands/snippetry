@@ -218,8 +218,14 @@ var BugDispatch = {
         thebug.bug.addEventListener('mouseover', function (e) {
           that.on_bug(thebug);
         });
+        thebug.bug.addEventListener('touchmove', function (e) {
+          that.on_bug(thebug);
+        });
       } else if (thebug.bug.attachEvent) {
         thebug.bug.attachEvent('onmouseover', function (e) {
+          that.on_bug(thebug);
+        });
+        thebug.bug.attachEvent('touchmove', function (e) {
           that.on_bug(thebug);
         });
       }
