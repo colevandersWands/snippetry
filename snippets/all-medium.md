@@ -1,5 +1,7 @@
 ---
 alt: no message
+tags: 
+  - metappet
 ---
 
 They _intended_ to write. They really did.
@@ -13,5 +15,3 @@ Before there was a **what** there were [empty](./empty.json) [vehicles](./empty.
 - [unused](./log.mjs)
 - [unfinished](./funsole.mjs)
 - [ill-defined](./cat-detector.psu)
-
-<!-- tags: metappet -->

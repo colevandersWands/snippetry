@@ -56,16 +56,8 @@ export const md = ({ title, text }) => {
     });
   }
 
-  const tags = staticLabels({
-    text,
-    label: 'tags',
-    begin: /(\(|<!\-\-|)[\s]*tags[\s]*:/gi,
-    end: /(\-\-\>)/gi,
-  });
-
   const newppet = {
     forelinks: Array.from(forelinks).sort(),
-    tags,
     text: toMarkdown(mdAST),
     ...parsedFrontmatter,
   };

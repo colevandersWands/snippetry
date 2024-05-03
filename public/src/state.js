@@ -4,14 +4,12 @@ import { shuffleArray } from './utils/shuffle-array.js';
 
 import { filterSnipPets } from './filter-snip-pets/index.js';
 
-// ===== fetch data =====
+// ===== import data =====
 
-const [comments, snips, snippets, tags] = await Promise.all([
-  fetch('../public/data/comments.json').then((res) => res.json()),
-  fetch('../public/data/snips.json').then((res) => res.json()),
-  fetch('../public/data/snippets.json').then((res) => res.json()),
-  fetch('../public/data/tags.json').then((res) => res.json()),
-]);
+import comments from '../data/comments.json' assert { type: 'json' };
+import snips from '../data/snips.json' assert { type: 'json' };
+import snippets from '../data/snippets.json' assert { type: 'json' };
+import tags from '../data/tags.json' assert { type: 'json' };
 
 // ===== initialize state =====
 

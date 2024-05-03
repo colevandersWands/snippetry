@@ -1,5 +1,7 @@
 ---
 alt: More interesting than useful.
+tags: 
+  - metappet
 ---
 
 # Snippets

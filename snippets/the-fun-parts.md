@@ -1,5 +1,7 @@
 ---
 alt: "JavaScripting: teach me how to, Dougie."
+tags: 
+  - metappet
 ---
 
 # JavaScript: The ~~Good~~ _Fun_ Parts
@@ -12,5 +14,3 @@ exclusively on the ~~good~~ _fun_ parts.
 
 - adapted by **Dougie Crockpot** from
   [the original](https://www.oreilly.com/library/view/javascript-the-good/9780596517748/)
-
-<!-- tags: metappet -->
