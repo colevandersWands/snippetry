@@ -1,5 +1,5 @@
 ---
-Don't make it complex, KISS.
+alt: Don't make it complex, KISS.
 ---
 
 # ℂ.js = ES(n + i)

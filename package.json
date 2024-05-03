@@ -41,7 +41,7 @@
     "study-lenses": "^0.0.170",
     "unified": "^11.0.4",
     "unist-util-visit": "^5.0.0",
-    "yaml": "^2.3.4"
+    "yaml": "^2.4.2"
   },
   "dependencies": {
     "cors": "^2.8.5",

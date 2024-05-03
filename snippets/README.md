@@ -1,5 +1,5 @@
 ---
-More interesting than useful.
+alt: More interesting than useful.
 ---
 
 # Snippets

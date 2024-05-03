@@ -4,6 +4,7 @@ import { frontmatter } from 'micromark-extension-frontmatter';
 import { fromMarkdown } from 'mdast-util-from-markdown';
 import { toMarkdown } from 'mdast-util-to-markdown';
 import { frontmatterFromMarkdown } from 'mdast-util-frontmatter';
+import { parse } from 'yaml';
 
 import { langs } from '../index.js';
 
@@ -14,14 +15,14 @@ import { interpret } from '../../index.js';
 import { simplit } from './simplit.js';
 
 export const md = ({ title, text }) => {
-  let alt = null;
+  const parsedFrontmatter = {};
   const forelinks = new Set();
   let simppet = null;
 
-  // --- search for forelinks and an alt ---
+  // --- search for forelinks and frontmatter ---
   const mdAST = fromMarkdown(text, {
-    extensions: [frontmatter()], // ['yaml', 'toml']
-    mdastExtensions: [frontmatterFromMarkdown()],
+    extensions: [frontmatter(['yaml'])],
+    mdastExtensions: [frontmatterFromMarkdown(['yaml'])],
   });
 
   visit(mdAST, ['link', 'image', 'yaml'], (node, index, parent) => {
@@ -33,7 +34,11 @@ export const md = ({ title, text }) => {
         .filter((i) => i !== '.' && i !== '..');
       forelinks.add(linkPath.pop());
     } else if (node.type === 'yaml') {
-      alt = node.value;
+      try {
+        Object.assign(parsedFrontmatter, parse(node.value));
+      } catch (err) {
+        console.error(err);
+      }
       // https://unifiedjs.com/learn/recipe/remove-node/
       parent.children.splice(index, 1);
       return [SKIP, index];
@@ -60,9 +65,9 @@ export const md = ({ title, text }) => {
 
   const newppet = {
     forelinks: Array.from(forelinks).sort(),
-    alt,
     tags,
     text: toMarkdown(mdAST),
+    ...parsedFrontmatter,
   };
 
   if (simppet) newppet.subtext = simppet;

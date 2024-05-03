@@ -1,5 +1,5 @@
 ---
-JavaScripting: teach me how to, Dougie.
+alt: "JavaScripting: teach me how to, Dougie."
 ---
 
 # JavaScript: The ~~Good~~ _Fun_ Parts

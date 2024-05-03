@@ -1,5 +1,5 @@
 ---
-* België, Belgique, Belgien
+alt: "* België, Belgique, Belgien"
 ---
 
 # Belgium\*!

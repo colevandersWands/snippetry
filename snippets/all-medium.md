@@ -1,5 +1,5 @@
 ---
-no message
+alt: no message
 ---
 
 They _intended_ to write. They really did.
