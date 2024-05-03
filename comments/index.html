@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>comments</title>
+  </head>
+  <body style="display: grid; justify-items: center">
+    <script type="module">
+      const renderComment = (text = '') =>
+        `<div><pre><code>${text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')}</code></pre> </div> <br />`;
+
+      const query = decodeURI(
+        new URL(window.location.href).searchParams.get('search') || '',
+      ).toLowerCase();
+
+      const comments = await fetch('../public/data/comments.json').then((res) =>
+        res.json(),
+      );
+
+      if (query) {
+        const filteredComments = comments.filter((comment) =>
+          comment.toLowerCase().includes(query),
+        );
+        document.body.innerHTML = filteredComments.map(renderComment).join('\n');
+      } else {
+        document.body.innerHTML = comments.map(renderComment).join('\n');
+      }
+    </script>
+  </body>
+</html>

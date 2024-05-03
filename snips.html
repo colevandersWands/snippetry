@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>snips</title>
+  </head>
+  <body style="display: grid; justify-items: center">
+    <script type="module">
+      const renderSnip = (text = '') =>
+        `<div><pre><code>${text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')}</code></pre> </div> <br />`;
+
+      const query = decodeURI(
+        new URL(window.location.href).searchParams.get('search') || '',
+      ).toLowerCase();
+
+      const snips = await fetch('../public/data/snips.json').then((res) => res.json());
+
+      if (query) {
+        const filteredSnips = snips.filter((snip) => snip.toLowerCase().includes(query));
+        document.body.innerHTML = filteredSnips.map(renderSnip).join('\n');
+      } else {
+        document.body.innerHTML = snips.map(renderSnip).join('\n');
+      }
+    </script>
+  </body>
+</html>

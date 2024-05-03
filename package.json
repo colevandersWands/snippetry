@@ -1,13 +1,17 @@
 {
   "name": "Snippetry",
   "version": "1.0.0",
-  "description": "",
+  "description": "What can you do with 40(ish) lines at a time?",
   "type": "module",
   "scripts": {
     "draft": "cd ./snippets && lenses",
-    "gather": "node gather-snippets.js & node gather-snips.js & node gather-comments.js",
-    "host:dev":"yarn run gather & nodemon ./api.js",
-    "host":"yarn run gather & node ./api.js"
+    "gather": "node gather-snippets & node gather-snips.js & node gather-comments.js",
+    "bundle:js": "esbuild public/index.js --bundle --outfile=public/bundle/min.js --target=es2022 --format=esm --minify",
+    "bundle:css": "esbuild --bundle public/styles.css --outfile=public/bundle/min.css --minify",
+    "bundle": "npm run bundle:js & npm run bundle:css",
+    "build": "npm run gather & npm run bundle",
+    "host:dev": "yarn run build & nodemon ./api.js",
+    "host": "yarn run build & node ./api.js"
   },
   "repository": {
     "type": "git",
@@ -20,8 +24,24 @@
   },
   "homepage": "https://colevandersWands.github.io/snippetry",
   "devDependencies": {
+    "esast-util-from-js": "^2.0.1",
+    "esbuild": "^0.20.2",
+    "estree-util-visit": "^2.0.0",
+    "hast-util-from-html": "^2.0.1",
     "jest-cli": "^29.7.0",
-    "study-lenses": "^0.0.170"
+    "mdast-util-from-markdown": "^2.0.0",
+    "mdast-util-frontmatter": "^2.0.1",
+    "mdast-util-to-markdown": "^2.1.0",
+    "micromark-extension-frontmatter": "^2.0.0",
+    "nodemon": "^3.0.3",
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-stringify": "^11.0.0",
+    "study-lenses": "^0.0.170",
+    "unified": "^11.0.4",
+    "unist-util-visit": "^5.0.0",
+    "yaml": "^2.3.4"
   },
   "dependencies": {
     "cors": "^2.8.5",

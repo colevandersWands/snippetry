@@ -1,3 +1,3 @@
-alert(eval(prompt('YOLO!')));
+alert(eval(prompt('YOLO')));
 
 // tags: yolo

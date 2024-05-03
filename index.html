@@ -5,11 +5,19 @@
     <title>Snippetry</title>
     <link id="icon" rel="icon" type="image/x-icon" href="./public/favicon.ico" />
 
-    <link rel="stylesheet" href="./public/styles.css" />
-    <link rel="stylesheet" href="./public/lib/prism.min.css" />
+    <link rel="stylesheet" href="./public/bundle/min.css" />
+    <!-- <link rel="stylesheet" href="./public/styles.css" /> -->
   </head>
 
   <body>
+    <script>
+      if (new URL(window.location.href).searchParams.has('kishu')) {
+        document.body.innerHTML = '<pre class="center-center">🐧🐧</pre>';
+        document.title = 'kishu';
+        window.stop();
+      }
+    </script>
+
     <div id="root">
       <div id="top-stuff">
         <a
@@ -18,7 +26,8 @@
           target="_blank"
           class="github-corner"
           aria-label="View source on GitHub"
-          ><svg
+        >
+          <svg
             width="80"
             height="80"
             viewBox="0 0 250 250"
@@ -47,11 +56,8 @@
         ></a>
 
         <h1>
-          Snippetry
-          <a
-            href="https://snippetry.onrender.com/api"
-            target="_blank"
-            aria-label="API link"
+          <a id="graph" target="_blank" aria-label="graph link">Snippetry</a>
+          <a id="api" target="_blank" aria-label="API link" href="https://snippetry.onrender.com/api/"
             ><img src="./public/favicon.ico"
           /></a>
         </h1>
@@ -75,6 +81,9 @@
 
         <hr />
       </div>
+      <br />
+      <br />
+      <br />
 
       <div id="snippets" class="nicely-centered match-braces"></div>
 
@@ -100,8 +109,7 @@
       >
     </div>
 
-    <script src="./public/lib/prism.min.js"></script>
-    <script type="module" src="./public/src/init.js"></script>
-    <script src="./public/lib/bug.js"></script>
+    <script type="module" src="./public/bundle/min.js"></script>
+    <!-- <script type="module" src="./public/index.js"></script> -->
   </body>
 </html>

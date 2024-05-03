@@ -1,1 +1,7 @@
-# Belgium!
+---
+* België, Belgique, Belgien
+---
+
+# Belgium\*!
+
+<!-- tags: metappet -->

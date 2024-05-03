@@ -1,3 +1,3 @@
-import './detector-polyfill.js';
+import './detector-string-polyfill.js';
 
 'cat'.detect('mixed');

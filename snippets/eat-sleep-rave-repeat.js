@@ -6,36 +6,37 @@ import('./projector.mjs').then(({ projector }) => {
     },
     get sleep() {
       const siesta = Date.now();
-      while (Date.now() - siesta < 5000);
+      while (Date.now() - siesta < 2000);
     },
     get rave() {
-      const lasers = () =>
-        Math.random() < 0.2
+      const lasers = () =>  Math.random() < 0.2
           ? ['*', '@', '#', '%', '&', '!', '$'][Math.floor(Math.random() * 26)]
           : ' ';
       projector(function* lightShow() {
-        while ('still standing')
-          yield Array(30)
-            .fill('')
+        while ('still standing') {
+          yield Array(30).fill('')
             .map(() => [
               `%c${(() => Array(60).fill(' ').map(lasers).join(''))()}`,
-              // https://css-tricks.com/snippets/javascript/random-hex-color/
               `color: #${Math.floor(Math.random() * 16777215).toString(16)}`,
             ]);
-      }, { maxTime: 10000, async: false });
+        }
+      }, { maxTime: 2000, async: false });
     },
+    repeat: true
   };
-  const repeat = true;
 
-  // --- eat, sleep, rave, repeat ---
+  
+  with (aBeat) { do {
 
-  with (aBeat) {
-    do {
       eat;
       sleep;
-      rave;
-    } while (repeat);
-  }
+      rave;         } while (
+      repeat
+
+  )}
+
 });
 
 // tags: sketch, reel, the fun parts
+
+// colors credit: https://css-tricks.com/snippets/javascript/random-hex-color/

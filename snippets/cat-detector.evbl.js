@@ -1,3 +1,1 @@
-alert((detector = () =>
-  ((cat = prompt('cat')), cat == 'cat') 
-		? cat : detector())());
+alert((detector = () => (((cat = prompt('cat')), cat == 'cat') ? cat : detector()))());

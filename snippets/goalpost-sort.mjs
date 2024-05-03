@@ -27,8 +27,10 @@ describe('goalpostSort sorts an array in O(n) by moving the goalpost', () => {
   });
   it('goalpost sorts an empty array', () =>
     expect(goalpostSort([]).areSorted([])).toEqual(true));
-  it('goalpost sorts a sorted array', () =>
-    expect(goalpostSort([-1, 0, 2]).areSorted([-1, 0, 2])).toEqual(true));
+  it('goalpost sorts a sorted array', () => {
+    const { numbers, areSorted } = goalpostSort([-1, 0, 2]);
+    expect(areSorted(numbers)).toEqual(true);
+  });
   it('goalpost sorts an unsorted array', () =>
     expect(goalpostSort([5, 0, 4, 1, 2]).areSorted([5, 0, 4, 1, 2])).toEqual(true));
   it('goalpost sorts the correct array by default', () =>

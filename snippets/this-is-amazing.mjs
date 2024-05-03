@@ -1,16 +1,7 @@
-import { describe, it as _this, expect } from './testing.mjs';
+import { describe, it, expect } from './testing.mjs';
 
-const amazing = function wow() {
-  return this;
-}.bind('amazing');
+const thisIs = function amazing() { return this }.bind('amazing');
 
 describe("this: it's amazing", () => {
-  _this('is a string', () => {
-    const beAmazed = amazing();
-    expect(typeof beAmazed).toEqual('string');
-  });
-  _this('is "amazing"', () => {
-    const beAmazed = amazing();
-    expect(beAmazed).toEqual('amazing');
-  });
+  it('is "amazing"', () => expect(thisIs()).toEqual('amazing'));
 });

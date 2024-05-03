@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>snippets</title>
+  </head>
+  <body style="display: grid; justify-items: center">
+    <script type="module">
+      const renderSnippet = ({ title, text, alt }) =>
+        `<div> <h2>${title}</h2> ${alt ? `<li>${alt}</li>` : ''} <pre><code>${text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')}</code></pre> </div> <br />`;
+
+      const snippets = await fetch('../public/data/snippets.json').then((res) => res.json());
+
+      const href = new URL(window.location.href);
+      const snippetTitle = decodeURI(href.searchParams.get('snippet') || '').toLowerCase();
+      const query = decodeURI(href.searchParams.get('search') || '').toLowerCase();
+      const tags = decodeURI(href.searchParams.get('tags') || '')
+        .split(',').filter((t) => t).map((t) => t.toLowerCase().trim());
+
+      if (snippetTitle) {
+        const snippet = snippets.find((s) => s.title.toLowerCase() === snippetTitle);
+        if (snippet) document.body.innerHTML = renderSnippet(snippet);
+
+      } else if (query || tags.length !== 0) {
+        const filteredSnippets = snippets
+          .filter((sn) => tags.every((tag) => sn.tags?.includes(tag)))
+          .filter((sn) => sn.title.toLowerCase().includes(query) || sn.text.toLowerCase().includes(query));
+        document.body.innerHTML = filteredSnippets.map(renderSnippet).join('\n');
+
+      } else {
+        document.body.innerHTML = snippets.map(renderSnippet).join('\n');
+      }
+    </script>
+  </body>
+</html>
+
+<!-- tags: metappet -->

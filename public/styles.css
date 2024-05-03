@@ -1,3 +1,11 @@
+@import url('./lib/github-styles.css');
+
+@import url('./lib/prism.min.css');
+
+body {
+  font-family: monospace, monospace;
+}
+
 h1 {
   text-align: center;
   margin-bottom: 0.25em;
@@ -33,12 +41,16 @@ h2 {
 }
 
 .a-snippet {
-  padding-bottom: 3em;
+  padding-bottom: 12em;
 }
 
 .snippet-header {
   text-align: right;
   margin-bottom: 1.5em;
+}
+
+.snip{
+  padding-bottom: 12em;
 }
 
 .down {
@@ -54,20 +66,43 @@ h2 {
   justify-items: center;
 }
 
+.center-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .comments-field {
   border: none;
   overflow: hidden;
 }
 
-.backlinks {
+.interlinks-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  list-style-type:none;
+  justify-content: space-evenly;
+  padding-top: 2em;
+  padding-bottom: 1em;
+}
+
+.interlinks {
+  list-style-type: none;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 .middly {
   /* constrain the tags list to the center 30% ? */
+}
+
+.wrappable {
+  max-width: 40em;
+  word-wrap: break-word;
+}
+
+.danger-zone {
+  display: none;
 }
 
 /* github corner styles: https://tholman.com/github-corners/ */

@@ -1,3 +1,5 @@
+#! ... out the other
+
           '   '
       '           '
     '    (*) (*)    '
@@ -6,7 +8,5 @@ alert(             prompt())
     '   \_______/   '
       '           '
           '   '
-
-// ... out the other
 
 // tags: wuzzle
