@@ -7,5 +7,6 @@ const stack = (fn) => (names) =>
 
 stack
   (function busted() { yolo; })
-  (['too', 'bad', 'so', 'sad']);
+  (['too', 'bad', 'so', 'sad'])
+  ();
  

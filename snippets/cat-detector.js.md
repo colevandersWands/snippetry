@@ -1,3 +1,8 @@
+---
+tags:
+  - metappet
+---
+
 # Cat Detector
 
 On the surface, a cat detector is a just simple program:
@@ -26,5 +31,3 @@ On the surface, a cat detector is a just simple program:
   ```
 
 But really, a cat detector is an excuse to [draw a bunny](./bunny.md).
-
-<!-- tags: variations, metappet -->

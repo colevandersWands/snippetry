@@ -53,31 +53,31 @@ export const dynamicTags = [
     }
   },
 
-  function translation(snippets = []) {
-    const lang = (name = '') => {
-      const ext = name.split('.').pop().toLowerCase();
-      return ext === 'mjs' ? 'js' : ext;
-    };
+  // function translation(snippets = []) {
+  //   const lang = (name = '') => {
+  //     const ext = name.split('.').pop().toLowerCase();
+  //     return ext === 'mjs' ? 'js' : ext;
+  //   };
 
-    const universalize = (name = '') =>
-      ((nameParts) => (nameParts.pop(), nameParts.join('.')))(name.split('.'))
-        .replaceAll('_', '-')
-        .toLowerCase();
+  //   const universalize = (name = '') =>
+  //     ((nameParts) => (nameParts.pop(), nameParts.join('.')))(name.split('.'))
+  //       .replaceAll('_', '-')
+  //       .toLowerCase();
 
-    for (let i = 0; i < snippets.length; i++) {
-      const oneSnippet = snippets[i];
-      if (oneSnippet.title.startsWith('.')) continue;
+  //   for (let i = 0; i < snippets.length; i++) {
+  //     const oneSnippet = snippets[i];
+  //     if (oneSnippet.title.startsWith('.')) continue;
 
-      for (let j = i + 1; j < snippets.length; j++) {
-        const anotherSnippet = snippets[j];
-        if (
-          universalize(oneSnippet.title) === universalize(anotherSnippet.title) &&
-          lang(oneSnippet.title) !== lang(anotherSnippet.title)
-        ) {
-          oneSnippet.tags.push('translation');
-          anotherSnippet.tags.push('translation');
-        }
-      }
-    }
-  },
+  //     for (let j = i + 1; j < snippets.length; j++) {
+  //       const anotherSnippet = snippets[j];
+  //       if (
+  //         universalize(oneSnippet.title) === universalize(anotherSnippet.title) &&
+  //         lang(oneSnippet.title) !== lang(anotherSnippet.title)
+  //       ) {
+  //         oneSnippet.tags.push('translation');
+  //         anotherSnippet.tags.push('translation');
+  //       }
+  //     }
+  //   }
+  // },
 ];

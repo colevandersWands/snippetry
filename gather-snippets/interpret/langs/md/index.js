@@ -45,8 +45,13 @@ export const md = ({ title, text }) => {
     }
   });
 
-  // --- search for a simplit snippet ---
+  if (Array.isArray(parsedFrontmatter.see) && parsedFrontmatter.see.length !== 0) {
+    forelinks.add(...parsedFrontmatter.see);
+    delete parsedFrontmatter.see;
+  }
+
   if (ext(name(title)).replace('.', '') in langs) {
+    // --- search for a simplit snippet ---
     const splitTitle = title.split('.');
     splitTitle.push('st', splitTitle[splitTitle.length - 2]);
     const subTitle = splitTitle.join('.');

@@ -6,8 +6,8 @@ pre[class*='language-'] {
   background: 0 0;
   text-shadow: 0 1px #fff;
   /* font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; */
-  /* font-family: monospace, monospace; */
-  font-size: 1em;
+  font-family: monospace, monospace;
+  font-size: 0.9em;
   text-align: left;
   white-space: pre;
   word-spacing: normal;

@@ -1,22 +1,10 @@
-/*
-  // 'use strict';
-*/
-
-const YOLO = 'YOLO';
-
-const walkTheTalk = (motto = YOLO) =>
-  prompt(`${motto}!`) || (alert(`${motto} harder!`), walkTheTalk(motto));
-
-const shipit = (code = `"${YOLO}!`) => {
+while (true) {
   try {
-    alert(eval(code));
+    alert(eval(prompt(`YOLO!`)));
+    break;
   } catch (err) {
-    alert(`${err.name}: ${err.message}\n\n${YOLO}!`);
-  } finally {
-    shipit(walkTheTalk(YOLO));
+    alert(`${err.name}: ${err.message}`);
   }
-};
-
-shipit(walkTheTalk(YOLO));
+}
 
 // tags: yolo

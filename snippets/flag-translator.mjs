@@ -13,3 +13,5 @@ while (
 }
 
 await alertStory(`be.${lang.toLowerCase()}.txt`);
+
+// see: be.de.txt, be.en.txt, be.fr.txt, be.nl.txt 

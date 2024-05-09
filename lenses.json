@@ -1,5 +1,6 @@
 {
   "--port": 3456,
+  "-no-open": true,
   "study": {
     "save": true
   }

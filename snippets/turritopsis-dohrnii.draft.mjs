@@ -1,4 +1,4 @@
-import { stateMachine } from './state-machine.mjs';
+import { statelessMachine } from './stateless-machine.mjs';
 
 /* it can 
 	have a sex
@@ -14,13 +14,26 @@ import { stateMachine } from './state-machine.mjs';
 	be dead 
 */
 
-/* implement as	
-	a state machine
-	which emits events
-*/
+const eat = (next = '') => ({ eat: { state: next, cb: () => console.log('poop') } });
 
-export const progenitor = _;
-
-export default progenitor;
+const lifeStages = {
+  planula: {
+    mature: 'polyp',
+  },
+  polyp: {
+    mature: 'medusje',
+    reproduce: {
+      se: () => console.log('bud medusas'),
+      state: 'polyp',
+    },
+  },
+  medusa: {
+    stress: 'polyp',
+    reproduce: {
+      se: () => console.log('release egg/sperm pending sex'),
+      state: 'medusa',
+    },
+  },
+};
 
 // tags: bunny

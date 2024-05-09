@@ -10,8 +10,8 @@
     "bundle:css": "esbuild --bundle public/styles.css --outfile=public/bundle/min.css --minify",
     "bundle": "npm run bundle:js & npm run bundle:css",
     "publish": "npm run gather & npm run bundle",
-    "host:dev": "npm run build & nodemon ./api.js",
-    "host": "npm run build & node ./api.js"
+    "host:dev": "npm run publish & nodemon ./api.js",
+    "host": "npm run publish & node ./api.js"
   },
   "repository": {
     "type": "git",

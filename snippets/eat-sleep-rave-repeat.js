@@ -28,9 +28,9 @@ import('./projector.mjs').then(({ projector }) => {
   
   with (aBeat) { do {
 
-        eat;
-        sleep;
-        rave;        } while (
+        eat
+        sleep
+        rave   } while (
         repeat
 
   )}

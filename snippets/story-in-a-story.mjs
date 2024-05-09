@@ -8,23 +8,20 @@ export const runStory = async (storyTitle = '', transition = '') => {
   if (transition) console.groupEnd();
 };
 
-export const logStory = async (storyTitle = '', transition = '') => {
-  if (transition) console.group(`%c${transition}`, 'font-weight: bold;');
-  try {
-    console.log(await fetch(storyTitle).then((res) => res.text()));
-  } catch (err) {
-    console.error(err);
-  }
-  if (transition) console.groupEnd();
-};
+export const tellStory = (medium = console.log) =>
+  async function recount(storyTitle = '', transition = '') {
+    if (transition) console.group(`%c${transition}`, 'font-weight: bold;');
+    try {
+      await medium(await fetch(storyTitle).then((res) => res.text()));
+    } catch (err) {
+      console.error(err);
+    }
+    if (transition) console.groupEnd();
+  };
 
-export const alertStory = async (storyTitle = '', transition = '') => {
-  try {
-    alert(`${transition}${await fetch(storyTitle).then((res) => res.text())}`);
-  } catch (err) {
-    alert(err.toString());
-  }
-};
+export const logStory = tellStory();
+
+export const alertStory = tellStory(alert);
 
 export default runStory;
 

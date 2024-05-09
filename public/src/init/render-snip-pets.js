@@ -11,7 +11,7 @@ const snippetsContainer = document.getElementById('snippets');
 const postableSnips = shuffleArray(state.snips);
 
 for (const snippet of state.snippets) {
-  setTimeout(renderSnippet,0, snippet);
+  setTimeout(renderSnippet, 0, snippet);
 
   if (
     postableSnips.length > 0 &&

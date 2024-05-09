@@ -1,5 +1,5 @@
 ---
-alt: Don't make it complex, KISS.
+alt: Don't make things complex, keep it real.
 tags: 
   - metappet
 ---

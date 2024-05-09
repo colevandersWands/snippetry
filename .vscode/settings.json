@@ -2,7 +2,8 @@
   "editor.formatOnSave": false,
   "editor.tabSize": 2,
   "editor.insertSpaces": false,
-  "files.autoSave": "onFocusChange",
+  "editor.fontFamily": "monospace",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.autoSave": "onFocusChange",
   "files.trimTrailingWhitespace": false
 }

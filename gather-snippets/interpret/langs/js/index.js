@@ -1,10 +1,9 @@
-import { fromJs } from 'esast-util-from-js';
-
 import { langs } from '../index.js';
 
-import { lang, name, ext, staticLabels } from '../../utils.js';
+import { name, ext, staticLabels } from '../../utils.js';
 
 import { findForelinks } from './find-forelinks.js';
+import { jsast } from './jsast.js';
 
 export const js = ({ title = '', text = '' }) => {
   let alt;
@@ -18,15 +17,16 @@ export const js = ({ title = '', text = '' }) => {
     alt = hashbangLine?.replace('#!', '').trim();
   }
 
-  const type = lang(title) === 'mjs' ? 'module' : 'script';
-  let ast = null;
-  try {
-    ast = type === 'module' ? fromJs(text, { module: true }) : fromJs(text);
-  } catch (_) {
-    // can ignore syntactically incorrect snippets
-  }
+  const ast = jsast({ title, text });
 
   const forelinks = findForelinks(ast);
+
+  forelinks.push(
+    ...staticLabels({
+      text,
+      begin: /(\/\/)[\s]*see[\s]*:/gi,
+    }),
+  );
 
   const tags = staticLabels({
     text,

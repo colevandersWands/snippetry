@@ -2,10 +2,22 @@ import { fromHtml } from 'hast-util-from-html';
 import { visit } from 'unist-util-visit';
 
 import { isRelative, staticLabels } from '../utils.js';
-import { findForelinks as findJsForelinks } from './js/find-forelinks.js';
+
+import { css } from './css.js';
+import { js } from './js/index.js';
 
 export const html = ({ title = '', text = '' }) => {
   const forelinks = new Set();
+  forelinks.add(
+    ...staticLabels({
+      text,
+      begin: /(\<\!\-\-)[\s]*see[\s]*:/gi,
+      end: /(\-\-\>)/gi,
+    }),
+  );
+
+  const scripts = [];
+  const styles = [];
   try {
     const ast = fromHtml(text, { fragment: true });
     visit(ast, (node) => {
@@ -19,18 +31,25 @@ export const html = ({ title = '', text = '' }) => {
         if (forelink) forelinks.add(forelink);
       }
       // find import statements in inline scripts
-      const scriptText = node.children?.find(
+      const nodeText = node.children?.find(
         (child) => child.type === 'text' && child.value !== '',
       )?.value;
-      if (node.tagName === 'script' && scriptText) {
-        forelinks.add(
-          ...findJsForelinks({
-            code: scriptText,
-            type: node.properties?.type || 'script',
-          }),
-        );
+      if (node.tagName === 'script' && nodeText) {
+        const title = node.properties?.type === 'module' ? 'script.mjs' : 'script.js';
+        const jsNippet = js({ title, text: nodeText });
+        // scripts.push(jsNippet);
+
+        forelinks.add(...jsNippet.forelinks);
       }
-      // if there's ever a style sheet
+
+      if (node.tagName === 'style' && nodeText) {
+        const csSnippet = css({ title: 'style.css', text: nodeText });
+        // styles.push(csSnippet);
+
+        forelinks.add(...csSnippet.forelinks);
+      }
+
+      // forelinks to style sheets
       if (node.tageName === 'link') null;
       // can search for CSS imports if ever
     });
@@ -40,7 +59,6 @@ export const html = ({ title = '', text = '' }) => {
 
   const tags = staticLabels({
     text,
-    label: 'tags',
     begin: /(\<\!\-\-)[\s]*tags[\s]*:/gi,
     end: /(\-\-\>)/gi,
   });
@@ -52,5 +70,7 @@ export const html = ({ title = '', text = '' }) => {
       .sort()
       .filter((fl) => fl),
     tags,
+    scripts,
+    styles,
   };
 };
