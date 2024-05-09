@@ -21,8 +21,11 @@ jobs:
       - name: Installing
         run: npm install
 
-      - name: Publishing
-        run: npm run publish
+      - name: Gathering
+        run: npm run gather
+
+      - name: Bundling
+        run: npm run bundle
 
       - name: Committing
         uses: stefanzweifel/git-auto-commit-action@v4.7.2
