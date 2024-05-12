@@ -34,6 +34,10 @@ export const js = ({ title = '', text = '' }) => {
     begin: /(\/\/)[\s]*tags[\s]*:/gi,
   });
 
+  if (title.toLowerCase().endsWith('.dweet.js')) {
+    tags.push('dweet');
+  }
+
   let subtext = null;
   if (ast && ext(name(title)).replace('.', '') in langs) {
     const comments = [];
@@ -68,6 +72,10 @@ export const js = ({ title = '', text = '' }) => {
       };
     }
   }
+
+  if (title.toLowerCase().endsWith('.dweet.js')) {
+    text = text.replaceAll(/^\/\/.*/g, '').trim();
+  } 
 
   return { text, forelinks, tags, alt, subtext };
 };

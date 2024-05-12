@@ -19,7 +19,7 @@ export const txt = {
     }),
   ],
 
-  jarConfig: (lang = '') => ({ tab: '\t' }),
+  jarConfig: (lang = '') => ({ tab: '  ' }),
 
   translate: ({ ast }) => ast,
 };

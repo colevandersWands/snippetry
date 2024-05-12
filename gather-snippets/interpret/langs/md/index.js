@@ -8,7 +8,7 @@ import { parse } from 'yaml';
 
 import { langs } from '../index.js';
 
-import { isRelative, name, ext, staticLabels, lang } from '../../utils.js';
+import { isRelative, name, ext, lang } from '../../utils.js';
 
 import { interpret } from '../../index.js';
 

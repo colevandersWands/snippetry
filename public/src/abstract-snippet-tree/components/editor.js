@@ -13,18 +13,26 @@ export const editor = (snippet) => {
   codeContainer.textContent = snippet.text;
   editorContainer.appendChild(codeContainer);
 
-  // from codeJar
-  const highlight = (editor) => {
-    snippet.text = editor.textContent; // side-effect the snippet for danger & copying
+  const initializeEditor = (entries, observer) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        observer.unobserve(editorContainer);
 
-    // highlight.js does not trims old tags,
-    // let's do it by this hack.
-    editor.textContent = editor.textContent;
-    Prism.highlightElement(editor);
+        const highlight = (editor) => {
+          snippet.text = editor.textContent; // side-effect
+          Prism.highlightElement(editor);
+        };
+
+        const jar = CodeJar(editorContainer.firstChild, highlight, jarConfig(lang));
+        jar.updateCode(snippet.text);
+      }
+    }
   };
 
-  const jar = CodeJar(editorContainer.firstChild, highlight, jarConfig(lang));
-  jar.updateCode(snippet.text);
+  new IntersectionObserver(initializeEditor, {
+    root: null, // Use the viewport as the root
+    threshold: 0, // Trigger callback when any part of the target enters the viewport
+  }).observe(editorContainer);
 
   return editorContainer;
 };
