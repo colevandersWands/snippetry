@@ -3,7 +3,7 @@ import { CodeJar } from '../../../../../lib/codejar.min.js';
 import { uncompress } from './uncompress.js';
 import { compress } from './compress.js';
 
-function dweeterize(s, CodeJar, Prism) {
+function dweeterize(s, CodeJar, Prism, compress, uncompress) {
   const dwitterContainer = document.createElement('div');
   dwitterContainer.id = s.title + '-dweeting';
   dwitterContainer.style =
