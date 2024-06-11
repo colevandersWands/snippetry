@@ -1,6 +1,6 @@
 import { n } from '../../../utils/n.js';
 
-import { revise } from '../../revise.js';
+import { revise } from '../../utils/revise.js';
 
 import { txt } from '../txt.js';
 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "What can you do with 40(ish) lines at a time?",
   "type": "module",
-  "scripts": {
+  "scripts": { 
     "draft": "cd ./snippets && lenses",
     "gather": "node gather-snippets & node gather-snips.js & node gather-comments.js",
     "bundle:js": "esbuild public/index.js --bundle --outfile=public/bundle/min.js --target=es2022 --format=esm --minify",
@@ -24,6 +24,7 @@
   },
   "homepage": "https://colevandersWands.github.io/snippetry",
   "devDependencies": {
+    "@codemirror/basic-setup": "^0.19.1",
     "esast-util-from-js": "^2.0.1",
     "esbuild": "^0.20.2",
     "estree-util-visit": "^2.0.0",

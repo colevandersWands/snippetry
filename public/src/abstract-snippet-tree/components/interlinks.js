@@ -6,9 +6,18 @@ const linksList = (type = '', links = []) =>
     n(
       'list',
       {},
-      links.map((link) =>
-        n('li', {}, n('a', { href: `#${link.toLowerCase()}`, target: '_self' }, link)),
-      ),
+      links.map((link) => {
+        let href = link;
+        let isURL = false;
+        try {
+          new URL(href);
+          isURL = true;
+        } catch (_) {
+          href = `#${link.toLowerCase()}`;
+        }
+
+        return n('li', {}, n('a', { href, target: isURL ? '_blank' : '_self' }, link));
+      }),
     ),
   ]);
 

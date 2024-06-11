@@ -1,3 +1,3 @@
-life: { const CHANGE = true; }
+life: { const CHANGE = true }
 
 // tags: wuzzle

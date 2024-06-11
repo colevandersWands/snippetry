@@ -1,0 +1,1 @@
+open('', '_blank').document.body.innerHTML = '<input type="checkbox" onclick="setTimeout(() => this.checked = false, 500)" />';

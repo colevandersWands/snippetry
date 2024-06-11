@@ -53,6 +53,14 @@ export const dynamicTags = [
     }
   },
 
+  function dweet(snippets = []) {
+    for (const snippet of snippets) {
+      if (snippet.title.toLowerCase().endsWith('.dweet.js')) {
+        snippet.tags.push('dweet', 'golf');
+      }
+    }
+  },
+
   // function translation(snippets = []) {
   //   const lang = (name = '') => {
   //     const ext = name.split('.').pop().toLowerCase();

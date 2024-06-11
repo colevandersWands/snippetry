@@ -8,7 +8,7 @@ export const name = (title = '') => title.slice(0, title.length - ext(title).len
 export const staticLabels = ({
   text = '',
   label = 'tags',
-  begin = new RegExp(`/(\(|\/\/|<!\-\-|\/\*|\#)[\s]*(${label})[\s]*:/`, 'gi'),
+  begin = new RegExp(`/(\†\(|\/\/|<!\-\-|\/\*|\#)[\s]*(${label})[\s]*:/`, 'gi'),
   end = /(|\-\-\>|\*\/|\)|)/gi,
 }) =>
   Array.from(

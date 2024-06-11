@@ -1,5 +1,6 @@
 export const revise = (ast = {}, edits = (n) => n) => {
-  const revision = edits(ast);
+  const proposed = edits(ast);
+  const revision = proposed === undefined ? ast : proposed;
 
   if (Array.isArray(revision) && revision[0].toLowerCase() === 'skip')
     return revision[1] || ast;

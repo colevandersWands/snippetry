@@ -9,14 +9,20 @@ try {
   i = 0;
   params = [];
   while (true) {
-    // console.log(parameters);
     params.push(`_${++parameters}`);
-    // console.log(params);
     const func = new Function(...params, '');
-    // console.log(func.toString());
-    console.log(parameters);
   }
 } catch (_) {
   console.error(_);
 }
 console.log(parameters);
+
+array = [];
+try {
+  while (true) {
+    array.push(null);
+  }
+} catch (_) {
+  console.log(array.length);
+  console.error(_);
+}

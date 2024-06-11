@@ -1,0 +1,46 @@
+	<title>Dweeting (interval)</title>
+
+	<canvas id="c" width="1920" height="1080" style="width: 100%"></canvas>
+	<code style="color: grey">function u(t) {</code> <br />
+	<pre style="color: grey">/* Will be called 60 times per second.
+ * t: Elapsed time in seconds.
+ * S: Shorthand for Math.sin.
+ * C: Shorthand for Math.cos.
+ * T: Shorthand for Math.tan.
+ * R: Function that generates rgba-strings, usage ex.: R(255, 255, 255, 0.5)
+ * c: A 1920x1080 canvas.
+ * x: A 2D context for that canvas. */</pre>
+	<textarea id="editor" rows="4" cols="80"
+		>for(c.width|=i=9;i--;)x.fillRect(100*(4+3*S(t)+i),400,50,200)</textarea><br />
+	<code style="color: grey">} // </code><code id="count"></code>
+	<pre id="out" style="color: red"></pre>
+	
+	<script>
+		x = c.getContext`2d`
+		S = Math.sin, C = Math.cos, T = Math.tan
+		R = (r = 0, g = 0, b = 0, a = 1) => `rgba(${r},${g},${b},${a})`
+		frame = 0, intervalId = 0, u = () => {}
+		editor.addEventListener('input', () => {
+			count.innerText = editor.value.length + '/140'
+			editor.value.length > 140 ? count.style.color = 'red' : count.style.color = 'black'
+			clearInterval(intervalId)
+			try {
+				u = eval(`(t) => {\n\n${editor.value}\n\n}`)
+				out.innerText = ''
+				intervalId = setInterval(() => {
+					try {
+						u(frame++ / 60);
+					} catch (err) {
+						out.innerText = err;
+					}
+				}, 16.66666667)
+			} catch (err) {
+				u = () => {}, frame = 0
+				out.innerText = err
+				clearInterval(intervalId)
+			}
+		})
+		editor.dispatchEvent(new Event('input'))
+	</script>
+
+<!-- tags: dweet -->

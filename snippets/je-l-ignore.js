@@ -23,7 +23,8 @@ try {
     la_chute(etage - 1);
   })(combien);
 } catch (l_importance) {
-  l_importance.message = 'c’est l’atterrissage.';
+  l_importance.name = 'c’est';
+  l_importance.message = 'l’atterrissage.';
   throw l_importance;
 } finally {
   console.log('\n' + "Mais l'important n’est pas la chute," + '\n\n');

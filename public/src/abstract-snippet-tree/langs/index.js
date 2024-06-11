@@ -1,3 +1,4 @@
+import { coem } from './coem/index.js';
 import { css } from './css.js';
 import { html } from './html.js';
 import { js } from './js/index.js';
@@ -11,6 +12,7 @@ import { txt } from './txt.js';
 import { yaml } from './yaml.js';
 
 const langMap = {
+  coem,
   css,
   htm: html,
   html,
