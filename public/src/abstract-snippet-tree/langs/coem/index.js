@@ -24,11 +24,12 @@ export const coem = {
           const { view, container } = coemMirror(snippet);
 
           snippet._text = snippet.text;
-
-          snippet._echos = [snippet._text];
+          snippet._echos = [snippet.text];
 
           Object.defineProperty(snippet, 'text', {
             set(text) {
+              if (typeof text !== 'string') return;
+
               const hack = text.startsWith(')}={(') ? ')}={(' : '';
 
               if (!hack) {
@@ -71,7 +72,7 @@ const echo = async (snippet) => {
 
   const browserEnv = new Environment();
   try {
-    const echo = run(snippet.text, browserEnv);
+    const echo = await run(snippet.text, browserEnv);
     snippet.text = echo;
     snippet._echos.push(echo);
   } catch (e) {
@@ -80,6 +81,13 @@ const echo = async (snippet) => {
 };
 
 const suppress = (snippet) => {
-  snippet._echos.pop();
-  snippet.text = snippet._echos.at(-1);
+  // console.log(1, snippet._echos);
+
+  if (snippet._echos.length > 1) {
+    snippet.text = snippet._echos.pop();
+  } else {
+    snippet.text = snippet._echos[0];
+  }
+
+  // console.log(2, snippet._echos);
 };

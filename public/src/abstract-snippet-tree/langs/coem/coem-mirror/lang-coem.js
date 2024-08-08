@@ -170,6 +170,7 @@ const coemLanguage = LRLanguage.define({
         indentOnInput: /^\s*([\}\]\)]|else:|else if:)$/
     }
 });
+
 /// Coem language support.
 function coem() {
     return new LanguageSupport(coemLanguage);

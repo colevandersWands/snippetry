@@ -5,5 +5,8 @@
   "editor.fontFamily": "monospace",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.autoSave": "onFocusChange",
-  "files.trimTrailingWhitespace": false
+  "files.trimTrailingWhitespace": false,
+  "[ruby]": {
+    "editor.defaultFormatter": "mbessey.vscode-rufo"
+  }
 }

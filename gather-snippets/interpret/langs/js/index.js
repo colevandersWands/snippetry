@@ -34,6 +34,16 @@ export const js = ({ title = '', text = '' }) => {
     begin: /(\/\/)[\s]*tags[\s]*:/gi,
   });
 
+  if (
+    staticLabels({
+      text,
+      label: 'tribute',
+      begin: /(\/\/)[\s]*tribute[\s]*:/gi,
+    })
+  ) {
+    tags.push('tribute');
+  }
+
   let subtext = null;
   if (ast && ext(name(title)).replace('.', '') in langs) {
     const comments = [];

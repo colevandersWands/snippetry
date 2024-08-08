@@ -1,6 +1,19 @@
 // https://cdn.jsdelivr.net/gh/coem-lang/jscoem@428534249b0e91156f8aa55defe5bc2251a8f061/dist/coem.js
 
-const nullable = str => (str ? str : '');
+/* features to PR
+
+  √ #with patience
+  #in dialogue
+    node.js mocking -?> () => new Literal('')
+  #as palimpsest
+    set as instance property for running different programs in same tab
+    fix bug with function call syntax
+  maybe
+
+
+*/
+
+const nullable = (str) => (str ? str : '');
 
 class CoemError {
   constructor(msg, startCoordinates, endCoordinates) {
@@ -19,7 +32,7 @@ class RuntimeError extends CoemError {
     super(
       `${nullable(token.lexeme && `at "${token.lexeme}": `)}${msg}`,
       token.startCoordinates,
-      token.endCoordinates
+      token.endCoordinates,
     );
   }
 }
@@ -37,7 +50,7 @@ const parseError = (msg, token) => {
     return new CoemError(
       `${nullable(token.lexeme && `at "${token.lexeme}": `)}${msg}`,
       token.startCoordinates,
-      token.endCoordinates
+      token.endCoordinates,
     );
   }
 };
@@ -61,15 +74,16 @@ const formatCoemError = (e, code) => {
     // Print Critical Code
     const errorType = e instanceof RuntimeError ? 'Runtime Error' : 'Parse Error';
     return {
-      oneLiner: `${errorType}: ${e.toString()} at ${e.endCoordinates.line}:${e.endCoordinates.col +
-        1}`,
+      oneLiner: `${errorType}: ${e.toString()} at ${e.endCoordinates.line}:${
+        e.endCoordinates.col + 1
+      }`,
       preErrorSection,
       errorSection,
-      postErrorSection
+      postErrorSection,
     };
   } else {
     return {
-      oneLiner: `Unexpected javascript Error: ${e}`
+      oneLiner: `Unexpected javascript Error: ${e}`,
     };
   }
 };
@@ -88,6 +102,7 @@ const tokens = `
   COMMENT,
 
   AND, OR,
+  MAYBE,
   IS, AM, ARE,
   IF, ELSE, WHILE,
   LET, BE,
@@ -102,7 +117,7 @@ const tokens = `
   EOF
 `
   .split(',')
-  .map(token => token.trim());
+  .map((token) => token.trim());
 
 let tokenEnum = {};
 tokens.forEach((token, i) => {
@@ -118,6 +133,7 @@ const keywords = {
   not: tokenEnum.NOT,
   true: tokenEnum.TRUE,
   false: tokenEnum.FALSE,
+  maybe: tokenEnum.MAYBE,
   nothing: tokenEnum.NOTHING,
   let: tokenEnum.LET,
   be: tokenEnum.BE,
@@ -128,25 +144,25 @@ const keywords = {
 };
 
 const tokenMap = {
-  '—': tokenizer => {
+  '—': (tokenizer) => {
     tokenizer.addToken(tokenEnum.EMDASH);
   },
-  ':': tokenizer => {
+  ':': (tokenizer) => {
     tokenizer.addToken(tokenEnum.COLON);
   },
-  ',': tokenizer => {
+  ',': (tokenizer) => {
     tokenizer.addToken(tokenEnum.COMMA);
   },
-  '.': tokenizer => {
+  '.': (tokenizer) => {
     tokenizer.addToken(tokenEnum.DOT);
   },
-  '&': tokenizer => {
+  '&': (tokenizer) => {
     tokenizer.addToken(tokenEnum.AMPERSAND);
   },
-  '#': tokenizer => {
+  '#': (tokenizer) => {
     tokenizer.addToken(tokenEnum.POUND);
   },
-  '†': tokenizer => {
+  '†': (tokenizer) => {
     // comments
     // while (tokenizer.peek() !== '\n' && tokenizer.peek() !== '') tokenizer.advance();
     tokenizer.handleComments();
@@ -154,13 +170,13 @@ const tokenMap = {
   ' ': noop,
   '\t': noop,
   '\r': noop,
-  '\n': tokenizer => {
+  '\n': (tokenizer) => {
     tokenizer.addToken(tokenEnum.NEWLINE);
     tokenizer.newline();
   },
-  '“': tokenizer => {
+  '“': (tokenizer) => {
     tokenizer.handleStringLiterals();
-  }
+  },
 };
 
 // const isAlpha = str => /[a-zA-Z_]/.test(str)
@@ -170,9 +186,14 @@ const isIdentifierChar = (c) => {
   return (
     (c >= 'A' && c <= 'Z') ||
     (c >= 'a' && c <= 'z') ||
-    (c == '(' || c == ')') ||
-    (c == '[' || c == ']') ||
-    (c == '|' || c == '?' || c == '*' || c == '+')
+    c == '(' ||
+    c == ')' ||
+    c == '[' ||
+    c == ']' ||
+    c == '|' ||
+    c == '?' ||
+    c == '*' ||
+    c == '+'
   );
 };
 
@@ -246,7 +267,7 @@ class Tokenizer {
           throw new CoemError(
             `Unexpected character ${c}`,
             this.startPosition,
-            new Coordinate(this.column, this.line, this.current)
+            new Coordinate(this.column, this.line, this.current),
           );
         }
       } else {
@@ -270,8 +291,8 @@ class Tokenizer {
         text,
         literal,
         new Coordinate(this.column, this.line, this.current),
-        this.startPosition
-      )
+        this.startPosition,
+      ),
     );
   }
 
@@ -339,6 +360,12 @@ class Unary {
 class Literal {
   constructor(value) {
     this.value = value;
+  }
+}
+
+class Maybe {
+  get value() {
+    return Math.random() > 0.5 ? true : false;
   }
 }
 
@@ -431,7 +458,7 @@ class Parser {
     let statements = [];
     while (!this.isAtEnd) {
       while (this.check(token$1.NEWLINE)) {
-        this.consume(token$1.NEWLINE, "Expect newline between statements.");
+        this.consume(token$1.NEWLINE, 'Expect newline between statements.');
       }
       if (!this.isAtEnd) {
         statements.push(this.declaration());
@@ -453,7 +480,10 @@ class Parser {
   directive() {
     if (this.match(token$1.IDENTIFIER, token$1.BE)) {
       const name = this.previous();
-      const value = this.consume(token$1.IDENTIFIER, "Expect value after directive name.");
+      const value = this.consume(
+        token$1.IDENTIFIER,
+        'Expect value after directive name.',
+      );
       return new Directive(name, value);
     }
   }
@@ -487,12 +517,12 @@ class Parser {
     let statements = [];
 
     while (this.check(token$1.NEWLINE)) {
-      this.consume(token$1.NEWLINE, "Expect newline between statements.");
+      this.consume(token$1.NEWLINE, 'Expect newline between statements.');
     }
 
     while (!this.check(token$1.DOT) && !this.isAtEnd) {
       while (this.check(token$1.NEWLINE)) {
-        this.consume(token$1.NEWLINE, "Expect newline between statements.");
+        this.consume(token$1.NEWLINE, 'Expect newline between statements.');
       }
       if (!this.check(token$1.DOT) && !this.isAtEnd) {
         statements.push(this.declaration());
@@ -519,11 +549,11 @@ class Parser {
   }
 
   or() {
-    return this.matchBinary('and', Logical, token$1.OR)
+    return this.matchBinary('and', Logical, token$1.OR);
   }
 
   and() {
-    return this.matchBinary('equality', Logical, token$1.AND)
+    return this.matchBinary('equality', Logical, token$1.AND);
   }
 
   matchBinary(method, Class, ...operators) {
@@ -533,7 +563,7 @@ class Parser {
       const right = this[method]();
       expr = new Class(expr, operator, right);
     }
-    return expr
+    return expr;
   }
 
   equality() {
@@ -581,6 +611,8 @@ class Parser {
     if (this.match(token$1.TRUE)) return new Literal(true);
     if (this.match(token$1.NOTHING)) return new Literal(null);
 
+    if (this.match(token$1.MAYBE)) return new Maybe();
+
     if (this.match(token$1.STRING)) {
       return new Literal(this.previous().literal);
     }
@@ -617,7 +649,7 @@ class Parser {
     if (this.match(token$1.WHILE)) return this.whileStatement();
     if (this.match(token$1.COLON)) return new Block(this.block());
 
-    return this.expressionStatement()
+    return this.expressionStatement();
   }
 
   ifStatement() {
@@ -665,7 +697,7 @@ class Parser {
     let wrapped = expr;
     if (expr instanceof Call) {
       const callee = expr.callee;
-      if (!callee.name === "print") {
+      if (!callee.name === 'print') {
         wrapped = this.printExpression(expr);
       }
     } else {
@@ -676,9 +708,21 @@ class Parser {
   }
 
   printExpression(expr) {
-    const printToken = new Token(token$1.IDENTIFIER, "print", null, this.peek().endCoordinates, this.peek().startCoordinates);
+    const printToken = new Token(
+      token$1.IDENTIFIER,
+      'print',
+      null,
+      this.peek().endCoordinates,
+      this.peek().startCoordinates,
+    );
     const printExpr = new Var(printToken);
-    const dash = new Token(token$1.emdash, "—", null, this.peek().endCoordinates, this.peek().startCoordinates);
+    const dash = new Token(
+      token$1.emdash,
+      '—',
+      null,
+      this.peek().endCoordinates,
+      this.peek().startCoordinates,
+    );
     let args = [expr];
     const call = new Call(printExpr, dash, args);
     return call;
@@ -718,7 +762,8 @@ class Parser {
 
   // Gets previous token
   previous() {
-    if (this.current <= 0) throw parseError('Expected previous but found nothing.', this.peek());
+    if (this.current <= 0)
+      throw parseError('Expected previous but found nothing.', this.peek());
     return this.tokens[this.current - 1];
   }
 
@@ -730,10 +775,12 @@ class Parser {
 }
 
 class Environment {
-
   constructor(enclosing = null) {
     this.values = new Map();
     this.enclosing = enclosing;
+    this.asPalimpsest = false; // trying asPalimpsest as an instance property
+    this.inDialogue = false; // hack: conditionally support prompts
+    this.withPatience = 0; // hack: breathless execution
   }
 
   get(token) {
@@ -767,8 +814,23 @@ class Environment {
   }
 
   setNameValue(name, value) {
-    if (name === "as" && value.literal === "palimpsest") {
-      Environment.asPalimpsest = true;
+    if (name === 'as' && value.literal === 'palimpsest') {
+      // Environment.asPalimpsest = true;
+      this.asPalimpsest = true;
+      return;
+    }
+    if (name === 'in' && value.literal === 'dialogue') {
+      // hack: "receive" (reception theory), "respond/se" (reader-response theory), ...
+      const nativePrompt = new CoemCallable(null, this.env);
+      nativePrompt.call = (interpreter, args, callee) => prompt(args.join(', '));
+      this.setBuiltin('input', nativePrompt);
+      this.setBuiltin('learn', nativePrompt);
+      this.setBuiltin('listen', nativePrompt);
+      return;
+    }
+    if (name === 'with' && value.literal === 'patience') {
+      // Environment.asPalimpsest = true;
+      this.withPatience = 500;
       return;
     }
 
@@ -777,7 +839,8 @@ class Environment {
 
     // redefine in current environment
     if (set) {
-      if (Environment.asPalimpsest) {
+      // if (Environment.asPalimpsest) {
+      if (this.asPalimpsest) {
         let values = set[1];
         values.push(value);
         return this.values.set(set[0], values);
@@ -795,7 +858,8 @@ class Environment {
     }
 
     // define new in current environment
-    if (Environment.asPalimpsest) {
+    // if (Environment.asPalimpsest) {
+    if (this.asPalimpsest) {
       return this.values.set(pattern, [value]);
     } else {
       return this.values.set(pattern, value);
@@ -808,11 +872,11 @@ class Environment {
   }
 }
 
-Environment.asPalimpsest = false;
+// Environment.asPalimpsest = false; // hack
 
 const token = Tokenizer.tokenEnum;
 
-const isTruthy = val => Boolean(val);
+const isTruthy = (val) => Boolean(val);
 const isEqual = (a, b) => a === b;
 
 class CoemCallable {
@@ -822,13 +886,13 @@ class CoemCallable {
   }
 
   // call(interpreter, args) {
-  call(interpreter, args, callee) {
+  async call(interpreter, args, callee) {
     const env = new Environment(this.closure);
     for (let param = 0; param < this.declaration.params.length; param++) {
       env.set(this.declaration.params[param], args[param]);
     }
     try {
-      interpreter.interpretBlock(this.declaration.bodyStatements, env);
+      await interpreter.interpretBlock(this.declaration.bodyStatements, env);
     } catch (ret) {
       if (ret instanceof ReturnError) {
         return ret.value;
@@ -840,9 +904,10 @@ class CoemCallable {
   }
 
   toString() {
-    return `<${this.declaration.name.lexeme}()>`
-  };
+    return `<${this.declaration.name.lexeme}()>`;
+  }
 }
+
 class Interpreter {
   // constructor(environment, printfunc = console.log) {
   constructor(environment, source) {
@@ -852,10 +917,10 @@ class Interpreter {
     this.source = source;
     this.echo = source;
     this.lines = [];
-    const linesWhole = source.split("\n");
+    const linesWhole = source.split('\n');
     for (let line of linesWhole) {
-      if (line.trim().indexOf(" †") > -1) {
-        this.lines.push(line.split(" †"));
+      if (line.trim().indexOf(' †') > -1) {
+        this.lines.push(line.split(' †'));
       } else {
         this.lines.push([line]);
       }
@@ -863,13 +928,13 @@ class Interpreter {
 
     const nativePrint = new CoemCallable(null, this.env);
     nativePrint.call = (interpreter, args, callee) => {
-      let print = " ";
+      let print = ' ';
       let line = callee.name.startCoordinates.line - 1;
       if (args.length >= 1) {
         print += getArgPrint(args[0]);
         if (args.length > 1) {
           for (let i = 1; i < args.length; i++) {
-            print += " " + getArgPrint(args[i]);
+            print += ' ' + getArgPrint(args[i]);
           }
         }
       }
@@ -883,7 +948,7 @@ class Interpreter {
 
     const getArgPrint = (arg) => {
       if (Array.isArray(arg)) {
-        return arg.join(", ");
+        return arg.join(', ');
       }
       return arg;
     };
@@ -893,113 +958,120 @@ class Interpreter {
     this.environment.setBuiltin('say', nativePrint);
   }
 
-  interpret(expr) {
-    return this.evaluate(expr);
+  async interpret(expr) {
+    return await this.evaluate(expr);
   }
 
-  evaluate(expr) {
-    if (expr instanceof Block) return this.visitBlock(expr);
-    else if (expr instanceof CoemFunction) return this.visitFunction(expr);
-    else if (expr instanceof Logical) return this.visitLogical(expr);
-    else if (expr instanceof Call) return this.visitCall(expr);
-    else if (expr instanceof While) return this.visitWhile(expr);
-    else if (expr instanceof Directive) return this.visitDirective(expr);
-    else if (expr instanceof Condition) return this.visitCondition(expr);
-    else if (expr instanceof VarStatement) return this.visitVarStatement(expr);
-    else if (expr instanceof Return) return this.visitReturnStatement(expr);
+  async evaluate(expr) {
+    if (this.environment?.withPatience !== 0) {
+      await new Promise((res) => setTimeout(res, (this.environment.withPatience *= 1.1)));
+    }
+
+    if (expr instanceof Block) return await this.visitBlock(expr);
+    else if (expr instanceof CoemFunction) return await this.visitFunction(expr);
+    else if (expr instanceof Logical) return await this.visitLogical(expr);
+    else if (expr instanceof Call) return await this.visitCall(expr);
+    else if (expr instanceof While) return await this.visitWhile(expr);
+    else if (expr instanceof Directive) return await this.visitDirective(expr);
+    else if (expr instanceof Condition) return await this.visitCondition(expr);
+    else if (expr instanceof VarStatement) return await this.visitVarStatement(expr);
+    else if (expr instanceof Return) return await this.visitReturnStatement(expr);
     // Doesn't need its own, it can just evaluate like grouping
-    else if (expr instanceof ExpressionStatement) return this.visitExpressionStmt(expr);
-    else if (expr instanceof Var) return this.visitVar(expr);
-    else if (expr instanceof Literal) return this.visitLiteral(expr);
-    else if (expr instanceof Unary) return this.visitUnary(expr);
-    else if (expr instanceof Binary) return this.visitBinary(expr);
+    else if (expr instanceof ExpressionStatement)
+      return await this.visitExpressionStmt(expr);
+    else if (expr instanceof Var) return await this.visitVar(expr);
+    else if (expr instanceof Literal) return await this.visitLiteral(expr);
+    else if (expr instanceof Maybe) return await this.visitLiteral(expr);
+    else if (expr instanceof Unary) return await this.visitUnary(expr);
+    else if (expr instanceof Binary) return await this.visitBinary(expr);
   }
 
-  visitLiteral(expr) {
+  async visitLiteral(expr) {
     return expr.value;
   }
-  visitExpressionStmt(expr) {
-    return this.evaluate(expr.expression);
+
+  async visitExpressionStmt(expr) {
+    return await this.evaluate(expr.expression);
   }
   // visitPrintStatement(expr) {
   //   console.log(expr);
-  //   const val = this.evaluate(expr.expression);
+  //   const val = await this.evaluate(expr.expression);
   //   this.printfunction(val === null ? 'nothing' : val.toString());
   //   return val;
   // }
 
-  visitFunction(expr) {
+  async visitFunction(expr) {
     const fn = new CoemCallable(expr, this.environment);
     this.environment.set(expr.name, fn);
   }
 
-  visitLogical(expr) {
-    const left = this.evaluate(expr.left);
+  async visitLogical(expr) {
+    const left = await this.evaluate(expr.left);
     if (expr.operator.type === token.OR) {
       if (isTruthy(left)) return left;
     } else {
       if (!isTruthy(left)) return left;
     }
 
-    return this.evaluate(expr.right);
+    return await this.evaluate(expr.right);
   }
 
-  visitWhile(expr) {
-    while (isTruthy(this.evaluate(expr.condition))) {
-      this.evaluate(expr.body);
+  async visitWhile(expr) {
+    while (isTruthy(await this.evaluate(expr.condition))) {
+      await this.evaluate(expr.body);
     }
     return null;
   }
 
-  visitDirective(expr) {
+  async visitDirective(expr) {
     this.environment.set(expr.name, expr.value);
     return null;
   }
 
-  visitComment(expr) {
+  async visitComment(expr) {
     return null;
   }
 
-  visitReturnStatement(stmt) {
+  async visitReturnStatement(stmt) {
     var val = null;
-    if (stmt.value) val = this.evaluate(stmt.value);
+    if (stmt.value) val = await this.evaluate(stmt.value);
 
     throw new ReturnError(val);
   }
 
-  visitVar(variable) {
+  async visitVar(variable) {
     return this.environment.get(variable);
   }
 
-  visitVarStatement(variable) {
+  async visitVarStatement(variable) {
     let value = null;
     if (variable.value !== null) {
-      value = this.evaluate(variable.value);
+      value = await this.evaluate(variable.value);
     }
     this.environment.set(variable.name, value);
     return null;
   }
 
-  visitBlock(expr) {
-    this.interpretBlock(expr.statements, new Environment(this.environment));
+  async visitBlock(expr) {
+    await this.interpretBlock(expr.statements, new Environment(this.environment));
     return null;
   }
 
-  visitCondition(expr) {
-    if (isTruthy(this.evaluate(expr.condition))) {
-      this.evaluate(expr.thenBranch);
+  async visitCondition(expr) {
+    if (isTruthy(await this.evaluate(expr.condition))) {
+      await this.evaluate(expr.thenBranch);
     } else if (expr.elseBranch) {
-      this.evaluate(expr.elseBranch);
+      await this.evaluate(expr.elseBranch);
     }
     return null;
   }
 
-  interpretBlock(statements, env) {
+  async interpretBlock(statements, env) {
     const prevEnvironment = this.environment;
     try {
       this.environment = env;
       for (let stmt of statements) {
-        this.interpret(stmt);
+        await this.interpret(stmt);
       }
       this.environment = prevEnvironment;
     } catch (e) {
@@ -1008,29 +1080,35 @@ class Interpreter {
     }
   }
 
-  visitCall(expr) {
-    const callee = this.evaluate(expr.callee);
+  async visitCall(expr) {
+    let callee = await this.evaluate(expr.callee);
+    // hack: fixes function calls in palimpsests
+    if (Array.isArray(callee)) callee = callee[0];
 
-    let args = expr.arguments.map(arg => this.evaluate(arg));
+    let args = [];
+    for (const argument of expr.arguments) {
+      args.push(await this.evaluate(argument));
+    }
+    //  expr.arguments.map((arg) => await this.evaluate(arg));
 
     if (!callee.call) {
       throw runtimeError('Can only call functions.', expr.dash);
     }
 
-    return callee.call(this, args, expr.callee)
+    return await callee.call(this, args, expr.callee);
   }
 
-  visitUnary(expr) {
-    const right = this.evaluate(expr.right);
+  async visitUnary(expr) {
+    const right = await this.evaluate(expr.right);
     switch (expr.operator.type) {
       case NOT:
         return !isTruthy(right);
     }
   }
 
-  visitBinary(expr) {
-    const left = this.evaluate(expr.left);
-    const right = this.evaluate(expr.right);
+  async visitBinary(expr) {
+    const left = await this.evaluate(expr.left);
+    const right = await this.evaluate(expr.right);
     switch (expr.operator.type) {
       // Equality
       case token.IS:
@@ -1043,16 +1121,16 @@ class Interpreter {
   }
 
   getEcho() {
-    let echo = "";
+    let echo = '';
     for (let i = 0; i < this.lines.length; i++) {
       if (this.lines[i].length > 1) {
-        const line = this.lines[i].join(" †");
+        const line = this.lines[i].join(' †');
         echo += line;
       } else {
         echo += this.lines[i][0];
       }
       if (i < this.lines.length - 1) {
-        echo += "\n";
+        echo += '\n';
       }
     }
     return echo;
@@ -1062,7 +1140,7 @@ class Interpreter {
 // adapted from YALI.js by Daniel Berezin (danman113)
 
 // function run(code, environment, printfn, debug = false) {
-function run(code, environment, debug = false) {
+async function run(code, environment, debug = false) {
   const tokenizer = new Tokenizer(code);
   const tokens = tokenizer.scanTokens();
   if (debug) console.log(tokens);
@@ -1072,7 +1150,7 @@ function run(code, environment, debug = false) {
   // const interpreter = new Interpreter(environment, printfn);
   const interpreter = new Interpreter(environment, code);
   for (let statement of statements) {
-    interpreter.interpret(statement);
+    await interpreter.interpret(statement);
   }
   const echo = interpreter.getEcho();
   return echo;

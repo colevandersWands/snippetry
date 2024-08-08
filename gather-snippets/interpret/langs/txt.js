@@ -13,5 +13,15 @@ export const txt = ({ text = '' }) => {
     end: /(\))/gi,
   });
 
+  if (
+    staticLabels({
+      text,
+      begin: /(\()[\s]*tags[\s]*:/gi,
+      end: /(\))/gi,
+    })
+  ) {
+    tags.push('tribute');
+  }
+
   return { text, forelinks, tags };
 };

@@ -26,6 +26,4 @@ setTimeout(function je_l_ignore() {
   }
 }, 100);
 
-// credit: la haine
-
-// tags: tribute
+// tribute: la haine

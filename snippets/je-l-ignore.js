@@ -30,6 +30,4 @@ try {
   console.log('\n' + "Mais l'important n’est pas la chute," + '\n\n');
 }
 
-// credit: la haine
-
-// tags: tribute
+// tribute: la haine

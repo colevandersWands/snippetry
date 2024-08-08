@@ -11,5 +11,14 @@ export const coem = ({ text = '' }) => {
     begin: /(\†)[\s]*tags[\s]*:/gi,
   });
 
+  if (
+    staticLabels({
+      text,
+      begin: /(\†)[\s]*tribute[\s]*:/gi,
+    })
+  ) {
+    tags.push('tribute');
+  }
+
   return { text, forelinks, tags };
 };

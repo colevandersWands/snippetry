@@ -1,12 +1,12 @@
-let (ch|k)at(|tze) be “cat”
+let (ch|k)at(|tze) be “🐈”
 
 let savoir be know
-savoir—chat is cat—
+savoir—chat is “🐈”—
 
 let weten be know
-weten—kat is cat— 
+weten—kat is “🐈”— 
 
 let wissen be know
-wissen—katze is cat—
+wissen—katze is “🐈”—
 
 † see: cat-detector.js.md

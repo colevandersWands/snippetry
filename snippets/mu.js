@@ -26,4 +26,4 @@ mu; // reductionism, wholism
 
 // remix: https://blog.p-petrov.com/assets/images/imgs_geb/mu.png
 // credit: Douglas Hofstadter
-// tags: tribute
+// tribute: Gödel, Escher, Bach

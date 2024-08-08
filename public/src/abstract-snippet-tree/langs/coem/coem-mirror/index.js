@@ -29,9 +29,7 @@ export const coemMirror = (snippet = { text: '' }) => {
       drawSelection(),
       dropCursor(),
       indentOnInput(),
-      bracketMatching({
-        brackets: '“”——()[]',
-      }),
+      bracketMatching({ brackets: '“”——()[]' }),
       closeBrackets(),
       curlyQuotes(),
       emDash(),

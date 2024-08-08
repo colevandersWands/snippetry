@@ -63,6 +63,16 @@ export const html = ({ title = '', text = '' }) => {
     end: /(\-\-\>)/gi,
   });
 
+  if (
+    staticLabels({
+      text,
+      begin: /(\<\!\-\-)[\s]*tribute[\s]*:/gi,
+      end: /(\-\-\>)/gi,
+    })
+  ) {
+    tags.push('tribute');
+  }
+
   return {
     title,
     text,
