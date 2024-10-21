@@ -14,7 +14,7 @@ export const filterSnipPets = (snippetTitle = '') => {
 
   if (snippetTitle) {
     for (const snippet of state.snippets) {
-      if (snippet.name === state.search) {
+      if (snippet.title === state.search) {
         snippet.display == true;
       } else {
         snippet.display = false;

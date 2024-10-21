@@ -3,12 +3,12 @@
 /* features to PR
 
   √ #with patience
-  #in dialogue
+  √ #in dialogue
     node.js mocking -?> () => new Literal('')
-  #as palimpsest
+  √ #as palimpsest
     set as instance property for running different programs in same tab
     fix bug with function call syntax
-  maybe
+  √ maybe
 
 
 */
@@ -778,9 +778,10 @@ class Environment {
   constructor(enclosing = null) {
     this.values = new Map();
     this.enclosing = enclosing;
-    this.asPalimpsest = false; // trying asPalimpsest as an instance property
-    this.inDialogue = false; // hack: conditionally support prompts
-    this.withPatience = 0; // hack: breathless execution
+    this.asPalimpsest = false;
+    this.inDialogue = false;
+    this.inDenial = false;
+    this.withPatience = 0;
   }
 
   get(token) {
@@ -822,15 +823,20 @@ class Environment {
     if (name === 'in' && value.literal === 'dialogue') {
       // hack: "receive" (reception theory), "respond/se" (reader-response theory), ...
       const nativePrompt = new CoemCallable(null, this.env);
-      nativePrompt.call = (interpreter, args, callee) => prompt(args.join(', '));
+      nativePrompt.call = globalThis.prompt
+        ? (interpreter, args, callee) => prompt(args.join(', '))
+        : (interpreter, args, callee) => args.join(', ');
       this.setBuiltin('input', nativePrompt);
       this.setBuiltin('learn', nativePrompt);
       this.setBuiltin('listen', nativePrompt);
       return;
     }
     if (name === 'with' && value.literal === 'patience') {
-      // Environment.asPalimpsest = true;
       this.withPatience = 500;
+      return;
+    }
+    if (name === 'in' && value.literal === 'denial') {
+      this.inDenial = true;
       return;
     }
 
@@ -987,7 +993,9 @@ class Interpreter {
   }
 
   async visitLiteral(expr) {
-    return expr.value;
+    return this.environment.inDenial && typeof expr.value === 'boolean'
+      ? !expr.value
+      : expr.value;
   }
 
   async visitExpressionStmt(expr) {

@@ -1,4 +1,4 @@
-recurseval = 'eval(input("yolo") or recurseval)'
-print(eval(recurseval))
+yolo = 'eval(input("yolo") or yolo)'
+print(eval(yolo))
 
 # tags: yolo

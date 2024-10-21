@@ -61,6 +61,31 @@ export const dynamicTags = [
     }
   },
 
+  function turtle(snippets = []) {
+    for (const snippet of snippets) {
+      if (
+        snippet.title
+          .toLowerCase()
+          .replaceAll('_', '-')
+          .startsWith('turtles-all-the-way-down') ||
+        snippet.text.includes('🐢')
+      ) {
+        snippet.tags.push('🐢');
+      }
+    }
+  },
+
+  function recuseval(snippets = []) {
+    for (const snippet of snippets) {
+      if (
+        snippet.title.toLowerCase().includes('recurseval') ||
+        snippet.text.toLowerCase().includes('recurseval')
+      ) {
+        snippet.tags.push('recurseval');
+      }
+    }
+  },
+
   // function translation(snippets = []) {
   //   const lang = (name = '') => {
   //     const ext = name.split('.').pop().toLowerCase();
