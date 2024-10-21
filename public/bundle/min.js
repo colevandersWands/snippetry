@@ -6997,22 +6997,25 @@ try { turtle('\u{1F422}') } catch (turtles) { console.log(turtle._chronicle) }
 const AETHER = 'color: yellow; background-color: black;';
 const HORIZON = 13;
 
-const body = (sparsity = 1) => 
-  (Math.random() < sparsity ? '*' : ' ');
+const body = (sparsity = 1) => (Math.random() < sparsity ? '*' : ' ');
 const bodies = (sparsity = 1) =>
   Array(HORIZON).fill().map(() => body(sparsity)).join(' ');
+
 const down = (frame = 0, turtle = ' \u{1F422} ') =>
   bodies(20 / frame) + turtle + bodies(20 / frame);
 
 function* descending(config = {}) {
-  const deeper = Array(31).fill(down(-1, '    '));
+  const deeper = Array(42).fill(down(-1, '    '));
+  deeper.push(down(-1, ' \u{1F5FA}\uFE0F '), down(-1, ' \u{1F418} '), down(-1));
+
   while (descending) {
-    deeper.shift(), deeper.push(down(config.frame));
+    // deeper.shift(),
+    deeper.push(down(config.frame));
     yield [\`%c\${deeper.join('\\n')}\`, AETHER];
   }
 }
 
-projector(descending);
+projector(descending, { frameRate: 7 });
 `,tags:["tribute","variation","\u{1F422}"],forelinks:["projector.mjs"],aftlinks:["variation.md"]},{title:"turtles-all-the-way-down.13.js",text:`turtles = {}, turtles['\u{1F422}\u{1F422}'] = turtles;
 `,tags:["tribute","variation","1-liner","\u{1F422}"],aftlinks:["turtles-all-the-way-down.14.mjs","variation.md"]},{title:"turtles-all-the-way-down.14.mjs",text:`await fetch('./turtles-all-the-way-down.13.js')
   .then((res) => res.text())
