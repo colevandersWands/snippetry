@@ -24,7 +24,8 @@ const ground = `___.-------._____/¯¯¯¯¯¯\`----,____`;
 const drop = () => (Math.random() < 0.2 ? '💧' : ' ');
 const row = () => [' ', ' ', ...Array(13).fill(' ').map(drop)];
 
-function* rainstorm(rain = Array(31).fill('').map(row)) {
+function* rainstorm() {
+  const rain = Array(31).fill('').map(row)
   while (rainstorm) {
     rain.pop(), rain.unshift(row());
     const flash = Math.random() < 0.1;

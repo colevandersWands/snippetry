@@ -7,4 +7,4 @@ const hogpile = hog + 'pile';
      console.error(pile);
 }}})[hog]();
 
-// tags: wuzzle
+// tags: wuzzle, useless

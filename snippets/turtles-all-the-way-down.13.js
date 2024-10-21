@@ -1,0 +1,1 @@
+turtles = {}, turtles['🐢🐢'] = turtles;

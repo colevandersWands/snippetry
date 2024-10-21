@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -14,6 +15,15 @@
       if (new URL(window.location.href).searchParams.has('kishu')) {
         document.body.innerHTML = '<pre class="center-center">🐧🐧</pre>';
         document.title = 'kishu';
+        window.stop();
+      }
+    </script>
+
+    <script>
+      if (new URL(window.location.href).searchParams.has('about:blank')) {
+        document.title = 'This page intentionally left blank';
+        document.body.innerHTML = `<p class="center-center"><em>${document.title}</em></p>`;
+        console.log('')
         window.stop();
       }
     </script>
@@ -57,12 +67,18 @@
         </a>
 
         <h1>
-          <a id="graph" target="_blank" aria-label="graph link">Snippetry</a>
+          <!-- <a id="graph" target="_blank" aria-label="graph link">Snippetry</a> -->
           <a
             id="api"
             target="_blank"
             aria-label="API link"
             href="https://snippetry.onrender.com/api/"
+            >Snippetry</a>
+          <a
+            id="about:blank"
+            target="_blank"
+            aria-label="blank page link"
+            href="?about:blank"
             ><img src="./public/favicon.ico"
           /></a>
         </h1>
