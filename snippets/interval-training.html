@@ -7,7 +7,7 @@
   );
 
   document.body.addEventListener('click', function initNoises() {
-    const { frequency: mouseFreq, volume: mouseVol } = noises().play();
+    const { pitch: mouseFreq, volume: mouseVol } = noises().play();
     const mouseTone = (e) => {
       mouseVol(1 / (e.screenY / screen.height));
       mouseFreq((e.screenX / screen.width) * 880);
@@ -15,7 +15,7 @@
     document.body.addEventListener('mousemove', mouseTone);
 
     const keyState = { freq: 440, vol: 1 };
-    const { frequency: keyFreq, volume: keyVol } = noises().play();
+    const { pitch: keyFreq, volume: keyVol } = noises().play();
     const arrowsTone = (e) => {
       if (e.key === 'ArrowUp') keyVol((keyState.vol += 0.05));
       else if (e.key === 'ArrowDown') keyVol((keyState.vol -= 0.05));

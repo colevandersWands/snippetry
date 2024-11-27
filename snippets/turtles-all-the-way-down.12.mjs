@@ -15,10 +15,11 @@ function* descending(config = {}) {
   deeper.push(down(-1, ' 🗺️ '), down(-1, ' 🐘 '), down(-1));
 
   while (descending) {
-    // deeper.shift(),
-    deeper.push(down(config.frame));
+    deeper.shift(), deeper.push(down(config.frame));
     yield [`%c${deeper.join('\n')}`, AETHER];
   }
 }
 
 projector(descending, { frameRate: 7 });
+
+// tags: reel

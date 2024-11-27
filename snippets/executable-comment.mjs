@@ -21,7 +21,7 @@ export const _Spoken_ = (function introduce(voiceConfig = {}, mute = false) {
         );
         return Spoken;
       },
-      construct(_, args = []) {
+      construct(_, args = [{}]) {
         if (args[0]?.voice)
           args[0].voice = speechSynthesis
             .getVoices()

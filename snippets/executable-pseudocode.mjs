@@ -1,30 +1,24 @@
-const Executable_Pseudocode = 'Potemkin Program';
-
-const Potemkin_Program = new Proxy(
-  {
-    [Executable_Pseudocode]: function () {
-      return Potemkin_Program;
-    },
-  }[Executable_Pseudocode],
+export const ExecutablePseudocode = new Proxy(
+  function PotemkinProgram() {
+    return ExecutablePseudocode;
+  },
   {
     get(_, key) {
       console.log(key);
-      if (key === Symbol.toPrimitive) return () => Executable_Pseudocode;
-      if (key === Symbol.iterator) {
-        return {
-          [Executable_Pseudocode]: function* () {
-            for (const character of Executable_Pseudocode) yield Potemkin_Program;
-          },
-        }[Executable_Pseudocode];
-      }
-      return Potemkin_Program;
+      if (key === Symbol.toPrimitive) return () => 'Potemkin Program';
+      if (key === Symbol.iterator)
+        return function* PotemkinProgram() {
+          for (const _ of 'Potemkin Program') yield ExecutablePseudocode;
+        };
+
+      return ExecutablePseudocode;
     },
     construct() {
-      return Potemkin_Program;
+      return ExecutablePseudocode;
     },
   },
 );
 
-export default Potemkin_Program;
+export default ExecutablePseudocode;
 
 // tags: minibrary
