@@ -774,13 +774,35 @@ class Parser {
   }
 }
 
+class RegexMap {
+  #map = new Map();
+  set(regexKey, value) {
+    if (!(regexKey instanceof RegExp || typeof regexKey === 'string')) {
+      throw new TypeError('RegexMap key must be a string or an instance of RegExp');
+    }
+
+    this.#map.set(regexKey instanceof RegExp ? regexKey.source : regexKey, value);
+
+    return this;
+  }
+  entries() {
+    const entries = Array.from(this.#map.entries());
+    for (const entry of entries) entry[0] = new RegExp(entry[0]);
+    return new Map(entries).entries();
+  }
+}
+
 class Environment {
   constructor(enclosing = null) {
-    this.values = new Map();
+    // regex var names didn't work as palimpsest
+    //  refactor: treat all names as regex, using .source in map wrapper
+    this.values = new RegexMap();
     this.enclosing = enclosing;
+
     this.asPalimpsest = false;
     this.inDialogue = false;
     this.inDenial = false;
+    this._Allusion = false;
     this.withPatience = 0;
   }
 
@@ -803,18 +825,21 @@ class Environment {
   getSet(name) {
     // check each regex against name
     for (const [key, value] of this.values.entries()) {
-      if (key.test(name)) {
+      if (
+        key.test(name.source ? name.source : name) ||
+        key.source === (name.source ? name.source : name)
+      ) {
         return [key, value];
       }
     }
     return null;
   }
 
-  set(token, value) {
-    return this.setNameValue(token.lexeme, value);
+  async set(token, value) {
+    return await this.setNameValue(token.lexeme, value);
   }
 
-  setNameValue(name, value) {
+  async setNameValue(name, value) {
     if (name === 'as' && value.literal === 'palimpsest') {
       // Environment.asPalimpsest = true;
       this.asPalimpsest = true;
@@ -822,13 +847,44 @@ class Environment {
     }
     if (name === 'in' && value.literal === 'dialogue') {
       // hack: "receive" (reception theory), "respond/se" (reader-response theory), ...
-      const nativePrompt = new CoemCallable(null, this.env);
-      nativePrompt.call = globalThis.prompt
-        ? (interpreter, args, callee) => prompt(args.join(', '))
-        : (interpreter, args, callee) => args.join(', ');
-      this.setBuiltin('input', nativePrompt);
-      this.setBuiltin('learn', nativePrompt);
-      this.setBuiltin('listen', nativePrompt);
+      const _prompt = new CoemCallable(null, this.env);
+
+      if (typeof globalThis.prompt === 'function') {
+        _prompt.call = (interpreter, args, callee) => prompt(args.join(', ')) || '';
+      } else if (typeof globalThis.require === 'function' && globalThis.process) {
+        try {
+          const readline = require('readline');
+          const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout,
+          });
+          _prompt.call = async (interpreter, args, callee) =>
+            await new Promise((res) => rl.question(args.join(', '), res));
+        } catch (err) {
+          console.error(err);
+          _prompt.call = (interpreter, args, callee) => args.join(', ');
+        }
+      } else {
+        try {
+          const readline = await import('readline');
+          const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout,
+          });
+
+          _prompt.call = async (interpreter, args, callee) =>
+            await new Promise((res) => rl.question(args.join(', ') + '\n: ', res));
+        } catch (err) {
+          // console.error(err);
+          _prompt.call = (interpreter, args, callee) => args.join(', ');
+        }
+      }
+
+      this.setBuiltin('input', _prompt);
+      this.setBuiltin('learn', _prompt);
+      this.setBuiltin('listen', _prompt);
+      this.setBuiltin('receive', _prompt);
+
       return;
     }
     if (name === 'with' && value.literal === 'patience') {
@@ -839,11 +895,16 @@ class Environment {
       this.inDenial = true;
       return;
     }
+    if (name === '_' && value.literal === 'allusion') {
+      this._Allusion = true;
+      return;
+    }
 
-    let pattern = new RegExp(name);
-    let set = this.getSet(name);
+    const pattern = new RegExp(name);
+    // let set = this.getSet(name);
 
     // redefine in current environment
+    const set = this.getSet(pattern);
     if (set) {
       // if (Environment.asPalimpsest) {
       if (this.asPalimpsest) {
@@ -856,10 +917,12 @@ class Environment {
     }
 
     if (this.enclosing) {
-      let enclosingSet = this.enclosing.getSet(name);
+      // let enclosingSet = this.enclosing.getSet(name);
+      let enclosingSet = this.enclosing.getSet(pattern);
       // redefine in enclosing environment
       if (enclosingSet) {
-        return this.enclosing.setNameValue(name, value);
+        // return this.enclosing.setNameValue(name, value);
+        return await this.enclosing.setNameValue(pattern, value);
       }
     }
 
@@ -873,8 +936,8 @@ class Environment {
   }
 
   setBuiltin(name, func) {
-    // this.values.set(name, typeof func === 'function' ? { call: func } : func);
-    this.setNameValue(name, func);
+    const value = typeof func === 'function' ? { call: func } : func;
+    this.values.set(name, value);
   }
 }
 
@@ -895,7 +958,7 @@ class CoemCallable {
   async call(interpreter, args, callee) {
     const env = new Environment(this.closure);
     for (let param = 0; param < this.declaration.params.length; param++) {
-      env.set(this.declaration.params[param], args[param]);
+      await env.set(this.declaration.params[param], args[param]);
     }
     try {
       await interpreter.interpretBlock(this.declaration.bodyStatements, env);
@@ -962,6 +1025,7 @@ class Interpreter {
     this.environment.setBuiltin('print', nativePrint);
     this.environment.setBuiltin('know', nativePrint);
     this.environment.setBuiltin('say', nativePrint);
+    this.environment.setBuiltin('respond', nativePrint);
   }
 
   async interpret(expr) {
@@ -1010,7 +1074,7 @@ class Interpreter {
 
   async visitFunction(expr) {
     const fn = new CoemCallable(expr, this.environment);
-    this.environment.set(expr.name, fn);
+    await this.environment.set(expr.name, fn);
   }
 
   async visitLogical(expr) {
@@ -1032,7 +1096,7 @@ class Interpreter {
   }
 
   async visitDirective(expr) {
-    this.environment.set(expr.name, expr.value);
+    await this.environment.set(expr.name, expr.value);
     return null;
   }
 
@@ -1056,7 +1120,7 @@ class Interpreter {
     if (variable.value !== null) {
       value = await this.evaluate(variable.value);
     }
-    this.environment.set(variable.name, value);
+    await this.environment.set(variable.name, value);
     return null;
   }
 

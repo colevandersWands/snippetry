@@ -1,4 +1,4 @@
-import { HREF } from './CONSTANTS.js';
+import { url } from './url.js';
 
 import { shuffleArray } from './utils/shuffle-array.js';
 
@@ -17,13 +17,13 @@ export const state = { comments };
 
 // --- initialize search ---
 
-const persistedSearchEncoded = HREF.searchParams.get('search');
+const persistedSearchEncoded = url.searchParams.get('search');
 
 state.search = persistedSearchEncoded ? decodeURI(persistedSearchEncoded) : '';
 
 // --- initialize tags ---
 
-const persistedTagsEncoded = HREF.searchParams.get('tags');
+const persistedTagsEncoded = url.searchParams.get('tags');
 const persistedTags = persistedTagsEncoded
   ? decodeURI(persistedTagsEncoded)
       .split(',')
@@ -38,7 +38,7 @@ state.tags = tags.map((tag) => ({
 // --- initialize dangerous life ---
 
 state.liveDangerously =
-  HREF.searchParams.has('danger') && HREF.searchParams.get('danger') === 'yes'
+  url.searchParams.has('danger') && url.searchParams.get('danger') === 'yes'
     ? true
     : false;
 
@@ -60,7 +60,7 @@ state.snippets.unshift(
 state.snippets[0].display = false;
 
 const persistedSnippet =
-  HREF.searchParams.get('snippet') || HREF.searchParams.get('title');
+  url.searchParams.get('snippet') || url.searchParams.get('title');
 if (persistedSnippet) {
   const title = decodeURI(persistedSnippet).toLowerCase();
   for (const snippet of state.snippets) {

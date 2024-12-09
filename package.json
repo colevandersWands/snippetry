@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": { 
     "draft": "cd ./snippets && lenses",
-    "gather": "node gather-snippets & node gather-snips.js & node gather-comments.js",
+    "gather": "cd ./gather && node .",
     "bundle:js": "esbuild public/index.js --bundle --outfile=public/bundle/min.js --target=es2022 --format=esm --minify",
     "bundle:css": "esbuild --bundle public/styles.css --outfile=public/bundle/min.css --minify",
     "bundle": "npm run bundle:js & npm run bundle:css",

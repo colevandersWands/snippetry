@@ -18,8 +18,12 @@ const coem = await readFile(
 
 try {
   console.log(
-    '\n---------\n\n' + (await run(coem, new Environment())) + '\n\n---------\n',
+    `\n|--------- BEGIN ${coemFileName}.coem ---------|\n\n` +
+      (await run(coem, new Environment())) +
+      `\n\n|--------- END ${coemFileName}.coem ---------|\n`,
   );
 } catch (e) {
   console.error(e);
 }
+
+process.exit();

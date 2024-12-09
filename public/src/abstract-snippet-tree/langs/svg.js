@@ -1,5 +1,8 @@
 import { n } from '../../utils/n.js';
 
+import { revise } from '../utils/revise.js';
+import { lazyRender } from '../utils/lazy-render.js';
+
 import { txt } from './txt.js';
 
 export const svg = {
@@ -9,11 +12,25 @@ export const svg = {
     n('button', {}, 'set icon', setIcon(snippet)),
     n('button', {}, 'tab', newTab(snippet)),
   ],
+  translate: ({ ast, snippet = { title: '', text: '' } }) =>
+    snippet.title.toLowerCase().endsWith('.txt.svg') && !(snippet.title === '.svg')
+      ? ast
+      : revise(ast, (node) => {
+          if (node?.attributes?.id?.endsWith('-text')) {
+            const container = document.createElement('div');
+            return lazyRender(() => {
+              container.innerHTML = snippet.text;
+              return container;
+            });
+          }
+
+          return node;
+        }),
 };
 
 // ---------------------------
 
-function setBackground(snippet = {}, isBackground = false) {
+const setBackground = (snippet = {}, isBackground = false) => {
   return function updateBackground(e) {
     console.log(
       `\n========== ${snippet.title}: ${
@@ -35,13 +52,13 @@ function setBackground(snippet = {}, isBackground = false) {
       e.target.innerText = 'set background';
     }
   };
-}
+};
 
-function setIcon(snippet = {}, isIcon = false) {
-	const iconEl = document.getElementById('icon');
+const setIcon = (snippet = {}, isIcon = false) => {
+  const iconEl = document.getElementById('icon');
   return function updateIcon(e) {
     console.log(
-      `\n========== ${snippet.title}: ${isIcon ? 'remove' :	 'set'} icon ==========\n`,
+      `\n========== ${snippet.title}: ${isIcon ? 'remove' : 'set'} icon ==========\n`,
     );
 
     if (isIcon) {
@@ -57,9 +74,9 @@ function setIcon(snippet = {}, isIcon = false) {
       e.target.innerText = 'set icon';
     }
   };
-}
+};
 
-function newTab(snippet = {}) {
+const newTab = (snippet = {}) => {
   return function openTab() {
     console.log(`\n========== ${snippet.title}: new tab ==========\n`);
     const x = window.open();
@@ -67,4 +84,4 @@ function newTab(snippet = {}) {
     x.document.write(snippet.text);
     x.document.close();
   };
-}
+};
