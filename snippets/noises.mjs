@@ -12,7 +12,7 @@ export const noises = (
     return noise;
   };
   noise.frequency = (val = 440, d = 0) => {
-    noise.oscillator.frequency.setValueAtTime(val, noise.audioCtx.currentTime + d / 1000);
+    noise.oscillator?.frequency.setValueAtTime(val, noise.audioCtx.currentTime + d / 1000);
     return noise;
   };
   noise.play = ({ frequency = 440, volume = 1, wave = 'sine', delay = 0 } = {}) => {
@@ -29,9 +29,11 @@ export const noises = (
     return noise;
   };
 
-  noise.oscillator = null;
+  // noise.oscillator = null;
   noise.audioCtx = audioContext;
   noise.gainNode = noise.audioCtx.createGain();
+  // noise.oscillator = noise.audioCtx.createOscillator();
+  // noise.oscillator.connect(noise.gainNode);
 
   noise.gainNode.connect(noise.audioCtx.destination);
   return noise;

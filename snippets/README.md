@@ -6,4 +6,4 @@ tags:
 
 # Snippets
 
-What can you do with under 40(ish) lines at a time?
+You can do all of this with under 40(ish) lines at a time.
