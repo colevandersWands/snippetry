@@ -16,7 +16,7 @@
         new URL(window.location.href).searchParams.get('search') || '',
       ).toLowerCase();
 
-      const snips = await fetch('../public/data/snips.json').then((res) => res.json());
+      const snips = await fetch('./public/data/snips.json').then((res) => res.json());
 
       if (query) {
         const filteredSnips = snips.filter((snip) => snip.toLowerCase().includes(query));
