@@ -3,9 +3,9 @@ import { join } from 'path';
 
 // ---------- file path constants ----------
 
-const COMMENTS_ROOT = join('comments');
+const COMMENTS_ROOT = join('..', 'comments');
 
-const PUBLIC_COMMENTS = join('public', 'data', 'comments.json');
+const PUBLIC_COMMENTS = join('..', 'public', 'data', 'comments.json');
 
 // ---------- build array of comment objects ----------
 

@@ -5,15 +5,9 @@
       font-size: 16px;
       fill: #333333;
     }
-    .keyword {
-      fill: red;
-    }
-    .null {
-      fill: blue;
-    }
-    .string {
-      fill: green;
-    }s
+    .keyword { fill: red; }
+    .null    { fill: blue; }
+    .string  { fill: green; }
   </style>
   <text x="10" y="20">
     <tspan  class="keyword">let</tspan> input = <tspan class="null">null</tspan>;

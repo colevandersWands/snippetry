@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./public/lib/prism.min.css" />
+  </head>
+  <body>
+    <div id="controls">
+      <form id="font-size" style="display: inline-block">
+        font size:
+        <input type="range" min="0.5" max="1.5" value="1" step="0.001" />
+      </form>
+      ||
+      <label for="bw">code is text</label>
+      <input id="bw" type="checkbox" />
+      ||
+      <button id="print">print</button>
+    </div>
+
+    <div id="container">
+      <div id="text-container">
+        <h1 id="title"></h1>
+        <hr />
+        <pre><code id='text-goes-here' class=""></code></pre>
+      </div>
+      <div id="canvas-container" class="stacked"><canvas id="cfd"></canvas></div>
+    </div>
+
+    <script src="./public/lib/prism.min.js"></script>
+
+    <style id="code-is-text"></style>
+
+    <script>
+      const url = new URL(window.location.href);
+
+      const title = url.searchParams.get('title') || '';
+      const text = url.searchParams.get('text') || '';
+
+      const PRISM_CLASS = `language-${title.split('.').pop()}`;
+
+      document.getElementById('title').innerText = title;
+
+      const textGoesHere = document.getElementById('text-goes-here');
+      textGoesHere.classList.add(PRISM_CLASS);
+      textGoesHere.innerHTML = escapeHTML(text);
+      Prism.highlightAllUnder(textGoesHere.parentElement);
+
+      document.getElementById('font-size').addEventListener('change', (event) => {
+        const fontSize = Number(event.target.value);
+        const styles = document.styleSheets[0].cssRules[0].style;
+
+        if (event.target.value === '-') {
+          fontSize = (fontSize * 100 - 1) / 100;
+        } else if (event.target.value === '+') {
+          fontSize = (fontSize * 100 + 1) / 100;
+        }
+
+        styles.fontSize = `${fontSize}em`;
+      });
+
+      const codeIsText = document.getElementById('code-is-text');
+      document.getElementById('bw').addEventListener('change', (event) => {
+        if (event.target.checked) {
+          codeIsText.innerHTML = '.token { color: black !important; }';
+        } else {
+          codeIsText.innerHTML = '';
+        }
+      });
+
+      document.getElementById('print').addEventListener('click', () => {
+        const controls = document.getElementById('controls');
+        controls.style.display = 'none';
+        window.print();
+        controls.style.display = 'inline-block';
+      });
+
+      // ------ ------ ------ ------ ------ ------ ------
+
+      // https://stackoverflow.com/a/24631113
+      function escapeHTML(str = '') {
+        const pre = document.createElement('pre');
+        const text = document.createTextNode(str);
+        pre.appendChild(text);
+        return pre.innerHTML;
+      }
+    </script>
+  </body>
+</html>

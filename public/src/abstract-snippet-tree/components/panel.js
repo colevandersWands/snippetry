@@ -17,24 +17,28 @@ export const panel = (snippet) => {
       { id: `${snippet.title}-danger-zone`, className: 'danger-zone' },
       dangerZone(snippet),
     ),
-    n('button', {}, 'copy', () => copyCode(snippet.text, `copied ${snippet.title}`)),
-    n('button', {}, 'link', () => {
-      const url = `${window.location.origin}${window.location.pathname}?title=${
-        snippet.title
-      }&danger=${state.liveDangerously ? 'yes' : 'no'}`;
-      copyCode(url, `${url} ->  URL is copied`);
-    }),
-    snippet.figment
-      ? null
-      : n('button', {}, 'source', () =>
-          window.open(`${REPO}/tree/main/snippets/${snippet.title}`, '_blank'),
-        ),
+    n('button', {}, 'copy', () => copyText(snippet.text, `copied ${snippet.title}`)),
+    n('button', {}, 'print', () => printText(snippet)),
+    n('button', {}, 'download', () => download(snippet)),
+    ...(snippet.figment
+      ? []
+      : [
+          n('button', {}, 'link', () => {
+            const url = `${window.location.origin}${window.location.pathname}?title=${
+              snippet.title
+            }&danger=${state.liveDangerously ? 'yes' : 'no'}`;
+            copyText(url, `copied URL for -> ${snippet.title}`);
+          }),
+          n('button', {}, 'source', () =>
+            window.open(`${REPO}/tree/main/snippets/${snippet.title}`, '_blank'),
+          ),
+        ]),
   ]);
 };
 
 // -------------------------------------------------
 
-const fallbackCopyTextToClipboard = (text) => {
+const fallbackCopyTextToClipboard = (text = '') => {
   const textArea = document.createElement('textarea');
   textArea.value = text;
   document.body.appendChild(textArea);
@@ -51,14 +55,35 @@ const fallbackCopyTextToClipboard = (text) => {
   window.scrollTo(0, 0);
 };
 
-const copyCode = (code, message = 'copied!') => {
+const copyText = (text = '', message = 'copied!') => {
   if (!navigator.clipboard) {
-    fallbackCopyTextToClipboard(code);
+    fallbackCopyTextToClipboard(text);
     return;
   }
 
-  navigator.clipboard.writeText(code).then(
+  navigator.clipboard.writeText(text).then(
     () => alert(message),
-    () => fallbackCopyTextToClipboard(code),
+    () => fallbackCopyTextToClipboard(text),
   );
+};
+
+// open the snippet solo in a new tab with print options
+const printText = ({ title = '', text = '' }) =>
+  window.open(
+    `./print.html?title=${encodeURIComponent(title)}&text=${encodeURIComponent(text)}`,
+    '_blank',
+  );
+
+const download = ({ title = '', text = '', figment = false }) => {
+  const downloader = document.createElement('a');
+  downloader.setAttribute('download', figment ? `_figment_${title}` : title);
+  downloader.style.display = 'none';
+  downloader.setAttribute(
+    'href',
+    'data:text/plain;charset=utf-8,' + encodeURIComponent(text),
+  );
+
+  document.body.appendChild(downloader);
+  downloader.click();
+  document.body.removeChild(downloader);
 };

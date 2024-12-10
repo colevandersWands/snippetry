@@ -1,4 +1,4 @@
-import { HREF } from '../CONSTANTS.js';
+import { url } from '../url.js';
 
 import { state } from '../state.js';
 
@@ -21,6 +21,6 @@ export const persistToParams = () => {
   window.history.replaceState(
     {},
     '',
-    `${HREF.origin + HREF.pathname}?${params.join('&')}`,
+    `${url.origin + url.pathname}?${params.join('&')}`,
   );
 };

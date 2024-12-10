@@ -8,7 +8,7 @@ import { SNIPPETS_ROOT, IGNORE } from './constants.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export const readSnippets = async (snippetsPath = __dirname) => {
+export const readSnippets = async (snippetsPath = join('..', __dirname)) => {
   const snippetFileNames = (await readdir(snippetsPath)).filter(
     (item) => !IGNORE.some((ext) => item.includes(ext)),
   );
