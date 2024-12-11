@@ -4524,7 +4524,7 @@ if\u2014cat is \u201Ckatze\u201D\u2014:
      '"cat" is not '}"\${i}"\`:   
       'there is no escape')     
           // tags: golf         
-           ,t||c()))()           `,tags:["golf","tribute","variation"],aftlinks:["cat-detector.js.md","variation.md"]},{title:"cat-detector.js.md",text:"# Cat Detector\n\nOn the surface, a cat detector is a just simple program:\n\n* First it asks you for a cat:\n  ```js\n  let input = prompt('cat, please');\n  ```\n* Then it checks if you gave it a cat:\n  ```js\n  const isCat = input === 'cat';\n  ```\n* If did give it a cat, the detector is satisfied:\n  ```js\n  if (isCat) alert('thank you for the cat');\n  ```\n* Otherwise it keeps asking you for a cat until you give it one:\n  ```js\n  else {\n  	while (input !== 'cat') input = prompt('still not a cat. \\n\\ncat, please');\n  ```\n* When you're done out-stubborning a computer, the program ends:\n  ```js\n  	alert('finally, a cat.');\n  }\n  ```\n\nBut really, a cat detector is an excuse to [draw a bunny](./bunny.md).\n",tags:["metappet","variation"],forelinks:["bunny.md"],subtext:"cat-detector.js.md.st.js",metalinks:["cat-detector.ascii.html","cat-detector.ascii.txt","cat-detector.be.coem","cat-detector.be.js","cat-detector.cat.js","cat-detector.eval.js","cat-detector.evbl.js","cat-detector.golf.js","cat-detector.js.md.st.js","cat-detector.polyfill.mjs","cat-detector.psu","cat-detector.scm.js","cat-detector.scm.json","cat-detector.spoken.mjs","cat-detector.txt.svg","cat-detector.vars.js","cat-detector.wc.html","cat_detector.1.py","cat_detector.1.py.js","cat_detector.2.py","cat_detector.2.py.js"],aftlinks:["cat-detected.be.coem","variation.md"]},{title:"cat-detector.polyfill.mjs",text:`import './detector-string-polyfill.js';
+           ,t||c()))()           `,tags:["golf","tribute","variation"],aftlinks:["cat-detector.js.md","variation.md"]},{title:"cat-detector.js.md",text:"# Cat Detector\n\nOn the surface, a cat detector is a just simple program:\n\n* First it asks you for a cat:\n  ```js\n  let input = prompt('cat, please');\n  ```\n* Then it checks if you gave it a cat:\n  ```js\n  const isCat = input === 'cat';\n  ```\n* If did give it a cat, the detector is satisfied:\n  ```js\n  if (isCat) alert('thank you for the cat');\n  ```\n* Otherwise it keeps asking you for a cat until you give it one:\n  ```js\n  else {\n  	while (input !== 'cat') input = prompt('still not a cat. \\n\\ncat, please');\n  ```\n* When you're done out-stubborning a computer, the program ends:\n  ```js\n  	alert('finally, a cat.');\n  }\n  ```\n\nBut really, a cat detector is an excuse to [draw a bunny](./bunny.md).\n",tags:["metappet","variation"],forelinks:["bunny.md"],subtext:"cat-detector.js.md.st.js",metalinks:["cat-detector.ascii.html","cat-detector.ascii.txt","cat-detector.be.coem","cat-detector.be.js","cat-detector.cat.js","cat-detector.eval.js","cat-detector.evbl.js","cat-detector.golf.js","cat-detector.js.md.st.js","cat-detector.polyfill.mjs","cat-detector.psu","cat-detector.scm.js","cat-detector.scm.json","cat-detector.spoken.mjs","cat-detector.svg","cat-detector.vars.js","cat-detector.wc.html","cat_detector.1.py","cat_detector.1.py.js","cat_detector.2.py","cat_detector.2.py.js"],aftlinks:["cat-detected.be.coem","variation.md"]},{title:"cat-detector.polyfill.mjs",text:`import './detector-string-polyfill.js';
 
 'cat'.detect('mixed');
 `,tags:["tribute","variation"],forelinks:["detector-string-polyfill.js"],aftlinks:["cat-detector.js.md","variation.md"]},{title:"cat-detector.psu",text:`maybe <- null
@@ -4597,27 +4597,23 @@ while (true) {
     break;
   }
 }
-`,tags:["tribute","variation"],forelinks:["introducing.mjs"],aftlinks:["cat-detector.js.md","variation.md"]},{title:"cat-detector.txt.svg",text:`<svg xmlns="http://www.w3.org/2000/svg" style="background-color: white;">
+`,tags:["tribute","variation"],forelinks:["introducing.mjs"],aftlinks:["cat-detector.js.md","variation.md"]},{title:"cat-detector.svg",text:`<svg xmlns="http://www.w3.org/2000/svg" style="background-color: white;"  width="20em" height="10em">
   <style>
-    text {
-      font-family: "Courier New", monospace;
-      font-size: 16px;
-      fill: #333333;
-    }
-    .keyword { fill: red; }
-    .null    { fill: blue; }
-    .string  { fill: green; }
+    text  { font-family: "Courier New", monospace; }
+    .kw   { fill: red; }     <!-- keywords -->
+    .fn   { fill: purple; }  <!-- functions -->
+    .nu   { fill: blue; }    <!-- null -->
+    .st   { fill: green; }   <!-- strings -->
   </style>
-  <text x="10" y="20">
-    <tspan  class="keyword">let</tspan> input = <tspan class="null">null</tspan>;
-    <tspan x="10" dy="2em" class="keyword">while</tspan> (input !== <tspan class="null">null</tspan>) {
-      <tspan x="20" dy="1.5em">input = <tspan class="keyword">prompt</tspan>(<tspan class="string">'"cat" please'</tspan>);</tspan>
+  <text x="10" dy="20">
+    <tspan  class="kw">let</tspan> input = <tspan class="nu">null</tspan>;
+    <tspan x="10" dy="2em" class="kw">while</tspan> (input !== <tspan class="nu">null</tspan>) {
+      <tspan x="20" dy="1.5em">input = <tspan class="fn">prompt</tspan>(<tspan class="st">'"cat" please'</tspan>);</tspan>
     <tspan x="10" dy="1.5em">}</tspan>
-    <tspan x="10" dy="2em"><tspan class="keyword">alert</tspan>(<tspan class="string">'thank you for the cat'</tspan>);
+    <tspan x="10" dy="2em"><tspan class="fn">alert</tspan>(<tspan class="st">'thank you for the cat'</tspan>);
     </tspan>
   </text>
 </svg>
-
 
 <!-- https://www.phind.com/search?cache=bcz4exscw7zslp4l3h0pls39 -->
 
@@ -4784,7 +4780,7 @@ console.log(
 // tags: wuzzle`,tags:["wuzzle","tribute"]},{title:"coAIthored.md",text:`# CoAIthored
 
 Co-authored with AI.
-`,tags:["metappet","coaithored"],metalinks:["accessible-credit-card-form.html","cat-detector.txt.svg","hydra.html","insomnicat.js","love-adventure-success.1.js","love-adventure-success.2.js","the-programmers-journey.js","useless-machine.2.html"]},{title:"code-is-text.txt.css",text:`.token { color: black !important; }
+`,tags:["metappet","coaithored"],metalinks:["accessible-credit-card-form.html","cat-detector.svg","hydra.html","insomnicat.js","love-adventure-success.1.js","love-adventure-success.2.js","the-programmers-journey.js","useless-machine.2.html"]},{title:"code-is-text.txt.css",text:`.token { color: black !important; }
 `,tags:["1-liner"]},{title:"commas.mjs",text:`export const commas = (...args) => args.pop();
 `,tags:["tribute","1-liner"]},{title:"cookies.js",text:`alert(\`Allow Cookies:
 
@@ -4796,7 +4792,7 @@ This site uses cookies to improve our business experience.
 `,tags:["tribute"]},{title:"curry.mjs",text:`export const curry = (fn, arity = fn.length, all = []) =>
   function currying(...next) {
     all.push(...next);
-    return all.length === arity ? fn(...all) : currying;
+    return all.length >= arity ? fn(...all) : currying;
   };
 `,tags:["tribute"],aftlinks:["fp.mjs"]},{title:"declare-morf.js",text:`/* --- morf: a variable that must be reassigned ---
 
@@ -7016,14 +7012,14 @@ function* descending(config = {}) {
   deeper.push(down(-1, ' \u{1F5FA}\uFE0F '), down(-1, ' \u{1F418} '), down(-1));
 
   while (descending) {
-    // deeper.shift(),
-    deeper.push(down(config.frame));
+    deeper.shift(), deeper.push(down(config.frame));
     yield [\`%c\${deeper.join('\\n')}\`, AETHER];
   }
 }
 
 projector(descending, { frameRate: 7 });
-`,tags:["tribute","variation","\u{1F422}"],forelinks:["projector.mjs"],aftlinks:["variation.md"]},{title:"turtles-all-the-way-down.13.js",text:`turtles = {}, turtles['\u{1F422}\u{1F422}'] = turtles;
+
+// tags: reel`,tags:["reel","tribute","variation","\u{1F422}"],forelinks:["projector.mjs"],aftlinks:["variation.md"]},{title:"turtles-all-the-way-down.13.js",text:`turtles = {}, turtles['\u{1F422}\u{1F422}'] = turtles;
 `,tags:["tribute","variation","1-liner","\u{1F422}"],aftlinks:["turtles-all-the-way-down.14.mjs","variation.md"]},{title:"turtles-all-the-way-down.14.mjs",text:`await fetch('./turtles-all-the-way-down.13.js')
   .then((res) => res.text())
   .then((turts) => eval('globalThis.' + turts))
@@ -7129,7 +7125,7 @@ console.assert(__ === let);
 
 // tags: puzzle
 `,tags:["puzzle","tribute"]},{title:"variation.md",text:`# Theme and Variation
-`,tags:["metappet","1-liner","variation"],alt:"It's expression, not obsession. I promise.",metalinks:["10-print.1.js","10-print.2.js","10-print.3.js","10-print.4.js","10-print.6.mjs","be.canvas.html","be.coem","be.css","be.css.html","be.de.txt","be.en.txt","be.flip.js","be.fr.txt","be.html","be.js","be.json","be.md","be.nl.txt","be.py","be.txt","be.txt.svg","be.yaml","breathless.html","breathless.js","cat-detector.ascii.html","cat-detector.ascii.txt","cat-detector.be.coem","cat-detector.be.js","cat-detector.cat.js","cat-detector.eval.js","cat-detector.evbl.js","cat-detector.golf.js","cat-detector.js.md","cat-detector.js.md.st.js","cat-detector.polyfill.mjs","cat-detector.psu","cat-detector.scm.js","cat-detector.scm.json","cat-detector.spoken.mjs","cat-detector.txt.svg","cat-detector.vars.js","cat-detector.wc.html","cat-i-farted.js","cat-i-farted.mjs","cat_detector.1.py","cat_detector.1.py.js","cat_detector.2.py","cat_detector.2.py.js","empty.json","empty.yaml","halloween.js","halloween.py","hello-world.js","hello_world.py","je-l-ignore.js","je-l-ignore.mjs","love-adventure-success.1.js","love-adventure-success.2.js","mu.js","mu.mjs","n-e-d.08-24.js","n-e-d.coem","no-comment.js","no-comment.mjs","optimism.coem","optimism.js","recurseval.1.js","recurseval.2.js","recurseval.3.js","reflection.css","reflection.js","reverse-input.js.txt","reverse-input.txt.js","reverse-input.txt.js.st.txt","snail-train.coem","snail-train.html","snail-train.js","snail-train.mjs","snail-train.realtime.coem","snail-train.txt","snail_train.py","thing.svg","thing.txt.svg","tintin.0.js","tintin.0.mjs","tintin.1.js","tintin.1.mjs","tintin.2.js","tintin.2.mjs","tintin.3.js","tintin.3.mjs","tintin.4.js","tintin.4.mjs","togglog.mjs","togglog.py","turtles-all-the-way-down.00.js","turtles-all-the-way-down.01.js","turtles-all-the-way-down.02.js","turtles-all-the-way-down.03.js","turtles-all-the-way-down.04.js","turtles-all-the-way-down.05.js","turtles-all-the-way-down.06.js","turtles-all-the-way-down.07.js","turtles-all-the-way-down.08.mjs","turtles-all-the-way-down.09.mjs","turtles-all-the-way-down.10.js","turtles-all-the-way-down.11.js","turtles-all-the-way-down.12.mjs","turtles-all-the-way-down.13.js","turtles-all-the-way-down.14.mjs","turtles-all-the-way-down.html","turtles_all_the_way_down.0.py","turtles_all_the_way_down.1.py","turtles_all_the_way_down.2.py","useless-machine.1.html","useless-machine.1.js","useless-machine.2.html","yk.cmyk.txt","yk.css.txt","yk.hsv.txt","yk.rgb.txt","yk.yaml","yolo.js","yolo.py","yolo.recurseval.js","yolo.recurseval.py","yoloer.js","yoloer.py","yoloest.js","yoloest.py"]},{title:"wait-for-it.js",text:`(function waitForIt(wait = 0) {
+`,tags:["metappet","1-liner","variation"],alt:"It's expression, not obsession. I promise.",metalinks:["10-print.1.js","10-print.2.js","10-print.3.js","10-print.4.js","10-print.6.mjs","be.canvas.html","be.coem","be.css","be.css.html","be.de.txt","be.en.txt","be.flip.js","be.fr.txt","be.html","be.js","be.json","be.md","be.nl.txt","be.py","be.txt","be.txt.svg","be.yaml","breathless.html","breathless.js","cat-detector.ascii.html","cat-detector.ascii.txt","cat-detector.be.coem","cat-detector.be.js","cat-detector.cat.js","cat-detector.eval.js","cat-detector.evbl.js","cat-detector.golf.js","cat-detector.js.md","cat-detector.js.md.st.js","cat-detector.polyfill.mjs","cat-detector.psu","cat-detector.scm.js","cat-detector.scm.json","cat-detector.spoken.mjs","cat-detector.svg","cat-detector.vars.js","cat-detector.wc.html","cat-i-farted.js","cat-i-farted.mjs","cat_detector.1.py","cat_detector.1.py.js","cat_detector.2.py","cat_detector.2.py.js","empty.json","empty.yaml","halloween.js","halloween.py","hello-world.js","hello_world.py","je-l-ignore.js","je-l-ignore.mjs","love-adventure-success.1.js","love-adventure-success.2.js","mu.js","mu.mjs","n-e-d.08-24.js","n-e-d.coem","no-comment.js","no-comment.mjs","optimism.coem","optimism.js","recurseval.1.js","recurseval.2.js","recurseval.3.js","reflection.css","reflection.js","reverse-input.js.txt","reverse-input.txt.js","reverse-input.txt.js.st.txt","snail-train.coem","snail-train.html","snail-train.js","snail-train.mjs","snail-train.realtime.coem","snail-train.txt","snail_train.py","thing.svg","thing.txt.svg","tintin.0.js","tintin.0.mjs","tintin.1.js","tintin.1.mjs","tintin.2.js","tintin.2.mjs","tintin.3.js","tintin.3.mjs","tintin.4.js","tintin.4.mjs","togglog.mjs","togglog.py","turtles-all-the-way-down.00.js","turtles-all-the-way-down.01.js","turtles-all-the-way-down.02.js","turtles-all-the-way-down.03.js","turtles-all-the-way-down.04.js","turtles-all-the-way-down.05.js","turtles-all-the-way-down.06.js","turtles-all-the-way-down.07.js","turtles-all-the-way-down.08.mjs","turtles-all-the-way-down.09.mjs","turtles-all-the-way-down.10.js","turtles-all-the-way-down.11.js","turtles-all-the-way-down.12.mjs","turtles-all-the-way-down.13.js","turtles-all-the-way-down.14.mjs","turtles-all-the-way-down.html","turtles_all_the_way_down.0.py","turtles_all_the_way_down.1.py","turtles_all_the_way_down.2.py","useless-machine.1.html","useless-machine.1.js","useless-machine.2.html","ykb.cmyk.txt","ykb.css.txt","ykb.hsv.txt","ykb.rgb.txt","ykb.yaml","yolo.js","yolo.py","yolo.recurseval.js","yolo.recurseval.py","yoloer.js","yoloer.py","yoloest.js","yoloest.py"]},{title:"wait-for-it.js",text:`(function waitForIt(wait = 0) {
   console.log('wait for it ...');
   wait = setTimeout(() => waitForIt(wait), wait);
 })();
@@ -7205,7 +7201,7 @@ with (transparency) {
 
 
 // tags: the fun parts
-`,tags:["the fun parts","tribute"],aftlinks:["the-fun-parts.md"]},{title:"yk.cmyk.txt",text:"#002EA6",tags:["tribute","variation","1-liner"],aftlinks:["variation.md"]},{title:"yk.css.txt",text:"rgb(0,47,167)",tags:["tribute","variation","1-liner"],aftlinks:["variation.md"]},{title:"yk.hsv.txt",text:"#002FA6",tags:["tribute","variation","1-liner"],aftlinks:["variation.md"]},{title:"yk.rgb.txt",text:"#002FA7",tags:["tribute","variation","1-liner"],aftlinks:["variation.md"]},{title:"yk.yaml",text:`cmyk: '#002EA6'
+`,tags:["the fun parts","tribute"],aftlinks:["the-fun-parts.md"]},{title:"ykb.cmyk.txt",text:"#002EA6",tags:["tribute","variation","1-liner"],aftlinks:["variation.md"]},{title:"ykb.css.txt",text:"rgb(0,47,167)",tags:["tribute","variation","1-liner"],aftlinks:["variation.md"]},{title:"ykb.hsv.txt",text:"#002FA6",tags:["tribute","variation","1-liner"],aftlinks:["variation.md"]},{title:"ykb.rgb.txt",text:"#002FA7",tags:["tribute","variation","1-liner"],aftlinks:["variation.md"]},{title:"ykb.yaml",text:`cmyk: '#002EA6'
 css: rgb(0,47,167)
 hsv: '#002FA6'
 rgb: '#002FA7'`,tags:["tribute","variation"],aftlinks:["variation.md"]},{title:"yolo.js",text:`const shipit = (motto = '') => {
