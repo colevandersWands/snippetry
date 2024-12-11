@@ -16,8 +16,6 @@ window.state = state;
 
 import './init/comments.js';
 
-import './init/count-snippets.js';
-
 import './init/mdn-potluck.js';
 
 import './init/outlinks.js';

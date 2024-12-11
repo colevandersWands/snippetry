@@ -1,3 +1,5 @@
+import { countSnippets } from '../utils/count-snippets.js';
+
 import { state } from '../state.js';
 
 import { persistToParams } from './persist-to-params.js';
@@ -62,4 +64,6 @@ export const filterSnipPets = (snippetTitle = '') => {
   }
 
   persistToParams();
+
+  countSnippets(state.snippets.filter((snippet) => snippet.display).length);
 };
