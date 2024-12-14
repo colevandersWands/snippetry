@@ -4,10 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <title>Snippetry</title>
-    <link id="icon" rel="icon" type="image/x-icon" href="./public/favicon.ico" />
-
-    <link rel="stylesheet" href="./public/bundle/min.css" />
-    <!-- <link rel="stylesheet" href="./public/styles.css" /> -->
+    <link id="icon" rel="icon" type="image/x-icon" href="./public/assets/favicon.ico" />
   </head>
 
   <body>
@@ -21,10 +18,19 @@
 
     <script>
       if (new URL(window.location.href).searchParams.has('about:blank')) {
-        document.title = 'This page intentionally left blank';
+        document.title = 'This page intentionally left blank.';
         document.body.innerHTML = `<p class="center-center"><em>${document.title}</em></p>`;
-        console.log('')
+        console.log('');
         window.stop();
+      }
+    </script>
+
+    <link id="styles" rel="stylesheet" />
+    <script>
+      if (new URL(window.location.href).searchParams.has('dev')) {
+        styles.href = './public/styles.css';
+      } else {
+        styles.href = './public/bundle/min.css';
       }
     </script>
 
@@ -73,13 +79,14 @@
             target="_blank"
             aria-label="API link"
             href="https://snippetry.onrender.com/api/"
-            >Snippetry</a>
+            >Snippetry</a
+          >
           <a
             id="about:blank"
             target="_blank"
             aria-label="blank page link"
             href="?about:blank"
-            ><img src="./public/favicon.ico"
+            ><img src="./public/assets/favicon.ico"
           /></a>
         </h1>
 
@@ -130,7 +137,13 @@
       >
     </div>
 
-    <script type="module" src="./public/bundle/min.js"></script>
-    <!-- <script type="module" src="./public/index.js"></script> -->
+    <script id="scripts" type="module"></script>
+    <script>
+      if (new URL(window.location.href).searchParams.has('dev')) {
+        scripts.src = './public/index.js';
+      } else {
+        scripts.src = './public/bundle/min.js';
+      }
+    </script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-import { coem } from './coem/index.js';
+import { coem } from './coem.js';
 import { css } from './css.js';
 import { html } from './html.js';
 import { js } from './js/index.js';

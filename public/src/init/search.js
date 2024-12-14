@@ -1,4 +1,4 @@
-import { filterSnipPets } from '../filter-snip-pets/index.js';
+import { filterSnipPets } from '../procedures/filter-snip-pets.js';
 import { state } from '../state.js';
 
 const searchField = document.getElementById('search-field');

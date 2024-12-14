@@ -1,13 +1,13 @@
 // adatped from https://editor.coem-lang.org/, https://github.com/coem-lang/coem-editor
 
-import { n } from '../../../utils/n.js';
+import { coemMirror } from '../../../lib/coem-mirror/index.bundle.min.js';
 
-import { revise } from '../../utils/revise.js';
-import { lazyRender } from '../../utils/lazy-render.js';
+import { n } from '../../utils/n.js';
 
-import { txt } from '../txt.js';
+import { revise } from '../utils/revise.js';
+import { lazyRender } from '../utils/lazy-render.js';
 
-import { coemMirror } from './coem-mirror/index.js';
+import { txt } from './txt.js';
 
 export const coem = {
   ...txt,
@@ -63,7 +63,7 @@ const echo = async (snippet) => {
   try {
     new Environment(), formatCoemError(), run();
   } catch (_) {
-    const coemjs = await import('../../../../lib/coem.js');
+    const coemjs = await import('../../../lib/coem.js');
 
     Environment = coemjs.Environment;
     formatCoemError = coemjs.formatCoemError;

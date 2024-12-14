@@ -8,9 +8,9 @@ import { txt } from './txt.js';
 export const svg = {
   ...txt,
   dangerZone: (snippet) => [
+    n('button', {}, 'tab', newTab(snippet)),
     n('button', {}, 'set background', setBackground(snippet)),
     n('button', {}, 'set icon', setIcon(snippet)),
-    n('button', {}, 'tab', newTab(snippet)),
   ],
   translate: ({ ast, snippet = { title: '', text: '' } }) =>
     snippet.title.toLowerCase().endsWith('.txt.svg') && !(snippet.title === '.svg')

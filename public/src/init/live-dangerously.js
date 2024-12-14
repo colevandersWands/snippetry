@@ -1,6 +1,6 @@
 import { state } from '../state.js';
 
-import { persistToParams } from '../filter-snip-pets/persist-to-params.js';
+import { persistToParams } from '../procedures/persist-to-params.js';
 
 const dangerZone = document.getElementById('danger-zone');
 

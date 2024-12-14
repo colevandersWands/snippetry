@@ -19,11 +19,12 @@ export const PUBLIC_TAGS = join(__dirname, '..', '..', 'public', 'data', 'tags.j
 export const PUBLIC_LINKS = join(__dirname, '..', '..', 'public', 'data', 'links.json');
 export const PUBLIC_LANGS = join(__dirname, '..', '..', 'public', 'data', 'langs.json');
 
-export const IGNORE = Object.freeze([
+export const IGNORE = [
   '.draft',
   '.sandbox',
   '.notes',
   '.spec',
   '.mp3',
+  '.excalidraw',
   'DS_Store',
-]);
+];

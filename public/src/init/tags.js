@@ -2,7 +2,7 @@ import { state } from '../state.js';
 
 import { selectTag } from '../custom-events/select-tag.js';
 
-import { filterSnipPets } from '../filter-snip-pets/index.js';
+import { filterSnipPets } from '../procedures/filter-snip-pets.js';
 
 const tagsRoot = document.getElementById('tags');
 

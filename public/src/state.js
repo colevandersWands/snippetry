@@ -2,7 +2,7 @@ import { url } from './url.js';
 
 import { shuffleArray } from './utils/shuffle-array.js';
 
-import { filterSnipPets } from './filter-snip-pets/index.js';
+import { filterSnipPets } from './procedures/filter-snip-pets.js';
 
 // ===== import data =====
 
@@ -13,7 +13,7 @@ import tags from '../data/tags.json' assert { type: 'json' };
 
 // ===== initialize state =====
 
-export const state = { comments };
+export const state = { comments, dev: url.searchParams.get('dev') === '' ? true : false };
 
 // --- initialize search ---
 
@@ -59,8 +59,7 @@ state.snippets.unshift(
 );
 state.snippets[0].display = false;
 
-const persistedSnippet =
-  url.searchParams.get('snippet') || url.searchParams.get('title');
+const persistedSnippet = url.searchParams.get('snippet') || url.searchParams.get('title');
 if (persistedSnippet) {
   const title = decodeURI(persistedSnippet).toLowerCase();
   for (const snippet of state.snippets) {

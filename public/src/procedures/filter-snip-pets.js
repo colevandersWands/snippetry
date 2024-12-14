@@ -1,4 +1,4 @@
-import { countSnippets } from '../utils/count-snippets.js';
+import { countSnippets } from './count-snippets.js';
 
 import { state } from '../state.js';
 
