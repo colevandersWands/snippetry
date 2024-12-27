@@ -11,6 +11,11 @@ import snips from '../data/snips.json' assert { type: 'json' };
 import snippets from '../data/snippets.json' assert { type: 'json' };
 import tags from '../data/tags.json' assert { type: 'json' };
 
+// import comments from '../data/comments.json' with { type: 'json' };
+// import snips from '../data/snips.json' with { type: 'json' };
+// import snippets from '../data/snippets.json' with { type: 'json' };
+// import tags from '../data/tags.json' with { type: 'json' };
+
 // ===== initialize state =====
 
 export const state = { comments, dev: url.searchParams.get('dev') === '' ? true : false };

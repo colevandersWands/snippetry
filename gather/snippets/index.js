@@ -16,7 +16,9 @@ import { readSnippets } from './read-snippets.js';
 
 const { snippets: uninterpreted, langs } = await readSnippets(SNIPPETS_ROOT);
 
-const snippets = uninterpreted.map((snippet) => interpret({ ...snippet, tags: [] }));
+const snippets = uninterpreted.map((snippet) =>
+  interpret({ ...snippet, tags: [] }, uninterpreted),
+);
 
 // ---------- lift subtexts ----------
 

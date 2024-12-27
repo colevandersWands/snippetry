@@ -6,9 +6,9 @@ import { langs } from './langs/index.js';
 
 // ======= main interpreter =======
 
-export const interpret = (s = { title: '', text: '' }) => ({
-  ...s,
-  ...(langs[lang(s.title)] || langs.txt)(s),
+export const interpret = (snippet = { title: '', text: '' }, snippets = []) => ({
+  ...snippet,
+  ...(langs[lang(snippet.title)] || langs.txt)(snippet, snippets),
 });
 
 export default interpret;

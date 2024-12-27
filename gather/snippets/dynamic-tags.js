@@ -86,6 +86,15 @@ export const dynamicTags = [
     }
   },
 
+  function sketch(snippets = []) {
+    for (const snippet of snippets) {
+      const smallName = snippet.title.toLowerCase();
+      if (smallName.endsWith('.svg') && !smallName.endsWith('.txt.svg')) {
+        snippet.tags.push('sketch');
+      }
+    }
+  },
+
   // function translation(snippets = []) {
   //   const lang = (name = '') => {
   //     const ext = name.split('.').pop().toLowerCase();

@@ -9,7 +9,7 @@
     "bundle:js": "esbuild public/index.js --bundle --outfile=public/bundle/min.js --target=es2022 --format=esm --minify",
     "bundle:css": "esbuild --bundle public/styles.css --outfile=public/bundle/min.css --minify",
     "bundle:coem-lang": "esbuild public/lib/coem-mirror/index.js --bundle --outfile=public/lib/coem-mirror/index.bundle.min.js --target=es2022 --format=esm --minify",
-    "bundle": "npm run bundle:js & npm run bundle:css & npm run bundle:coem-mirror",
+    "bundle": "npm run bundle:js & npm run bundle:css & npm run bundle:coem-lang",
     "publish": "npm run gather & npm run bundle",
     "host:dev": "npm run publish & nodemon ./api.js",
     "host": "npm run publish & node ./api.js",
