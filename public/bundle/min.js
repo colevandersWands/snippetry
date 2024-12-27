@@ -5374,7 +5374,7 @@ const flatEarth = deepFlat(globalThis);
 console.log(flatEarth);
 
 // tags: wuzzle
-`,tags:["wuzzle","tribute"]},{title:"forty-lines.1.svg",text:`<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 262.6719665527344 388.83629608154297" width="262.6719665527344" height="388.83629608154297">
+`,tags:["wuzzle","tribute"]},{title:"fortyish-lines.1.svg",text:`<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 262.6719665527344 388.83629608154297" width="262.6719665527344" height="388.83629608154297">
   <!-- svg-source:excalidraw -->
   
   <defs>
