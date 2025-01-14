@@ -39,7 +39,7 @@ export const js = ({ title = '', text = '' }) => {
       text,
       label: 'tribute',
       begin: /(\/\/)[\s]*tribute[\s]*:/gi,
-    })
+    }).length > 0
   ) {
     tags.push('tribute');
   }

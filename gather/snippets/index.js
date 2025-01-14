@@ -59,11 +59,21 @@ for (const metappet of snippets.filter((snippet) => snippet.tags?.includes('meta
   const metalinks = new Set();
   for (const snippet of snippets) {
     if (metappet === snippet) continue;
-    if (nameyName(metappet) === nameyName(snippet)) {
-      metalinks.add(snippet.title);
-    }
-    if (snippet.tags?.includes(nameyName(metappet))) {
-      metalinks.add(snippet.title);
+    if (nameyName(metappet) === nameyName(snippet)) metalinks.add(snippet.title);
+    if (snippet.tags?.includes(nameyName(metappet))) metalinks.add(snippet.title);
+
+    if (metappet.title.toLowerCase().endsWith('.txt')) {
+      if (`${snippet.title.toLowerCase()}.txt` === metappet.title.toLowerCase()) {
+        for (const key in metappet) {
+          if (Array.isArray(snippet[key])) {
+            if (Array.isArray(metappet[key])) {
+              snippet[key].push(...metappet[key]);
+            } else if (snippet[key] === undefined) {
+              snippet[key] = [...metappet[key]];
+            }
+          }
+        }
+      }
     }
   }
   metappet.metalinks = Array.from(metalinks).sort();

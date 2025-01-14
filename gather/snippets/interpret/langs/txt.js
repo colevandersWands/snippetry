@@ -1,6 +1,6 @@
 import { staticLabels } from '../utils.js';
 
-export const txt = ({ text = '' }) => {
+export const txt = ({ text = '', title = '' }, snippets = []) => {
   const forelinks = staticLabels({
     text,
     begin: /(\()[\s]*see[\s]*:/gi,
@@ -13,15 +13,23 @@ export const txt = ({ text = '' }) => {
     end: /(\))/gi,
   });
 
+  let metappet = undefined;
+  for (const snippet of snippets) {
+    if (`${snippet.title}.txt`.toLowerCase() === title.toLowerCase()) {
+      tags.push('metappet');
+      metappet = true;
+    }
+  }
+
   if (
     staticLabels({
       text,
-      begin: /(\()[\s]*tags[\s]*:/gi,
+      begin: /(\()[\s]*tribute[\s]*:/gi,
       end: /(\))/gi,
-    })
+    }).length > 0
   ) {
     tags.push('tribute');
   }
 
-  return { text, forelinks, tags };
+  return { title, text, forelinks, tags, metappet };
 };

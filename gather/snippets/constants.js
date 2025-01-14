@@ -26,6 +26,5 @@ export const IGNORE = [
   '.spec',
   '.mp3',
   '.excalidraw',
-  '.svg.csv',
   'DS_Store',
 ];

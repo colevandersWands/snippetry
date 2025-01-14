@@ -22,7 +22,7 @@ export const py = ({ text = '' }) => {
     staticLabels({
       text,
       begin: /(\#)[\s]*tribute[\s]*:/gi,
-    })
+    }).length > 0
   ) {
     tags.push('tribute');
   }

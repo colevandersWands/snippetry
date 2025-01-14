@@ -68,7 +68,7 @@ export const html = ({ title = '', text = '' }) => {
       text,
       begin: /(\<\!\-\-)[\s]*tribute[\s]*:/gi,
       end: /(\-\-\>)/gi,
-    })
+    }).length > 0
   ) {
     tags.push('tribute');
   }

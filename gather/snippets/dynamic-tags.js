@@ -2,7 +2,7 @@ export const dynamicTags = [
   function variation(snippets = []) {
     const metaSnippets = snippets
       .filter((snippet) => !snippet.title.startsWith('.'))
-
+      .filter((snippet) => !snippet.metappet)
       .map((snippet) => ({ snippet }));
 
     const baseNames = {};
