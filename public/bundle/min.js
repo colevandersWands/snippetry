@@ -6048,7 +6048,9 @@ var {
 
 
 // see: optimism.js`,tags:["variation"],forelinks:["optimism.js"],aftlinks:["variation.md"]},{title:"n-e-d.12-24.txt",text:`... NED ...
-`,tags:["variation","1-liner"],aftlinks:["variation.md"]},{title:"n-e-d.coem",text:`#as palimpsest
+
+(see: optimism.js)
+`,tags:["variation"],forelinks:["optimism.js"],aftlinks:["variation.md"]},{title:"n-e-d.coem",text:`#as palimpsest
 
 let ned be no
 let ned be evidence
@@ -6180,7 +6182,7 @@ know\u2014peace\u2014
 // .  .   .    .     .      .
 
 
-// .  .   .    .     .      .`,tags:["variation"],alt:"\u23F3",aftlinks:["n-e-d.08-24.js","n-e-d.coem","optimism.coem","variation.md"]},{title:"overconfidence.js",text:`console.assert([0] != ![0]);
+// .  .   .    .     .      .`,tags:["variation"],alt:"\u23F3",aftlinks:["n-e-d.08-24.js","n-e-d.12-24.txt","n-e-d.coem","optimism.coem","variation.md"]},{title:"overconfidence.js",text:`console.assert([0] != ![0]);
 
 console.assert('function () {}' != function () {});
 
@@ -7008,7 +7010,8 @@ const renderedThings = $arrJoin(smallThings, '\\n- ');
 const packagedThings = \`here are your smaller things:\\n- \${renderedThings}\`;
 
 alert(packagedThings);
-`,forelinks:["demethod.mjs"]},{title:"turtles-all-the-way-down.00.js",text:`(function turtle() { turtle() })();
+`,forelinks:["demethod.mjs"]},{title:"trust-fallaf-tsurt.txt",text:`\u{1F336}\uFE0F\u{1F965}
+`,tags:["1-liner"]},{title:"turtles-all-the-way-down.00.js",text:`(function turtle() { turtle() })();
 
 // tags: wuzzle
 `,tags:["wuzzle","variation","1-liner","\u{1F422}"],aftlinks:["variation.md"]},{title:"turtles-all-the-way-down.01.js",text:`(turtle = () => turtle())();
