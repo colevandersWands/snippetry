@@ -19,7 +19,18 @@
     <script>
       if (new URL(window.location.href).searchParams.has('about:blank')) {
         document.title = 'This page intentionally left blank.';
-        document.body.innerHTML = `<p class="center-center"><em>${document.title}</em></p>`;
+        document.body.innerHTML = `
+          <style>
+            .center-center {
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            }
+          </style>
+          <p class="center-center">
+            <em>${document.title}</em>
+          </p>`;
         console.log('');
         window.stop();
       }
@@ -74,11 +85,18 @@
 
         <h1>
           <!-- <a id="graph" target="_blank" aria-label="graph link">Snippetry</a> -->
-          <a
+          <!-- <a
             id="api"
             target="_blank"
             aria-label="API link"
-            href="https://snippetry.onrender.com/api/"
+            href=""
+            >Snippetry</a
+          > -->
+          <a
+            id="origin-story"
+            target="_blank"
+            aria-label="Origin Story"
+            href=""
             >Snippetry</a
           >
           <a
