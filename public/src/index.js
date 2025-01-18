@@ -24,6 +24,8 @@ import './init/outlinks.js';
 
 import './init/live-dangerously.js';
 
+import './init/code-is-text.js';
+
 import './init/search.js';
 
 import './init/tags.js';

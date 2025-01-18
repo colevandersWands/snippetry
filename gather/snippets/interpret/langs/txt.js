@@ -15,9 +15,12 @@ export const txt = ({ text = '', title = '' }, snippets = []) => {
 
   let metappet = undefined;
   for (const snippet of snippets) {
-    if (`${snippet.title}.txt`.toLowerCase() === title.toLowerCase()) {
+    if (
+      `${snippet.title}.txt`.toLowerCase() === title.toLowerCase() &&
+      snippet.title.toLowerCase().endsWith('.svg')
+    ) {
       tags.push('metappet');
-      metappet = true;
+      metappet = snippet.title;
     }
   }
 

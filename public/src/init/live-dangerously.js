@@ -8,7 +8,7 @@ const dangerZoneStyle = Array.from(document.styleSheets[0].cssRules).find(
   (rule) => rule.selectorText === '.danger-zone',
 ).style;
 
-export const riskManagement = () => {
+const riskManagement = () => {
   state.liveDangerously = !state.liveDangerously;
   if (state.liveDangerously) {
     dangerZoneStyle.display = 'inline-block';

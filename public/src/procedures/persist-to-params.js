@@ -17,6 +17,10 @@ export const persistToParams = () => {
     params.push(`search=${encodeURI(state.search)}`);
   }
 
+  if (state.codeIsText) {
+    params.push('code=text');
+  }
+
   const selectedTags = state.tags.filter((tag) => tag.selected);
   if (selectedTags.length > 0) {
     params.push(`tags=${encodeURI(selectedTags.map((tag) => tag.value).join(','))}`);

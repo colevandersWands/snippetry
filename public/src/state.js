@@ -47,6 +47,11 @@ state.liveDangerously =
     ? true
     : false;
 
+// --- initialize code is text ---
+
+state.codeIsText =
+  url.searchParams.has('code') && url.searchParams.get('code') === 'text' ? true : false;
+
 // --- initialize snips ---
 
 state.snips = snips.map((snip) => ({ text: snip, display: true }));

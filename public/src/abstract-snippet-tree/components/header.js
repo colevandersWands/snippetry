@@ -1,5 +1,4 @@
 import { n } from '../../utils/n.js';
-import { ext, name } from '../../utils/titling.js';
 
 export const header = (snippet) => {
   const titleHeader = n('h2', { id: `${snippet.title}-title` }, snippet.title);
@@ -14,10 +13,9 @@ export const header = (snippet) => {
     titleNode = n('a', { href: `#${snippet.figment}` }, titleHeader);
   }
 
-  if (snippet.metappet === true && snippet.title.toLowerCase().endsWith('.txt')) {
+  if (typeof snippet.metappet === 'string') {
     titleNode = n('h2', { id: `${snippet.title}-title` }, [
-      n('a', { href: `#${name(snippet.title)}` }, name(snippet.title)),
-      ext(snippet.title),
+      n('a', { href: `#${snippet.metappet}` }, snippet.title),
     ]);
   }
 
