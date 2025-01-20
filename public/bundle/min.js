@@ -6061,6 +6061,7 @@ know\u2014ned\u2014
 
 \u2020 see: optimism.js
 `,tags:["variation"],forelinks:["optimism.js"],aftlinks:["variation.md"]},{title:"namoji.mjs",text:`export const namoji = (fn, emoji = '\u2754') => ({ [emoji]: (...args) => fn(...args) }[emoji]);
+`,tags:["1-liner"]},{title:"nema.txt",text:`oO
 `,tags:["1-liner"]},{title:"no-comment.js",text:`'use strict' // or not, it's the same
 
 <!-- Did you know, this is a comment in .js?
