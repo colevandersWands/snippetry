@@ -3,36 +3,34 @@
   <head>
     <meta charset="utf-8" />
     <title>snippets</title>
+    <link rel="stylesheet" href="../public/styles.css" />
   </head>
-  <body style="display: grid; justify-items: center">
+  <body>
+    <div id="snippetsRoot" class="nicely-centered"></div>
     <script type="module">
       const renderSnippet = ({ title, text, alt }) =>
-        `<div> <h2>${title}</h2> ${alt ? `<li>${alt}</li>` : ''} <pre><code>${text
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')}</code></pre> </div> <br />`;
+        `<div id="${title}" class="a-snippet"> 
+          <div class="snippet-header editor"><h2>${title}</h2> ${alt ? `<code>${alt}</code>` : ''}</div> 
+          <pre class="wrappable"><code>${
+            text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          }</code></pre> 
+        </div>`;
 
       const snippets = await fetch('../public/data/snippets.json').then((res) => res.json());
-
       const href = new URL(window.location.href);
-      const snippetTitle = decodeURI(href.searchParams.get('snippet') || '').toLowerCase();
-      const query = decodeURI(href.searchParams.get('search') || '').toLowerCase();
+      const title = decodeURI(href.searchParams.get('title') || '').toLowerCase();
+      const search = decodeURI(href.searchParams.get('search') || '').toLowerCase();
       const tags = decodeURI(href.searchParams.get('tags') || '')
         .split(',').filter((t) => t).map((t) => t.toLowerCase().trim());
 
-      if (snippetTitle) {
-        const snippet = snippets.find((s) => s.title.toLowerCase() === snippetTitle);
-        if (snippet) document.body.innerHTML = renderSnippet(snippet);
-
-      } else if (query || tags.length !== 0) {
-        const filteredSnippets = snippets
-          .filter((sn) => tags.every((tag) => sn.tags?.includes(tag)))
-          .filter((sn) => sn.title.toLowerCase().includes(query) || sn.text.toLowerCase().includes(query));
-        document.body.innerHTML = filteredSnippets.map(renderSnippet).join('\n');
-
-      } else {
-        document.body.innerHTML = snippets.map(renderSnippet).join('\n');
-      }
+      if (title) snippetsRoot.innerHTML = renderSnippet(
+          snippets.find((s) => s.title.toLowerCase() === title) || {});
+      else if (search || tags.length !== 0) snippetsRoot.innerHTML = snippets
+          .filter((sn) => tags.every((tag) => sn.tags?.map((t) => t.toLowerCase()).includes(tag)))
+          .map((sn) => ({ title: sn.title.toLowerCase(), text: sn.text.toLowerCase()}))
+          .filter((sn) => sn.title.includes(search) || sn.text.includes(search))
+          .map(renderSnippet).join('\n');
+      else snippetsRoot.innerHTML = snippets.map(renderSnippet).join('\n');
     </script>
   </body>
 </html>
