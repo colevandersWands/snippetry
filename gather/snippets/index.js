@@ -61,22 +61,28 @@ for (const metappet of snippets.filter((snippet) => snippet.tags?.includes('meta
     if (metappet === snippet) continue;
     if (nameyName(metappet) === nameyName(snippet)) metalinks.add(snippet.title);
     if (snippet.tags?.includes(nameyName(metappet))) metalinks.add(snippet.title);
+  }
+  metappet.metalinks = Array.from(metalinks).sort();
+}
 
-    if (metappet.title.toLowerCase().endsWith('.txt')) {
-      if (`${snippet.title.toLowerCase()}.txt` === metappet.title.toLowerCase()) {
-        for (const key in metappet) {
-          if (Array.isArray(snippet[key])) {
-            if (Array.isArray(metappet[key])) {
-              snippet[key].push(...metappet[key]);
-            } else if (snippet[key] === undefined) {
-              snippet[key] = [...metappet[key]];
-            }
+// ---------- transfer metatdata from .metappets to snippets ----------
+
+for (const metappet of snippets.filter(
+  (snippet) => typeof snippet.metappet === 'string',
+)) {
+  for (const snippet of snippets) {
+    if (snippet.title === metappet.metappet) {
+      for (const key in metappet) {
+        if (Array.isArray(snippet[key])) {
+          if (Array.isArray(metappet[key])) {
+            snippet[key].push(...metappet[key]);
+          } else if (snippet[key] === undefined) {
+            snippet[key] = [...metappet[key]];
           }
         }
       }
     }
   }
-  metappet.metalinks = Array.from(metalinks).sort();
 }
 
 // ---------- assign meta-indicated tags ----------

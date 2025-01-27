@@ -1,4 +1,4 @@
-import { statelessMachine } from './stateless-machine.draft.mjs';
+import { statelessMachine } from './stateless-machine.mjs';
 
 console.log(statelessMachine()); // minimal docs
 
@@ -8,7 +8,7 @@ const stopight = statelessMachine({
   green: {
     change: {
       state: 'yellow',
-      se: [(args) => console.log(1, args), (args) => console.log(2, args)],
+      act: [(args) => console.log(1, args), (args) => console.log(2, args)],
     },
   },
   yellow: {
@@ -17,7 +17,7 @@ const stopight = statelessMachine({
   red: {
     change: {
       state: 'green',
-      se: (args) => console.log(3, args),
+      act: (args) => console.log(3, args),
     },
   },
 });

@@ -1,7 +1,32 @@
+const API_DOCS = `snippetry endpoints: 
+
+  /api/comments  ? search={query}
+
+  /api/langs     ? search={query}
+
+  /api/links     ? search={query}
+                 ? title={query}
+                 ? from={query}
+                   & to={query}
+                   & type={query}
+
+  /api/snippets  ? search={query} 
+                   & tags={tag,tag,...}
+                 ? title={file-name.ext}
+                 / {file-name.ext}              
+
+  /api/snips     ? search={query}
+  
+  /api/tags      ? search={query}
+  
+  /api/*       - ik stuur mijn kat -`;
+
+//  ---  ---  ---  ---  ---  ---
+
 import express from 'express';
 import cors from 'cors';
 
-import { SNIPPETS_ROOT } from './gather-snippets/constants.js';
+import { SNIPPETS_ROOT } from './gather/snippets/constants.js';
 
 import comments from './public/data/comments.json' assert { type: 'json' };
 import langs from './public/data/langs.json' assert { type: 'json' };
@@ -10,7 +35,7 @@ import snippets from './public/data/snippets.json' assert { type: 'json' };
 import snips from './public/data/snips.json' assert { type: 'json' };
 import tags from './public/data/tags.json' assert { type: 'json' };
 
-import { readSnippets } from './gather-snippets/read-snippets.js';
+import { readSnippets } from './gather/snippets/read-snippets.js';
 
 const rawSnippets = new Proxy(
   (await readSnippets(SNIPPETS_ROOT)).snippets.reduce(
@@ -41,28 +66,7 @@ app.use(express.static('./'));
 
 app.get('/api', (_, res) => {
   res.set('Content-Type', 'text/plain');
-  res.send(`snippetry endpoints: 
-
-  /api/comments  ? search={query}
-
-  /api/langs     ? search={query}
-
-  /api/links     ? search={query}
-                 ? title={query}
-                 ? from={query}
-                   & to={query}
-                   & type={query}
-
-  /api/snippets  ? search={query} 
-                   & tags={tag,tag,...}
-                 ? title={file-name.ext}
-                 / {file-name.ext}              
-
-  /api/snips     ? search={query}
-  
-  /api/tags      ? search={query}
-  
-  /api/*         - ik stuur mijn kat -`);
+  res.send(API_DOCS);
 });
 
 app.get('/api/comments', serveOther(comments));

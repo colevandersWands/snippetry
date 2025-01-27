@@ -9,17 +9,28 @@
 
   <body>
     <script>
-      if (new URL(window.location.href).searchParams.has('kishu')) {
-        document.body.innerHTML = '<pre class="center-center">🐧🐧</pre>';
-        document.title = 'kishu';
-        window.stop();
-      }
+      // if (new URL(window.location.href).searchParams.has('kishu')) {
+      //   document.body.innerHTML = '<pre class="center-center">🐧🐧</pre>';
+      //   document.title = 'kishu';
+      //   window.stop();
+      // }
     </script>
 
     <script>
       if (new URL(window.location.href).searchParams.has('about:blank')) {
         document.title = 'This page intentionally left blank.';
-        document.body.innerHTML = `<p class="center-center"><em>${document.title}</em></p>`;
+        document.body.innerHTML = `
+          <style>
+            .center-center {
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            }
+          </style>
+          <p class="center-center">
+            <em>${document.title}</em>
+          </p>`;
         console.log('');
         window.stop();
       }
@@ -74,20 +85,23 @@
 
         <h1>
           <!-- <a id="graph" target="_blank" aria-label="graph link">Snippetry</a> -->
-          <a
-            id="api"
-            target="_blank"
-            aria-label="API link"
-            href="https://snippetry.onrender.com/api/"
+          <a id="api" target="_blank" aria-label="Snippetry API" href=""
             >Snippetry</a
           >
           <a
+            id="origin-story"
+            target="_blank"
+            aria-label="Snippetry Origin Story"
+            href=""
+            ><img src="./public/assets/favicon.ico"
+          /></a>
+          <!-- <a
             id="about:blank"
             target="_blank"
             aria-label="blank page link"
-            href="?about:blank"
+            href=""
             ><img src="./public/assets/favicon.ico"
-          /></a>
+          /></a> -->
         </h1>
 
         <p class="center caption">What can you do with under 40(ish) lines at a time?</p>
@@ -95,18 +109,21 @@
         <div class="center">
           <input id="search-field" type="text" placeholder="search" />
         </div>
+        <br />
 
         <div id="tags" class="center middly"></div>
 
         <div class="center">
-          <input type="checkbox" id="danger-zone" /><label
+          <input type="checkbox" id="danger-zone" /> <label
             class="warning"
             for="danger-zone"
-            >live dangerously <br />
-            <!-- <text class="warning">some snippets will freeze the page</text> -->
+            >live dangerously
           </label>
+          || <label class="warning" for="code-is-text">code is text</label
+          > <input type="checkbox" id="code-is-text" />
+          <br />
         </div>
-
+        <br />
         <hr />
       </div>
       <br />
