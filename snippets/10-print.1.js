@@ -5,12 +5,12 @@ const WIDTH = 50;
 
 let maze = '';
 
-for (let i = 0; i < HEIGHT; i++) {
+for (let i = 0; i < HEIGHT; i++) 
   maze +=
     Array(WIDTH)
       .fill()
-      .map(() => '\\/'[+(Math.random() > 0.5)])
-      .join('') + '\n';
-}
+        .map(() => '\\/'[+(Math.random() > 0.5)])
+          .join('') 
+            + '\n';
 
 console.log(maze);

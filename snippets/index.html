@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>snippets</title>
+    <title id="tabby"></title>
     <link rel="stylesheet" href="../public/styles.css" />
   </head>
   <body>
-    <div id="snippetsRoot" class="nicely-centered"></div>
+    <h1 id="h1" class="nicely-centered"></h1>
+    <code class="nicely-centered a-snippet">What can you do with under 40(ish) lines at a time?</code>
+    <div id="root" class="nicely-centered"></div>
     <script type="module">
+      const Snippetry = 'Snippetry 💭';
+      tabby.innerHTML = Snippetry;
+      h1.innerHTML = Snippetry;
+      console.log(Snippetry);
+
+      const snippets = await fetch('../public/data/snippets.json').then((res) => res.json());
+      const href = new URL(window.location.href);
+      const title = decodeURI(href.searchParams.get('title') || '').toLowerCase();
+      const search = decodeURI(href.searchParams.get('search') || '').toLowerCase();
+      const tags = decodeURI(href.searchParams.get('tags') || '')
+          .split(',').filter(t => t).map(t => t.toLowerCase().trim());
+
       const renderSnippet = ({ title, text, alt }) =>
         `<div id="${title}" class="a-snippet"> 
           <div class="snippet-header editor"><h2>${title}</h2> ${alt ? `<code>${alt}</code>` : ''}</div> 
@@ -16,21 +29,12 @@
           }</code></pre> 
         </div>`;
 
-      const snippets = await fetch('../public/data/snippets.json').then((res) => res.json());
-      const href = new URL(window.location.href);
-      const title = decodeURI(href.searchParams.get('title') || '').toLowerCase();
-      const search = decodeURI(href.searchParams.get('search') || '').toLowerCase();
-      const tags = decodeURI(href.searchParams.get('tags') || '')
-        .split(',').filter((t) => t).map((t) => t.toLowerCase().trim());
-
-      if (title) snippetsRoot.innerHTML = renderSnippet(
-          snippets.find((s) => s.title.toLowerCase() === title) || {});
-      else if (search || tags.length !== 0) snippetsRoot.innerHTML = snippets
-          .filter((sn) => tags.every((tag) => sn.tags?.map((t) => t.toLowerCase()).includes(tag)))
-          .map((sn) => ({ title: sn.title.toLowerCase(), text: sn.text.toLowerCase()}))
-          .filter((sn) => sn.title.includes(search) || sn.text.includes(search))
-          .map(renderSnippet).join('\n');
-      else snippetsRoot.innerHTML = snippets.map(renderSnippet).join('\n');
+      if (title) root.innerHTML = renderSnippet(snippets.find(s => s.title.toLowerCase() === title) || {});
+      else if (search || tags.length !== 0) root.innerHTML = snippets
+          .filter(s => tags.every(tag => s.tags?.map(t => t.toLowerCase()).includes(tag)))
+          .map(sn => ({ title: sn.title.toLowerCase(), text: sn.text.toLowerCase() }))
+          .filter(s => s.title.includes(search) || s.text.includes(search)).map(renderSnippet).join('\n');
+      else root.innerHTML = snippets.map(renderSnippet).join('\n');
     </script>
   </body>
 </html>
