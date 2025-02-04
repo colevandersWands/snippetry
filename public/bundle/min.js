@@ -3946,13 +3946,13 @@ const WIDTH = 50;
 
 let maze = '';
 
-for (let i = 0; i < HEIGHT; i++) {
+for (let i = 0; i < HEIGHT; i++) 
   maze +=
     Array(WIDTH)
       .fill()
-      .map(() => '\\\\/'[+(Math.random() > 0.5)])
-      .join('') + '\\n';
-}
+        .map(() => '\\\\/'[+(Math.random() > 0.5)])
+          .join('') 
+            + '\\n';
 
 console.log(maze);
 `,tags:["variation"],aftlinks:["variation.md"]},{title:"10-print.2.js",text:`// 10 PRINT CHR$(205.5+RND(1)); : GOTO 10
@@ -5580,43 +5580,46 @@ alert(             prompt())
 // tags: wuzzle`,tags:["wuzzle"],alt:"... out the other"},{title:"index.html",text:`<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>snippets</title>
+    <title id="tabby"></title>
+    <link rel="stylesheet" href="../public/styles.css" />
   </head>
-  <body style="display: grid; justify-items: center">
+  <body>
+    <h1 id="h1" class="nicely-centered"></h1>
+    <code class="nicely-centered a-snippet">What can you do with under 40(ish) lines at a time?</code>
+    <div id="root" class="nicely-centered"></div>
     <script type="module">
-      const renderSnippet = ({ title, text, alt }) =>
-        \`<div> <h2>\${title}</h2> \${alt ? \`<li>\${alt}</li>\` : ''} <pre><code>\${text
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')}</code></pre> </div> <br />\`;
+      const Snippetry = 'Snippetry \u{1F4AD}';
+      tabby.innerHTML = Snippetry;
+      h1.innerHTML = Snippetry;
+      console.log(Snippetry);
 
       const snippets = await fetch('../public/data/snippets.json').then((res) => res.json());
-
       const href = new URL(window.location.href);
-      const snippetTitle = decodeURI(href.searchParams.get('snippet') || '').toLowerCase();
-      const query = decodeURI(href.searchParams.get('search') || '').toLowerCase();
+      const title = decodeURI(href.searchParams.get('title') || '').toLowerCase();
+      const search = decodeURI(href.searchParams.get('search') || '').toLowerCase();
       const tags = decodeURI(href.searchParams.get('tags') || '')
-        .split(',').filter((t) => t).map((t) => t.toLowerCase().trim());
+          .split(',').filter(t => t).map(t => t.toLowerCase().trim());
 
-      if (snippetTitle) {
-        const snippet = snippets.find((s) => s.title.toLowerCase() === snippetTitle);
-        if (snippet) document.body.innerHTML = renderSnippet(snippet);
+      const renderSnippet = ({ title, text, alt }) =>
+        \`<div id="\${title}" class="a-snippet"> 
+          <div class="snippet-header editor"><h2>\${title}</h2> \${alt ? \`<code>\${alt}</code>\` : ''}</div> 
+          <pre class="wrappable"><code>\${
+            text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          }</code></pre> 
+        </div>\`;
 
-      } else if (query || tags.length !== 0) {
-        const filteredSnippets = snippets
-          .filter((sn) => tags.every((tag) => sn.tags?.includes(tag)))
-          .filter((sn) => sn.title.toLowerCase().includes(query) || sn.text.toLowerCase().includes(query));
-        document.body.innerHTML = filteredSnippets.map(renderSnippet).join('\\n');
-
-      } else {
-        document.body.innerHTML = snippets.map(renderSnippet).join('\\n');
-      }
+      if (title) root.innerHTML = renderSnippet(snippets.find(s => s.title.toLowerCase() === title) || {});
+      else if (search || tags.length !== 0) root.innerHTML = snippets
+          .filter(s => tags.every(tag => s.tags?.map(t => t.toLowerCase()).includes(tag)))
+          .map(sn => ({ title: sn.title.toLowerCase(), text: sn.text.toLowerCase() }))
+          .filter(s => s.title.includes(search) || s.text.includes(search)).map(renderSnippet).join('\\n');
+      else root.innerHTML = snippets.map(renderSnippet).join('\\n');
     <\/script>
   </body>
 </html>
 
-<!-- tags: metappet -->`,tags:["metappet"],forelinks:[".publicdata/snippets.json"]},{title:"insomnicat.js",text:`/*
+<!-- tags: metappet -->
+`,tags:["metappet"],forelinks:[".publicdata/snippets.json"]},{title:"insomnicat.js",text:`/*
 	La bande dessin\xE9e la plus populaire de Philippe Geluck est sans doute "Le Chat".
 	Il a cr\xE9\xE9 ce personnage en 1983 et il est devenu extr\xEAmement populaire,
 	non seulement en Belgique, mais aussi \xE0 l'\xE9tranger fr.wikipedia.org.
