@@ -6209,7 +6209,8 @@ let death be sleep\u2014eternal\u2014
 know\u2014death\u2014   
     
 let death be patience
-death \u2020`,aftlinks:["optimism.coem"]},{title:"pedestrian-slalom.html",text:`<style>
+death \u2020
+`,aftlinks:["optimism.coem"]},{title:"pedestrian-slalom.html",text:`<style>
   .center {
     position: fixed;
     top: 50%;
