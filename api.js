@@ -81,7 +81,7 @@ app.get('/api/*', stuurMijnKat);
 // --- start the server ---
 
 const port = process.argv[2] || 4567;
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Snippetry is running on port ${port}`);
 });
 
