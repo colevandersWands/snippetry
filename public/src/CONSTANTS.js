@@ -1,4 +1,4 @@
-export const API_URL = 'https://snippetry.onrender.com/api';
+export const API_URL = 'https://snippetry.fly.dev/api';
 
 export const BLANK_PAGE = './?about:blank';
 
