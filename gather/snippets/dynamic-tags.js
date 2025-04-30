@@ -95,6 +95,16 @@ export const dynamicTags = [
     }
   },
 
+  function docs(snippets = []) {
+    for (const snippet of snippets) {
+      if (!snippet.title.toLowerCase().includes('.docs.')) null;
+      // find what it documents
+      // if there's nothing to find, it's not docs
+      // if there is, then indicate that it has docs
+      snippet.tags.push('metappet', 'docs');
+    }
+  },
+
   // function translation(snippets = []) {
   //   const lang = (name = '') => {
   //     const ext = name.split('.').pop().toLowerCase();
