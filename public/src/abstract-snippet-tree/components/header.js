@@ -19,6 +19,28 @@ export const header = (snippet) => {
     ]);
   }
 
+  if (Array.isArray(snippet.rtfm)) {
+    titleHeader.attributes.style = 'display: inline;';
+    titleNode = n('span', {}, [
+      titleHeader,
+      ...snippet.rtfm.map((m) =>
+        n(
+          'a',
+          { href: `#${m}`, style: 'padding-left: 1em;' },
+          `rtfm.${m.split('.docs.').pop()}`,
+        ),
+      ),
+    ]);
+  }
+
+  if (typeof snippet.docs === 'string') {
+    const documentee = snippet.title.split('.docs.')[0];
+    titleNode = n('h2', { id: `${snippet.title}-title` }, [
+      n('a', { href: `#${documentee}` }, documentee),
+      n('text', {}, snippet.title.replace(documentee, '')),
+    ]);
+  }
+
   if (snippet.alt) {
     titleHeader.attributes.style = 'display: inline;';
     titleNode = n('details', {}, [
