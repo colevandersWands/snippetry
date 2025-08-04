@@ -9,7 +9,7 @@ export async function readSnippets(snippetsRoot) {
 }
 
 export async function interpretSnippets(snippets) {
-  return snippets.map(snippet => interpret({ ...snippet, tags: [] }, snippets));
+  return snippets.map((snippet) => interpret({ ...snippet, tags: [] }, snippets));
 }
 
 export function processSubtexts(snippets) {
@@ -39,6 +39,7 @@ export function processDocs(snippets) {
 
       if (!snippet.tags) snippet.tags = [];
       if (!snippet.tags.includes('metappet')) snippet.tags.push('metappet');
+      if (!snippet.tags.includes('docs')) snippet.tags.push('docs');
       snippet.docs = sourceName;
 
       if (!sourceToDocs[sourceName]) sourceToDocs[sourceName] = [];
@@ -75,9 +76,9 @@ export function processTags(snippets) {
   const tags = Array.from(
     new Set(
       snippets
-        .flatMap(snippet => snippet.tags?.map(tag => tag.toLowerCase()))
-        .filter(tag => tag)
-    )
+        .flatMap((snippet) => snippet.tags?.map((tag) => tag.toLowerCase()))
+        .filter((tag) => tag),
+    ),
   ).sort();
 
   return { snippets, tags };
@@ -85,11 +86,18 @@ export function processTags(snippets) {
 
 export function processMetalinks(snippets, tags) {
   function nameyName({ title = '' }) {
-    return title.split('.').shift().toLowerCase().replaceAll('_', ' ').replaceAll('-', ' ');
+    return title
+      .split('.')
+      .shift()
+      .toLowerCase()
+      .replaceAll('_', ' ')
+      .replaceAll('-', ' ');
   }
 
   // Assign metalinks to metappets
-  for (const metappet of snippets.filter(snippet => snippet.tags?.includes('metappet'))) {
+  for (const metappet of snippets.filter((snippet) =>
+    snippet.tags?.includes('metappet'),
+  )) {
     const metalinks = new Set();
     for (const snippet of snippets) {
       if (metappet === snippet) continue;
@@ -102,7 +110,9 @@ export function processMetalinks(snippets, tags) {
   }
 
   // Assign meta-indicated tags
-  for (const metappet of snippets.filter(snippet => snippet.tags?.includes('metappet'))) {
+  for (const metappet of snippets.filter((snippet) =>
+    snippet.tags?.includes('metappet'),
+  )) {
     if (tags.includes(nameyName(metappet))) {
       metappet.tags.push(nameyName(metappet));
     }
@@ -119,7 +129,10 @@ export function processLinks(snippets) {
       if (otherSnippet.forelinks?.includes(snippet.title)) {
         aftlinks.add(otherSnippet.title);
       }
-      if (otherSnippet.metalinks?.includes(snippet.title) && otherSnippet.docs !== snippet.title) {
+      if (
+        otherSnippet.metalinks?.includes(snippet.title) &&
+        otherSnippet.docs !== snippet.title
+      ) {
         aftlinks.add(otherSnippet.title);
       }
       if (otherSnippet.subtext === snippet.title) {
@@ -130,19 +143,24 @@ export function processLinks(snippets) {
   }
 
   // Compile all links
-  const links = snippets.flatMap(snippet => {
+  const links = snippets.flatMap((snippet) => {
     const result = [];
-    const { title, tags, forelinks, metalinks, subtext, aftlinks, docs, figment, rtfm } = snippet;
+    const { title, tags, forelinks, metalinks, subtext, aftlinks, docs, figment, rtfm } =
+      snippet;
 
     // Original link types
     if (tags) {
-      tags.forEach(tag => result.push({ from: title, to: tag, type: 'tag' }));
+      tags.forEach((tag) => result.push({ from: title, to: tag, type: 'tag' }));
     }
     if (forelinks) {
-      forelinks.forEach(forelink => result.push({ from: title, to: forelink, type: 'forelink' }));
+      forelinks.forEach((forelink) =>
+        result.push({ from: title, to: forelink, type: 'forelink' }),
+      );
     }
     if (metalinks) {
-      metalinks.forEach(metalink => result.push({ from: title, to: metalink, type: 'metalink' }));
+      metalinks.forEach((metalink) =>
+        result.push({ from: title, to: metalink, type: 'metalink' }),
+      );
     }
     if (subtext) {
       result.push({ from: title, to: subtext, type: 'subtext' });
@@ -150,7 +168,9 @@ export function processLinks(snippets) {
 
     // Additional relationship types
     if (aftlinks) {
-      aftlinks.forEach(aftlink => result.push({ from: title, to: aftlink, type: 'aftlink' }));
+      aftlinks.forEach((aftlink) =>
+        result.push({ from: title, to: aftlink, type: 'aftlink' }),
+      );
     }
     if (docs) {
       result.push({ from: title, to: docs, type: 'docs' });
@@ -159,7 +179,7 @@ export function processLinks(snippets) {
       result.push({ from: title, to: figment, type: 'figment' });
     }
     if (rtfm) {
-      rtfm.forEach(doc => result.push({ from: title, to: doc, type: 'rtfm' }));
+      rtfm.forEach((doc) => result.push({ from: title, to: doc, type: 'rtfm' }));
     }
 
     return result;
@@ -176,12 +196,14 @@ export async function writeOutput(state, outputPaths) {
     writeFile(
       PUBLIC_SNIPPETS,
       JSON.stringify(snippets, (_, value) =>
-        value === null || (Array.isArray(value) && value.length === 0) ? undefined : value
-      )
+        value === null || (Array.isArray(value) && value.length === 0)
+          ? undefined
+          : value,
+      ),
     ),
     writeFile(PUBLIC_TAGS, JSON.stringify(tags)),
     writeFile(PUBLIC_LINKS, JSON.stringify(links)),
-    writeFile(PUBLIC_LANGS, JSON.stringify(langs.sort()))
+    writeFile(PUBLIC_LANGS, JSON.stringify(langs.sort())),
   ];
 
   await Promise.all(writePromises);
