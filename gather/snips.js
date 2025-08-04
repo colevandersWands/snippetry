@@ -11,7 +11,7 @@ const PUBLIC_SNIPS = join('..', 'public', 'data', 'snips.json');
 
 const rawSnips = await readFile(SNIPS_LIVE_HERE, 'utf-8');
 
-const log = (thing) => (console.log(thing), thing);
+// const log = (thing) => (console.log(thing), thing);
 
 const snips = rawSnips
   .split(new RegExp(`${SNIP_HERE}.*`, 'ig'))
@@ -41,3 +41,35 @@ await writeFile(
 );
 
 console.log('------ done gathering snips ------');
+
+// import { readFile } from 'fs/promises';
+
+// const SNIP_HERE = '-snip-';
+
+// export const snips = async ({ snipsPath }) => {
+//   // ---------- build array of snips ----------
+
+//   const rawSnips = await readFile(snipsPath, 'utf-8');
+
+//   const snips = rawSnips
+//     .split(new RegExp(`${SNIP_HERE}.*`, 'ig'))
+//     .map((snip) => {
+//       const split = snip.split('\n');
+
+//       for (const line of [...split]) {
+//         if (!line.trim()) split.shift();
+//         else break;
+//       }
+
+//       for (const line of [...split].reverse()) {
+//         if (!line.trim()) split.pop();
+//         else break;
+//       }
+
+//       return split.join('\n');
+//     })
+//     .filter((snip) => snip);
+
+//   console.log('------ done gathering snips ------');
+//   return { snips };
+// };

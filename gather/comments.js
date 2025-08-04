@@ -28,3 +28,22 @@ await writeFile(
 );
 
 console.log('------ done gathering comments ------');
+
+// import { readdir, readFile } from 'fs/promises';
+// import { join } from 'path';
+
+// export const comments = async ({ commentsPath }) => {
+//   // ---------- build array of comment objects ----------
+
+//   const commentFileNames = await readdir(commentsPath);
+//   const commentCode = await Promise.all(
+//     commentFileNames.map((fileName) => readFile(join(commentsPath, fileName), 'utf-8')),
+//   );
+
+//   // ---------- format comments ----------
+
+//   const comments = commentFileNames.map((_, i) => commentCode[i]);
+
+//   console.log('------ done gathering comments ------');
+//   return { comments };
+// };

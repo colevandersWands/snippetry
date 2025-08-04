@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="300" fill="white" />
+
+  <!-- Ground - one simple stroke -->
+  <path d="M10,220 C100,215 300,225 390,220"
+        stroke="black" fill="none" stroke-width="1" />
+
+  <!-- Left creature - all in one flowing line -->
+  <path d="M100,220 C105,180 95,150 90,130 C85,110 95,90 120,85 C140,82 150,95 140,110 C130,125 110,120 100,110"
+        stroke="black" fill="none" stroke-width="1.5" />
+
+  <!-- Right creature - simple annoyed shape -->
+  <path d="M300,220 C305,180 295,150 290,130 C285,110 295,90 320,85 C340,82 350,95 340,110 C330,125 310,120 300,110"
+        stroke="black" fill="none" stroke-width="1.5" />
+
+  <!-- The wild tongue -->
+  <path d="M110,100 C150,70 200,130 270,100"
+        stroke="black" fill="none" stroke-width="1" />
+
+  <!-- Minimal eyes -->
+  <path d="M105,95 L115,90" stroke="black" stroke-width="1" />
+  <path d="M310,95 L320,90" stroke="black" stroke-width="1" />
+</svg>
+
+<!-- tags: metappet, sketch -->
