@@ -1,0 +1,8 @@
+new adventure:  support snippets written in Ruby!  I hear it's lovely to think and express in Ruby
+
+please study /public/src/abstract-snippet-tree then devise a plan to create a component that renders & executes Ruby in the browser. a-s-t/py, a-s-t/js can be inspiration as they're executable.
+
+special note:  our ruby execution should (if possible) be able to call the browser's prompt/alert/confirm functions for interactions.  they can be aliased under more ruby-like names though. (and should not take the place of console logs, assuming we'll have those for ruby)
+
+
+

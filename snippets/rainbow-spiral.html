@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<body
+  style="
+    margin: 0;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  "
+>
+  <canvas id="c" width="400" height="400"></canvas>
+  <script>
+    const c = document.getElementById('c');
+    const x = c.getContext('2d');
+    let t = 0;
+
+    function draw() {
+      x.fillStyle = 'rgba(0,0,0,0.1)';
+      x.fillRect(0, 0, 400, 400);
+
+      for (let i = 0; i < 100; i++) {
+        const a = i * 0.3 + t * 0.02;
+        const r = i * 2 + Math.sin(t * 0.01 + i * 0.1) * 20;
+
+        x.fillStyle = `hsl(${(i * 3 + t) % 360}, 70%, 60%)`;
+        x.beginPath();
+        x.arc(200 + Math.cos(a) * r, 200 + Math.sin(a) * r, 3, 0, 7);
+        x.fill();
+      }
+
+      t++;
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+</body>
+
+<!-- tags: coAIthored -->

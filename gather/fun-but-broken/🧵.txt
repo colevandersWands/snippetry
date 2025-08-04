@@ -1,0 +1,181 @@
+GATHER SYSTEM ARCHITECTURE 🧵
+===============================
+Emoji-based snippet processing system with ceremonial 40-line analysis (soft constraint).
+
+                      ╭─────────────────────╮
+                      │   gather/☝️.js     │  ← Main Entry Point
+                      │   (orchestrator)    │
+                      ╰──────────┬──────────╯
+                                 │
+                                 ▼
+                      ╭─────────────────────╮
+                      │  $nippetry/☝️.js   │  ← Module Loader
+                      │  (import manager)   │
+                      ╰──────────┬──────────╯
+                                 │
+                                 ▼
+    ╭────────────────────────────────────────────────────────╮
+    │                   $nippetry                            │
+    │  ╭─────────╮  ╭─────────╮  ╭─────────╮  ╭─────────╮   │
+    │  │   💭    │  │   🧺    │  │   📖    │  │   💾    │   │
+    │  │ (core)  │  │ (base)  │  │ (read)  │  │ (write) │   │
+    │  ╰─────────╯  ╰─────────╯  ╰─────────╯  ╰─────────╯   │
+    │  ╭─────────╮  ╭─────────╮  ╭─────────╮  ╭─────────╮   │
+    │  │   ✂️    │  │   🧵    │  │   🪡    │  │   🎨    │   │
+    │  │  (cut)  │  │ (link)  │  │(stitch) │  │ (color) │   │
+    │  ╰─────────╯  ╰─────────╯  ╰─────────╯  ╰─────────╯   │
+    │  ╭─────────╮  ╭─────────╮      ╭───────────────╮      │
+    │  │   📐    │  │   🗂️    │      │    🗄️/       │      │
+    │  │(measure)│  │  (org)  │      │ (interpreters)│      │
+    │  ╰─────────╯  ╰─────────╯      ╰───────────────╯      │
+    ╰────────────────────────────────────────────────────────╯
+
+## MODULE STRUCTURE
+
+    gather/
+    ├── ☝️.js                    ← Main processor (async function main())
+    └── $nippetry/
+        ├── 💭.js                ← Core object: export const $nippetry = {}
+        ├── ☝️.js                ← Module loader (imports in dependency order)
+        ├── 🧺.js                ← Foundation (prototype extensions, utilities)
+        ├── 📖.js                ← File I/O (readdir, readFile operations)
+        ├── 💾.js                ← Storage (writeFile operations)
+        ├── ✂️.js                ← Cutting algorithms (40-line enforcement)
+        ├── 🧵.js                ← Link analysis & web building
+        ├── 🪡.js                ← Snippet processing & interpretation
+        ├── 🎨.js                ← Tag extraction & coloring
+        ├── 📐.js                ← Measurement & metrics
+        ├── 🗂️.js                ← Organization & categorization
+        └── 🗄️/                 ← Language-specific interpreters
+            ├── 🟨.js            ← JavaScript (.js, .mjs)
+            ├── 🐍.js            ← Python (.py)
+            ├── 🌐.js            ← HTML (.html)
+            ├── 📝.js            ← Markdown (.md, .txt)
+            ├── 🖋️.js            ← Plain text & coem
+            ├── 🖌️.js            ← CSS (.css)
+            └── 🖼️.js            ← SVG & images
+
+## DATA FLOW PIPELINE
+
+    /snippets/              📖['📚']()             ✂️['📏']()
+    ┌─────────────┐    ╭─────────────────╮    ╭─────────────────╮
+    │ file1.js    │───▶│  Read Directory │───▶│  Trim to 40     │
+    │ file2.py    │    │  & File Content │    │  Lines Each     │
+    │ file3.md    │    ╰─────────────────╯    ╰─────────────────╯
+    └─────────────┘            │                       │
+                               ▼                       ▼
+    🧙['✨']()               🪡['🧵']()            🎨['🎯']()
+    ╭─────────────────╮    ╭─────────────────╮    ╭─────────────────╮
+    │ Apply Magic ID  │    │  Language       │    │  Extract Tags   │
+    │ & Timestamp     │───▶│  Interpretation │───▶│  & Apply Colors │
+    ╰─────────────────╯    ╰─────────────────╯    ╰─────────────────╯
+                               │                       │
+                               ▼                       ▼
+    🪡['🕸️']()            🗂️['🗄️']()           💾['💿']()
+    ╭─────────────────╮    ╭─────────────────╮    ╭─────────────────╮
+    │  Build Link     │    │  Organize into  │    │  Write JSON     │
+    │  Connections    │───▶│  Categories     │───▶│  to public/     │
+    ╰─────────────────╯    ╰─────────────────╯    ╰─────────────────╯
+
+## PROTOTYPE EXTENSIONS
+
+🧺.js extends built-in prototypes with emoji methods:
+
+    String.prototype:
+    ┌─────────┬───────────────────────────────────────────┐
+    │ ['✂️']  │ .split('\n').slice(0, length).join('\n') │
+    │ ['🎀']  │ .trim() + filter empty lines             │
+    │ ['🧵']  │ .split('\n') → array of lines            │
+    │ ['🪡']  │ .match(pattern) → extract matches         │
+    │ ['🏷️']  │ detect file type by extension            │
+    └─────────┴───────────────────────────────────────────┘
+
+    Array.prototype:
+    ┌─────────┬───────────────────────────────────────────┐
+    │ ['🧵']  │ .filter() with needle test/includes       │
+    │ ['🪢']  │ unique values (dedupe)                    │
+    │ ['🎨']  │ .map() transformation                     │
+    │ ['📍']  │ Object.freeze() array                     │
+    │ ['🗂️']  │ group into categories object              │
+    └─────────┴───────────────────────────────────────────┘
+
+    RegExp.prototype:
+    ┌─────────┬───────────────────────────────────────────┐
+    │ ['🔍']  │ global exec() returning all matches       │
+    └─────────┴───────────────────────────────────────────┘
+
+## CUTTING ALGORITHMS (✂️.js)
+
+Eight ceremonial cutting strategies for analysis (non-destructive):
+
+    ╭─────────────────────────────────────────────────────────╮
+    │  📏  Measured Cut    │ Analyze line boundaries          │
+    │  🔪  Rough Cut       │ Simulate trimming analysis       │
+    │  ✄   Pattern Cut     │ Extract matching sections        │
+    │  🌊  Wave Cut        │ Split analysis by delimiter      │
+    │  🎯  Precision Cut   │ Extract between markers          │
+    │  🔮  Magic Scissors  │ Meaning density analysis         │
+    │  🌪️  Tornado Cut     │ Simulate 30% chaos removal      │
+    │  🖋️  Drama Cut       │ Theatrical structure analysis   │
+    ╰─────────────────────────────────────────────────────────╯
+    
+    Special treatment: Files with "turtle" in name get dramatic scissors (🖋️)
+    Random 10% chance for other files to receive theatrical treatment.
+
+## LANGUAGE INTERPRETERS (🗄️/)
+
+Each interpreter processes specific file types:
+
+    🟨 JavaScript:     🐍 Python:        🌐 HTML:
+    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+    │• imports     │    │• imports     │    │• links       │
+    │• functions   │    │• functions   │    │• images      │
+    │• classes     │    │• classes     │    │• scripts     │
+    │• dweet check │    │• docstrings  │    │• styles      │
+    │• recursion   │    │• decorators  │    │• structure   │
+    └─────────────┘    └─────────────┘    └─────────────┘
+
+## FILE I/O OPERATIONS
+
+Input Sources:                     Output Destinations:
+╭──────────────────╮              ╭──────────────────╮
+│ /snippets/       │──────────────▶│ /public/data/    │
+│ ├── *.js         │   Processing   │ ├── snippets.json│
+│ ├── *.py         │   Pipeline     │ ├── tags.json    │
+│ ├── *.md         │   ═══════════▶ │ ├── links.json   │
+│ ├── *.html       │               │ ├── langs.json   │
+│ └── ...          │               │ ├── comments.json│
+╰──────────────────╯               │ └── snips.json   │
+                                   ╰──────────────────╯
+
+## DEBUG & INSPECTION UTILITIES
+
+Secret internal APIs for debugging:
+
+    $nippetry['🔮']['👁️']()     ← State inspection
+    $nippetry['🔮']['🩺']()     ← Health check  
+    $nippetry['🤐'](emoji, msg) ← Silent logging
+    $nippetry['🕵️']['🔍']()     ← Deep search
+    $nippetry['🧙']['✨']()     ← Add metadata
+    $nippetry['🎰']['🎯']()     ← Random selection
+
+## EXECUTION
+
+Entry point:
+    node "gather/☝️.js"
+
+Process flow:
+1. Import all modules in dependency order
+2. Read snippets from /snippets/ directory  
+3. Apply magic metadata to each snippet
+4. Perform ceremonial cutting analysis (non-destructive)
+5. Process through language-specific interpreters
+6. Extract tags and build color system
+7. Create link web between snippets
+8. Organize into categories
+9. Write JSON files to /public/data/
+
+Output: Six JSON files containing processed snippet data for frontend consumption.
+
+System uses only emoji methods - no traditional function names allowed.
+All content is preserved - cutting methods are ceremonial analysis tools only.

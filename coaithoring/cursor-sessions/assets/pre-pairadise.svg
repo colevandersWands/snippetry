@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Tree pattern -->
+  <defs>
+    <pattern id="leaves" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="2" fill="none" stroke="black" stroke-width="0.5" />
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="300" fill="white" />
+
+  <!-- Ground - sketchy line -->
+  <path d="M0,220 C50,215 150,225 250,218 S350,223 400,220 L400,300 L0,300 Z"
+        fill="none" stroke="black" stroke-width="1.5" />
+
+  <!-- Left tree (handcrafted) - more organic -->
+  <path d="M98,220 C100,190 97,170 95,150 C93,140 88,135 85,130 L115,130 C105,120 98,115 95,110 L105,110 C100,100 98,95 98,90"
+        stroke="black" fill="none" stroke-width="1.5" />
+  <!-- Sketchy canopy -->
+  <path d="M70,60 C75,40 95,30 115,35 C130,40 135,65 125,80 C115,95 85,90 75,75 C65,60 70,45 70,60"
+        fill="none" stroke="black" stroke-width="1.5" />
+
+  <!-- Right tree (collaborative) - organic growth -->
+  <path d="M298,220 C300,190 297,170 295,150 C293,140 288,135 285,130 L315,130 C305,120 298,115 295,110 L305,110 C300,100 298,95 298,90"
+        stroke="black" fill="none" stroke-width="1.5" />
+  <!-- Sketchy collaborative canopy with varied strokes -->
+  <g>
+    <path d="M270,60 C275,40 295,30 315,35 C330,40 335,65 325,80 C315,95 285,90 275,75 C265,60 270,45 270,60"
+          fill="none" stroke="black" stroke-width="0.8" />
+    <!-- Organic internal lines suggesting collaboration -->
+    <path d="M280,50 C290,55 300,45 310,50" stroke="black" stroke-width="0.5" opacity="0.6" />
+    <path d="M285,60 C295,65 305,55 315,60" stroke="black" stroke-width="0.5" opacity="0.6" />
+    <path d="M280,70 C290,75 300,65 310,70" stroke="black" stroke-width="0.5" opacity="0.6" />
+  </g>
+
+  <!-- Connection between trees - lighter, more organic -->
+  <path d="M115,60 C160,45 180,75 240,65 C250,63 260,62 270,60"
+        stroke="black" fill="none" stroke-width="0.8" opacity="0.4" />
+
+  <!-- Organic flowing particles -->
+  <g font-family="Virgil, cursive" font-size="12" fill="black" opacity="0.4">
+    <text x="150" y="50" transform="rotate(-5, 150, 50)">・</text>
+    <text x="170" y="55" transform="rotate(5, 170, 55)">・</text>
+    <text x="190" y="50" transform="rotate(-3, 190, 50)">・</text>
+    <text x="210" y="55" transform="rotate(4, 210, 55)">・</text>
+    <text x="230" y="50" transform="rotate(-6, 230, 50)">・</text>
+  </g>
+
+  <!-- Hand-drawn title -->
+  <path d="M150,260 C160,255 170,265 180,260 C190,255 200,265 210,260 C220,255 230,265 240,260"
+        stroke="black" fill="none" stroke-width="1.5" />
+  <text x="200" y="270" font-family="Virgil, cursive" font-size="20" text-anchor="middle"
+        transform="rotate(-2, 200, 270)">pre-pairadise</text>
+</svg>
+
+<!-- tags: metappet -->

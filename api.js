@@ -26,7 +26,7 @@ const API_DOCS = `snippetry endpoints:
 import express from 'express';
 import cors from 'cors';
 
-import { SNIPPETS_ROOT } from './gather/snippets/constants.js';
+import { SNIPPETS_ROOT } from './gather/constants.js';
 
 import comments from './public/data/comments.json' assert { type: 'json' };
 import langs from './public/data/langs.json' assert { type: 'json' };
@@ -35,7 +35,7 @@ import snippets from './public/data/snippets.json' assert { type: 'json' };
 import snips from './public/data/snips.json' assert { type: 'json' };
 import tags from './public/data/tags.json' assert { type: 'json' };
 
-import { readSnippets } from './gather/snippets/read-snippets.js';
+import { readSnippets } from './gather/snippets_/read-snippets.js';
 
 const rawSnippets = new Proxy(
   (await readSnippets(SNIPPETS_ROOT)).snippets.reduce(

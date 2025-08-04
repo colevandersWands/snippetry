@@ -97,7 +97,7 @@ export const dynamicTags = [
 
   function docs(snippets = []) {
     for (const snippet of snippets) {
-      if (!snippet.title.toLowerCase().includes('.docs.')) null;
+      if (!snippet.title.toLowerCase().includes('.docs.')) continue;
       // find what it documents
       // if there's nothing to find, it's not docs
       // if there is, then indicate that it has docs

@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 
-import { SNIPPETS_ROOT, IGNORE } from './constants.js';
+import { SNIPPETS_ROOT, IGNORE } from '../constants.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
