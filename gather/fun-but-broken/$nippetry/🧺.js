@@ -61,6 +61,8 @@ String.prototype['🏷️'] = function () {
 		js: '🟨',
 		mjs: '🟨',
 		py: '🐍',
+		rb: '💎',
+		ruby: '💎',
 		html: '🌐',
 		css: '🖌️',
 		md: '📝',

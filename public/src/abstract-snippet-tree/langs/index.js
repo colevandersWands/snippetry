@@ -6,6 +6,7 @@ import { json } from './json.js';
 import { md } from './md/index.js';
 import { psu } from './psu.js';
 import { py } from './py.js';
+import { rb } from './rb/index.js';
 import { sh } from './sh.js';
 import { svg } from './svg.js';
 import { txt } from './txt.js';
@@ -22,6 +23,8 @@ const langMap = {
   md,
   psu,
   py,
+  rb,
+  ruby: rb,
   sh,
   svg,
   txt,

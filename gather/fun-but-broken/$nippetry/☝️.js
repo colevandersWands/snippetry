@@ -21,5 +21,6 @@ import './🗄️/🖌️.js';
 import './🗄️/📝.js';
 import './🗄️/🖋️.js';
 import './🗄️/🖼️.js';
+import './🗄️/💎.js';
 
 export { $nippetry } from './💭.js';
