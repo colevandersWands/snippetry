@@ -2,7 +2,7 @@
 // Provides Ruby-friendly aliases for browser functions
 
 const ExecutableComment = await fetch(
-  '../../../../../snippets/executable_comment.rb',
+  '../../../../../snippets/executable_pseudocode.opal.rb',
 ).then((res) => res.text());
 
 export const initializeBrowserAPI = () => {
