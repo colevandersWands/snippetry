@@ -98,7 +98,7 @@ export function processMetalinks(snippets, tags) {
   for (const snippet of snippets) {
     snippet.metalinks = [];
     if (snippet.title.toLowerCase().endsWith('.pp.rb')) {
-      snippet.metalinks.push('executable_comment.opal.rb');
+      snippet.metalinks.push('executable_pseudocode.opal.rb');
     }
   }
 
