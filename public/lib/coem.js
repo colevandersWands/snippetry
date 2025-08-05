@@ -1213,6 +1213,7 @@ class Interpreter {
 
 // function run(code, environment, printfn, debug = false) {
 async function run(code, environment, debug = false) {
+  if (!code) return;
   const tokenizer = new Tokenizer(code);
   const tokens = tokenizer.scanTokens();
   if (debug) console.log(tokens);
@@ -1230,6 +1231,7 @@ async function run(code, environment, debug = false) {
 }
 
 function parse(code) {
+  if (!code) return;
   const tokenizer = new Tokenizer(code);
   const tokens = tokenizer.scanTokens();
   const parser = new Parser(tokens);
