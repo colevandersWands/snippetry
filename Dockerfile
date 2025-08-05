@@ -34,8 +34,5 @@ FROM base
 # Copy built application
 COPY --from=build / /
 
-# Build the application first, then start the server
 EXPOSE 4567
-RUN npm run install
-RUN npm run publish
 CMD [ "node", "./api.js" ]
