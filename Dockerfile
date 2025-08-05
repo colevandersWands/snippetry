@@ -34,6 +34,7 @@ FROM base
 # Copy built application
 COPY --from=build / /
 
-# Start the server by default, this can be overwritten at runtime
+# Build the application first, then start the server
 EXPOSE 4567
-CMD [ "npm", "run", "host" ]
+RUN npm run publish
+CMD [ "node", "./api.js" ]
