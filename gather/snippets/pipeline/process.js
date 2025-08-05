@@ -94,11 +94,20 @@ export function processMetalinks(snippets, tags) {
       .replaceAll('-', ' ');
   }
 
+  // identify ruby potemkin programs (they use a global dependency)
+  for (const snippet of snippets) {
+    snippet.metalinks = [];
+    if (snippet.title.toLowerCase().endsWith('.pp.rb')) {
+      snippet.metalinks.push('executable_comment.opal.rb');
+    }
+  }
+
   // Assign metalinks to metappets
-  for (const metappet of snippets.filter((snippet) =>
-    snippet.tags?.includes('metappet'),
+  for (const metappet of snippets.filter(
+    (snippet) =>
+      snippet.tags?.includes('metappet') || snippet.tags?.includes('variation'),
   )) {
-    const metalinks = new Set();
+    const metalinks = new Set(metappet.metalinks);
     for (const snippet of snippets) {
       if (metappet === snippet) continue;
 

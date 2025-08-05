@@ -20,15 +20,10 @@ export const header = (snippet) => {
   }
 
   if (Array.isArray(snippet.rtfm)) {
-    titleHeader.attributes.style = 'display: inline;';
-    titleNode = n('span', {}, [
-      titleHeader,
+    titleNode = n('h2', { id: `${snippet.title}-title`, style: 'display-inline' }, [
+      snippet.title + ' - ',
       ...snippet.rtfm.map((m) =>
-        n(
-          'a',
-          { href: `#${m}`, style: 'padding-left: 1em;' },
-          `rtfm.${m.split('.docs.').pop()}`,
-        ),
+        n('a', { href: `#${m}` }, `rtfm.${m.split('.docs.').pop()}`),
       ),
     ]);
   }

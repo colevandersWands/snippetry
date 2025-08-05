@@ -27,7 +27,10 @@
       "Bash(git rev-parse:*)",
       "Bash(curl:*)",
       "Bash(git init:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "WebFetch(domain:opalrb.com)",
+      "Bash(python3:*)",
+      "Bash(ruby:*)"
     ],
     "deny": []
   }
