@@ -36,4 +36,4 @@ COPY --from=build / /
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 4567
-CMD [ "node", "api.js" ]
+CMD [ "npm", "run", "host" ]
