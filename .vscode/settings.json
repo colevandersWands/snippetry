@@ -7,6 +7,6 @@
   "files.autoSave": "onFocusChange",
   "files.trimTrailingWhitespace": false,
   "[ruby]": {
-    "editor.defaultFormatter": "mbessey.vscode-rufo"
+    "editor.defaultFormatter": "Shopify.ruby-lsp"
   }
 }

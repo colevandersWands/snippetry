@@ -2,7 +2,15 @@ import { writeFile } from 'fs/promises';
 import { readSnippets as originalReadSnippets } from '../../snippets_/read-snippets.js';
 import { interpret } from '../../snippets_/interpret/index.js';
 import { tagVariations } from '../taggers/variation.js';
-import { tagDweets, tagTurtles, tagSketches, tagRecuseval } from '../taggers/special.js';
+import {
+  tagDweets,
+  tagOneLiners,
+  tagTurtles,
+  tagSketches,
+  tagRecuseval,
+  tagSnails,
+  tagDslDsp,
+} from '../taggers/special.js';
 
 export async function readSnippets(snippetsRoot) {
   return originalReadSnippets(snippetsRoot);
@@ -66,6 +74,9 @@ export function processTags(snippets) {
   tagTurtles(snippets);
   tagSketches(snippets);
   tagRecuseval(snippets);
+  tagOneLiners(snippets);
+  tagSnails(snippets);
+  tagDslDsp(snippets);
 
   // Ensure unique tags per snippet
   for (const snippet of snippets) {
@@ -97,15 +108,18 @@ export function processMetalinks(snippets, tags) {
   // identify ruby potemkin programs (they use a global dependency)
   for (const snippet of snippets) {
     snippet.metalinks = [];
-    if (snippet.title.toLowerCase().endsWith('.pp.rb')) {
+    if (
+      snippet.title.toLowerCase().includes('._.') &&
+      snippet.title.toLowerCase().endsWith('.rb')
+    ) {
       snippet.metalinks.push('executable_pseudocode.opal.rb');
     }
   }
 
   // Assign metalinks to metappets
   for (const metappet of snippets.filter(
-    (snippet) =>
-      snippet.tags?.includes('metappet') || snippet.tags?.includes('variation'),
+    (snippet) => snippet.tags?.includes('metappet'),
+    // || snippet.tags?.includes('variation'),
   )) {
     const metalinks = new Set(metappet.metalinks);
     for (const snippet of snippets) {
@@ -184,6 +198,7 @@ export function processLinks(snippets) {
     if (docs) {
       result.push({ from: title, to: docs, type: 'docs' });
     }
+    // TODO DSL/DSP links
     if (figment) {
       result.push({ from: title, to: figment, type: 'figment' });
     }

@@ -30,7 +30,8 @@
       "Bash(git commit:*)",
       "WebFetch(domain:opalrb.com)",
       "Bash(python3:*)",
-      "Bash(ruby:*)"
+      "Bash(ruby:*)",
+      "Bash(cat:*)"
     ],
     "deny": []
   }

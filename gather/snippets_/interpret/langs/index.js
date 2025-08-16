@@ -12,4 +12,18 @@ import { rb } from './rb.js';
 import { svg } from './svg.js';
 import { txt } from './txt.js';
 
-export const langs = { coem, css, htm: html, html, js, mjs: js, md, py, rb, ruby: rb, svg, txt };
+export const langs = {
+  coem,
+  css,
+  htm: html,
+  html,
+  js,
+  cjs: js,
+  mjs: js,
+  md,
+  py,
+  rb,
+  ruby: rb,
+  svg,
+  txt,
+};

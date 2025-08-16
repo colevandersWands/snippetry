@@ -2,6 +2,8 @@ import { n } from '../../utils/n.js';
 
 import { txt } from './txt.js';
 
+import { compileDslDependencies } from '../utils/compile-dsl-dependencies.js';
+
 export const py = {
   ...txt,
   dangerZone: (snippet) => [
@@ -27,10 +29,17 @@ const run = async (snippet = {}) => {
   }
 
   console.log(`\n========== ${snippet.title} ==========\n`);
-  
+
+  const toExecute = `
+${compileDslDependencies(snippet)}
+
+
+# --- --- --- ---
+
+${snippet.text}`;
 
   Sk.misceval
-    .asyncToPromise(() => Sk.importMainWithBody('<stdin>', false, snippet.text, true))
+    .asyncToPromise(() => Sk.importMainWithBody('<stdin>', false, toExecute, true))
     .then(
       function allGood() {},
       function noGood(err) {

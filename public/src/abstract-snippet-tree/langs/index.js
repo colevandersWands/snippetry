@@ -19,6 +19,7 @@ const langMap = {
   html,
   js,
   json,
+  cjs: js,
   mjs: js,
   md,
   psu,
