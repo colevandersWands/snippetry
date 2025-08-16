@@ -12,12 +12,14 @@ const API_DOCS = `snippetry endpoints:
 
   /api/snippets  ? search={query} 
                    & tags={tag,tag,...}
-                 ? title={file-name.ext}
-                 / {file-name.ext}              
+                 ? title={title.ext}
+                 / {title.ext}              
 
   /api/snips     ? search={query}
   
   /api/tags      ? search={query}
+
+  /api/titles    ? search={query}
   
   /api/*       - ik stuur mijn kat -`;
 
@@ -28,6 +30,8 @@ import cors from 'cors';
 
 import { SNIPPETS_ROOT } from './gather/constants.js';
 
+import { readSnippets } from './gather/snippets_/read-snippets.js';
+
 import comments from './public/data/comments.json' assert { type: 'json' };
 import langs from './public/data/langs.json' assert { type: 'json' };
 import links from './public/data/links.json' assert { type: 'json' };
@@ -35,7 +39,7 @@ import snippets from './public/data/snippets.json' assert { type: 'json' };
 import snips from './public/data/snips.json' assert { type: 'json' };
 import tags from './public/data/tags.json' assert { type: 'json' };
 
-import { readSnippets } from './gather/snippets_/read-snippets.js';
+const titles = snippets.map((snippet) => snippet.title);
 
 const rawSnippets = new Proxy(
   (await readSnippets(SNIPPETS_ROOT)).snippets.reduce(
@@ -75,6 +79,7 @@ app.get('/api/snippets/:fileName', serveRawSnippets);
 app.get('/api/links', serveLinks(links));
 app.get('/api/snips', serveOther(snips));
 app.get('/api/tags', serveOther(tags));
+app.get('/api/titles', serveOther(titles));
 app.get('/api/langs', serveOther(langs));
 app.get('/api/*', stuurMijnKat);
 

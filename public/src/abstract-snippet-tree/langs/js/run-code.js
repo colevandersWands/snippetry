@@ -1,3 +1,5 @@
+import { require } from './require.js';
+
 const assert = (assertion, ...messages) => {
   if (assertion) {
     console.groupCollapsed('%c√ YES ', 'font-weight: bold; color: green;', ...messages);
@@ -35,12 +37,17 @@ export const runCode = (snippet = {}, debug = false) => {
     : snippet.text;
 
   evaller.onload = () => {
-    evaller.contentWindow.console.assert = assert;
+    // evaller.contentWindow.console.assert = assert;
 
     const script = document.createElement('script');
-    if (snippet.title.includes('.mjs')) {
+    if (snippet.title.endsWith('.mjs')) {
       script.type = 'module';
     }
+
+    if (snippet.title.endsWith('.cjs')) {
+      evaller.contentWindow.require = require;
+    }
+
     script.innerHTML = finalCode;
 
     evaller.contentDocument.body.appendChild(script);

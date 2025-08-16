@@ -1,48 +1,40 @@
-import { initializeBrowserAPI } from './browser-api.js';
+import { browserGlobals } from './browser-globals.js';
+import { compileDslDependencies } from '../../utils/compile-dsl-dependencies.js';
 
 let opalInitialized = false;
-
-const ensureOpalLoaded = async () => {
+const loadOpal = async () => {
   if (opalInitialized) return;
-
   try {
-    // Check if Opal is already loaded
     if (!window.Opal) {
-      // Load Opal core
       await import('../../../../lib/opal.min.js');
-
-      // Load Opal parser
       await import('../../../../lib/opal-parser.min.js');
-
-      // Initialize the parser
       window.Opal.load('opal-parser');
     }
-
-    // Initialize Ruby browser API
-    initializeBrowserAPI();
-
     opalInitialized = true;
   } catch (error) {
     console.error('Failed to load Opal:', error);
-    throw error;
   }
 };
 
 export const runCode = async (snippet = {}) => {
   console.log(`\n========== ${snippet.title} ==========\n`);
 
+  if (!window.Opal || !opalInitialized) await loadOpal();
+
   try {
-    // Ensure Opal is loaded
-    await ensureOpalLoaded();
+    const toExecute = `
+${browserGlobals}
 
-    // Execute the Ruby code
-    const result = window.Opal.eval(snippet.text);
 
-    return result;
+${compileDslDependencies(snippet)}
+
+
+# --- --- --- ---
+
+${snippet.text}`;
+
+    const result = window.Opal.eval(toExecute);
   } catch (error) {
-    console.error('Ruby execution error:', error.toString());
-
-    // Re-throw to show in UI if needed
-    throw error;
+    console.error('Ruby execution error:', error);
   }
 };

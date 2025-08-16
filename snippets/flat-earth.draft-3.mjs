@@ -1,8 +1,6 @@
 const deepFlat = (obj = {}, flat = {}) => {
   for (const [key, value] of Object.entries(obj)) {
-    if (key in flat) {
-      continue;
-    }
+    if (key in flat) continue;
 
     flat[key] = value;
 

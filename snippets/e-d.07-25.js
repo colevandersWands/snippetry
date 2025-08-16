@@ -6,7 +6,7 @@
 // .  .   .    .     .      .
 // .  .   .    .     .      .
 
-'cancer' in pancreas == false
+'cancer' in abdomen ===  true
 
 // .  .   .    .     .      .
 // .  .   .    .     .      .
@@ -18,5 +18,4 @@
 
 
 
-
-// see: optimism.js
+// see: optimism.coem

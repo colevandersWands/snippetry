@@ -18,6 +18,11 @@ export const py = ({ text = '' }) => {
     begin: /(\#)[\s]*tags[\s]*:/gi,
   });
 
+  const forlinks = staticLabels({
+    text,
+    begin: /(\#)[\s]*see[\s]*:/gi,
+  });
+
   if (
     staticLabels({
       text,
@@ -27,5 +32,5 @@ export const py = ({ text = '' }) => {
     tags.push('tribute');
   }
 
-  return { tags, alt, text };
+  return { tags, alt, text, forlinks };
 };
