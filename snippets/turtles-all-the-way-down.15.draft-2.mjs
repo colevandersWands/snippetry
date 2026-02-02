@@ -1,6 +1,6 @@
 // use noises for shepard tone, and comment for turtle
 
-import { _Spoken_ } from './executable-comment.mjs';
+import { _spoken_ } from './executable-comment.mjs';
 
 import { noises } from './noises.mjs';
 const { play } = noises();
@@ -14,7 +14,7 @@ setTimeout(() => {
   // + https://codepen.io/StevenBerliner/pen/rMVBjP?editors=1010
   // ! 40 lines ! see ./t-a-t-w-d.d-2.notes.mjs
   shepard(880, 0.1)(660, 0.5)(440, 1)(330, 0.5)(220, 0.1);
-	_Spoken_['🐢']
+	_spoken_['🐢']
 }, 0);
 
 // setTimeout(() => turtle(_2), 500);

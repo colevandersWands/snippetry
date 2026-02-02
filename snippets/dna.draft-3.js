@@ -1,12 +1,12 @@
 const WIDTH = 30;
-const LENGTH = 123;
 const STEP = 0.08;
 const SPEED = 30;
+const LENGTH = 30;
 
 const coordinate = (num, phase = 0) =>
   Math.round(Math.sin(num + phase) * WIDTH) + WIDTH;
 
-(function drawBasePair(a = 0, b = WIDTH, c = 1) {
+const drawBasePair = (a = 0, b = WIDTH) => {
   const cA = coordinate(a);
   const cB = coordinate(b, WIDTH / 2);
 
@@ -15,7 +15,9 @@ const coordinate = (num, phase = 0) =>
 
   console.log(`${leftPad}{|${bases}|}`);
 
-  if (c < LENGTH) setTimeout(drawBasePair, SPEED, a + STEP, b + STEP, c + 1);
-})()
+  if (a < LENGTH) setTimeout(drawBasePair, SPEED, a + STEP, b + STEP);
+};
+
+drawBasePair();
 
 // tags: sketch
