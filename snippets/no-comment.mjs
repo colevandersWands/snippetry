@@ -1,4 +1,4 @@
-import { _Spoken_ as _  } from './executable-comment.mjs';
+import { _spoken_ as _  } from './executable-comment.mjs';
 
 <!-- wat! -->
 

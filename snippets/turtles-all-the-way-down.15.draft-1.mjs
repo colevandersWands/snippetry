@@ -6,7 +6,7 @@
 // const Shepard = introducing('Shepard');
 // const turtle = (tone = {}) => Shepard('🐢', tone);
 
-import { _Spoken_ as Shepard } from './executable-comment.mjs';
+import { _spoken_ as Shepard } from './executable-comment.mjs';
 const turtle = (tone = {}) => new Shepard(tone)['🐢'];
 
 import { noises } from './noises.mjs';

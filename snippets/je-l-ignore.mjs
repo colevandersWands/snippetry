@@ -1,4 +1,4 @@
-import { _Spoken_, _unspoken_ } from './executable-comment.mjs';
+import { _spoken_ } from './executable-comment.mjs';
 
 var combien = (function d_etages(y_a_t_il = 0) {
   try {
@@ -9,7 +9,7 @@ var combien = (function d_etages(y_a_t_il = 0) {
 })();
 
 setTimeout(function je_l_ignore() {
-  var _ = new _Spoken_({ voice: 'Thomas' });
+  var _ = new _spoken_({ voice: 'Thomas' });
 
   _["C'est"]["l'histoire"]["d'un"].homme.qui.tombe["d'un"].immeuble.de[combien].étages;
   _.Le.mec, _.au.fur.et.à.mesure.de.sa.chute, _.il.se.répète.sans.cesse.pour.se.rassurer;
