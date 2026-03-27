@@ -11,10 +11,14 @@ if (!coemFileName) {
   process.exit();
 }
 
+console.log(coemFileName)
+
 const coem = await readFile(
   normalize(join(import.meta.dirname, 'snippets', coemFileName + '.coem')),
   'utf8',
 );
+
+console.log(coem)
 
 try {
   console.log(

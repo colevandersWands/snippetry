@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Arf Magna</title>
+
+    <!-- © 2021 Nick Montfort
+
+Copying and distribution of this file, with or without modification, are permitted in any medium without royalty provided the copyright notice and this notice are preserved. This file is offered as-is, without any warranty.
+-->
+
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+
+      #outer {
+        height: 100vh;
+        width: 100vw;
+        background: #000;
+      }
+
+      header,
+      a {
+        color: #fff;
+      }
+
+      p {
+        margin: 10px;
+        font-size: 16px;
+        text-align: right;
+        font-family: monospace;
+      }
+
+      #proposition {
+        text-align: center;
+        margin-top: 45vh;
+        font-size: 7vh;
+        font-weight: bold;
+        color: #fff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="outer">
+      <header>
+        <p>
+          <span id="label"
+            >ARF MAGNA　 after
+            <a
+              href="https://plato.stanford.edu/entries/llull/#FiguQuatPhasTheiFunc"
+              target="_blank"
+              >Ramón Llull</a
+            >　 by
+            <a href="https://nickm.com" target="_blank">Nick Montfort</a>　 in
+            memoriam
+            <a href="https://i.redd.it/oe6xt37xhvd01.jpg" target="_blank"
+              >Pepys</a
+            ></span
+          >　
+          <span onclick="toggleFull()">⛶</span>
+        </p>
+      </header>
+      <div id="proposition">(click to begin)</div>
+    </div>
+    <script>
+      const a =
+        'delightful,playful,close,kind,loyal,cute,good,willful,warm,joyful,inquisitive,eager,attentive,cheerful,soft,love'.split(
+          ',',
+        );
+      const b = '_,_,_,_,ty,_,_,_,th,_,_,_,_,_,_,'
+        .replace(/_/g, 'ness')
+        .split(',');
+      const freqs = [261.6, 293.7, 329.6, 392, 440, 523.3, 587.3, 659.7];
+      var ac,
+        oscNodes = [],
+        gainNodes = [];
+      var bell = 0,
+        i = 0,
+        j = 0,
+        last = j;
+      function toggleFull() {
+        if (1 >= outerHeight - innerHeight) {
+          let leave =
+            document.exitFullscreen ||
+            document.webkitExitFullscreen ||
+            document.mozCancelFullscreen ||
+            document.msExitFullscreen;
+          leave.call(document);
+        } else {
+          let enter =
+            outer.requestFullscreen ||
+            outer.webkitRequestFullscreen ||
+            outer.mozRequestFullscreen ||
+            outer.msRequestFullscreen;
+          enter.call(outer);
+        }
+      }
+      function checkLabel() {
+        if (1 >= outerHeight - innerHeight) {
+          label.style.visibility = 'hidden';
+        } else {
+          label.style.visibility = 'visible';
+        }
+      }
+      function note(freq) {
+        oscNodes[bell].frequency.value = freq;
+        for ([volume, time] of [
+          [0.2, 1],
+          [0, 8],
+        ]) {
+          gainNodes[bell].gain.linearRampToValueAtTime(
+            volume,
+            ac.currentTime + time,
+          );
+        }
+        bell = (bell + 1) % 8;
+      }
+      function start() {
+        outer.removeEventListener('click', start);
+        ac = new (window.AudioContext || window.webkitAudioContext)();
+        for (let n = 0; n < 8; n = n + 1) {
+          oscNodes[n] = ac.createOscillator();
+          oscNodes[n].frequency.value = 440;
+          gainNodes[n] = ac.createGain();
+          gainNodes[n].gain.value = 0;
+          oscNodes[n].connect(gainNodes[n]);
+          gainNodes[n].connect(ac.destination);
+          oscNodes[n].start(0);
+        }
+        document.addEventListener('mousemove', (e) => {
+          i = ~~((16 * e.pageX) / window.innerWidth);
+          j = ~~((16 * e.pageY) / window.innerHeight);
+          if (j !== last) {
+            note(freqs[j % 8]);
+          }
+          proposition.innerText = 'dog’s ' + a[i] + b[i] + ' is ' + a[j];
+          outer.style.background =
+            '#' + (4194304 + ~~(16777216 / i + 1)).toString(16);
+          previous = j;
+        });
+        document.dispatchEvent(new Event('mousemove'));
+        setInterval(checkLabel, 500);
+      }
+      outer.addEventListener('click', start);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+- learn ruby and write with it
+	https://poignant.guide/
+
+	

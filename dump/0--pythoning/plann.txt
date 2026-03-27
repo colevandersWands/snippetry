@@ -1,0 +1,2 @@
+ideally would use transcrypt and eval the javascript, but it's written in python :(
+		i ... could ... run transcrypt with skupt/cpython(whateveritscalled) then eval the code 

@@ -1,0 +1,4 @@
+implement a state machine snippet 
+import it into the public src
+make each snippet's UI a state machine
+	

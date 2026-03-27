@@ -1,0 +1,34 @@
+- https://kayserifserif.place/
+	support her things
+
+https://www.coem-lang.org/
+	- bug with #as palimpsest
+	render .coem files in her editor 
+		https://github.com/coem-lang/coem-editor
+		link to https://www.coem-lang.org/reference/
+		display the syntax buttons when living dangerously
+	step 0
+		make it run locally (embed editor.coem-lang.org)
+			load all the styles and scripts on first echo (including codemirror)
+
+	step 1
+		isolate it as a component
+	step 2
+		abstract-snippet-tree 
+			(echo) coem reference copy link source
+	step 3
+		support prompt?
+
+
+https://www.proseplay.net/
+  - meh, later (maybe)
+	- uses .txt files
+	should .txt snippets be parsed with proseplay by default?  
+		I like this idea
+			but it could interfere with ascii arts 
+			so maybe .pp.txt
+		include the "randomize" and "expand/collapse" options if any alternates are detected
+
+
+see also
+	https://wphicks.github.io/esopo/

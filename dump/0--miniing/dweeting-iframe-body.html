@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dweeting</title>
+
+    <link href="../../public/lib/prism.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <canvas id="c" width="1920" height="1080" style="width: 100%"> </canvas>
+
+    <div style="display: flex; flex-direction: row">
+      <div>
+        <code style="color: grey">function u(t) {</code>
+        <pre id="editor" class="editor lang-js"><code></code></pre>
+        <code style="color: grey">}</code>
+        <pre id="panel" style="color: red"></pre>
+      </div>
+      <div>
+        <pre id="count"></pre>
+      </div>
+    </div>
+
+    <script type="module">
+      import { CodeJar } from '../../public/lib/codejar.min.js';
+
+      // setup dwitter
+      let c = document.getElementById('c');
+      let x = c.getContext`2d`;
+      let S = Math.sin;
+      let C = Math.cos;
+      let T = Math.tan;
+      let R = (r, g, b, a = 1) => `rgba(${r | 0},${g | 0},${b | 0},${a})`;
+      let frame = 0;
+
+      let u = () => {};
+
+      let intervalId = 0;
+      const observer = new IntersectionObserver(
+        (entries, observer) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) dweeting();
+            else clearInterval(intervalId);
+          }
+        },
+        {
+          root: null, // Use the viewport as the root
+          threshold: 1, // Trigger callback when any part of the target enters the viewport
+        },
+      );
+
+      // Start observing the target element
+      observer.observe(c);
+
+      const editor = document.getElementById('editor');
+      const panel = document.getElementById('panel');
+
+      const dweeting = () => {
+        const dweet = editor.textContent;
+
+        count.innerText = dweet.length + '/140';
+        if (dweet.length > 140) count.style.color = 'red';
+        else count.style.color = 'black';
+
+        clearInterval(intervalId);
+        try {
+          u = eval(`(t) => {\n\n${dweet}\n\n}`);
+
+          x.clearRect(0, 0, c.width, c.height);
+          panel.innerText = '';
+
+          intervalId = setInterval(() => u(frame++ / 60), 16.66666667);
+        } catch (err) {
+          u = () => {};
+          console.error(err);
+          panel.innerText = err;
+          clearInterval(intervalId);
+          frame = 0;
+        }
+
+        Prism.highlightElement(editor);
+      };
+
+      // initialize dweet
+      CodeJar(editor, dweeting, {}).updateCode(
+        'for(c.width|=i=9;i--;)x.fillRect(100*(4+3*S(t)+i),400,50,200)',
+      );
+    </script>
+
+    <script src="../../public/lib/prism.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+
+
+eval(eval((recurseval = ->{ eval(gets("yolo") || recurseval.call.to_s) }).call))
+
