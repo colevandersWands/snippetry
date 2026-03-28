@@ -1,8 +1,8 @@
 import { curry } from './curry.mjs';
 import { pipe } from './pipe.mjs';
 
-export const fp = { curry, pipe };
+export { curry, pipe };
 
-export default fp;
+export default { curry, pipe };
 
 // tags: minibrary
