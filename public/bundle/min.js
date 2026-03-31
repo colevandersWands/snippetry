@@ -7735,7 +7735,7 @@ know\u2014we are divided\u2014
 
 
 \u2020 tags: coAIthored
-`,tags:["coaithored"],aftlinks:["coAIthored.md"]},{title:"useless-machine.1.html",text:`<input type="checkbox" onclick="setTimeout(() => this.checked = false, 500)" />
+`,tags:["coaithored"],alt:"divided we fall",aftlinks:["coAIthored.md"]},{title:"useless-machine.1.html",text:`<input type="checkbox" onclick="setTimeout(() => this.checked = false, 500)" />
 `,tags:["variation","1-liner"],aftlinks:["variation.md"]},{title:"useless-machine.1.js",text:`open('', '_blank').document.body.innerHTML = '<input type="checkbox" onclick="setTimeout(() => this.checked = false, 500)" />';`,tags:["variation","1-liner"],aftlinks:["variation.md"]},{title:"useless-machine.2.html",text:`<script>
   class UselessMachine extends HTMLInputElement {
     constructor() {
