@@ -98,7 +98,7 @@ const tokens = `
   POUND,
   DAGGER,
 
-  IDENTIFIER, STRING,
+  IDENTIFIER, STRING, NUMBER,
   COMMENT,
 
   AND, OR,
@@ -109,6 +109,7 @@ const tokens = `
   TO, 
   TRUE, FALSE, NOTHING,
   NOT,
+  REDUCE,
 
   THIS, HERE, NOW,
 
@@ -141,6 +142,7 @@ const keywords = {
   if: tokenEnum.IF,
   else: tokenEnum.ELSE,
   while: tokenEnum.WHILE,
+  reduce: tokenEnum.REDUCE,
 };
 
 const tokenMap = {
@@ -181,6 +183,8 @@ const tokenMap = {
 
 // const isAlpha = str => /[a-zA-Z_]/.test(str)
 // const isAlphaNumeric = str => isAlpha(str) || isDigit(str)
+
+const isDigit = (c) => c >= '0' && c <= '9';
 
 const isIdentifierChar = (c) => {
   return (
@@ -262,6 +266,10 @@ class Tokenizer {
       if (!tokenMap[c]) {
         if (isIdentifierChar(c)) {
           this.handleIdentifiers();
+        } else if (isDigit(c)) {
+          while (isDigit(this.peek())) this.advance();
+          const value = this.source.substring(this.start, this.current);
+          this.addToken(tokenEnum.NUMBER, Number(value));
         } else {
           // Column isn't -1 because we haven't iterated column yet
           throw new CoemError(
@@ -429,6 +437,13 @@ class CoemFunction {
     this.name = name;
     this.params = params;
     this.bodyStatements = bodyStatements;
+  }
+}
+
+class Reduce {
+  constructor(subject, divisor) {
+    this.subject = subject;
+    this.divisor = divisor;
   }
 }
 
@@ -615,6 +630,16 @@ class Parser {
 
     if (this.match(token$1.STRING)) {
       return new Literal(this.previous().literal);
+    }
+
+    if (this.match(token$1.REDUCE)) {
+      const subject = this.primary();
+      this.consume(token$1.TO, "Expect 'to' after reduce subject.");
+      if (!this.match(token$1.NUMBER)) {
+        throw parseError('Expect number after to.', this.peek());
+      }
+      const divisor = new Literal(this.previous().literal);
+      return new Reduce(subject, divisor);
     }
 
     if (this.match(token$1.IDENTIFIER)) {
@@ -804,6 +829,7 @@ class Environment {
     this.inDenial = false;
     this._Allusion = false;
     this.withPatience = 0;
+    this.withReduction = false;
   }
 
   get(token) {
@@ -891,6 +917,10 @@ class Environment {
       this.withPatience = 500;
       return;
     }
+    if (name === 'with' && value.literal === 'reduction') {
+      this.withReduction = true;
+      return;
+    }
     if (name === 'in' && value.literal === 'denial') {
       this.inDenial = true;
       return;
@@ -946,7 +976,12 @@ class Environment {
 const token = Tokenizer.tokenEnum;
 
 const isTruthy = (val) => Boolean(val);
-const isEqual = (a, b) => a === b;
+const isEqual = (a, b) => {
+  if (Array.isArray(a) && !Array.isArray(b)) return a[a.length - 1] === b;
+  if (!Array.isArray(a) && Array.isArray(b)) return a === b[b.length - 1];
+  if (Array.isArray(a) && Array.isArray(b)) return JSON.stringify(a) === JSON.stringify(b);
+  return a === b;
+};
 
 class CoemCallable {
   constructor(declaration, closure) {
@@ -1054,6 +1089,7 @@ class Interpreter {
     else if (expr instanceof Maybe) return await this.visitLiteral(expr);
     else if (expr instanceof Unary) return await this.visitUnary(expr);
     else if (expr instanceof Binary) return await this.visitBinary(expr);
+    else if (expr instanceof Reduce) return await this.visitReduce(expr);
   }
 
   async visitLiteral(expr) {
@@ -1190,6 +1226,18 @@ class Interpreter {
       // case token.BANG_EQUAL:
       //   return !isEqual(left, right);
     }
+  }
+
+  async visitReduce(expr) {
+    if (!this.environment.withReduction) {
+      return false;
+    }
+    let subject = await this.evaluate(expr.subject);
+    if (Array.isArray(subject)) subject = subject[subject.length - 1];
+    const divisor = await this.evaluate(expr.divisor);
+    const n = parseInt(subject);
+    if (isNaN(n) || divisor === 0) return false;
+    return n % divisor === 0;
   }
 
   getEcho() {

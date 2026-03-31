@@ -6,12 +6,10 @@ let (us|we) be united
 let (crackle|pop) be divided
 
 while—we are united—:
-		let the(m|y) be receive—"a number"—.
-		if— _them divisible by "5" and them divisible by "3"_ —:
-        let we be pop.
-    if— _them divisible by "3"_ —:
+    let the(m|y) be receive—“a number”—.
+    if—reduce them to 3—:
         let we be crackle.
-    if— _them divisible by "5"_ —:
+    if—reduce them to 5—:
         let we be pop.
     know—us—
 
