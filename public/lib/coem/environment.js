@@ -53,12 +53,13 @@ class Environment {
     this.values = new RegexMap();
     this.enclosing = enclosing;
 
-    this.asPalimpsest = false;
-    this.inDialogue = false;
-    this.inDenial = false;
-    this._Allusion = false;
-    this.withPatience = 0;
-    this.withReduction = false;
+    // Directive flags inherit from enclosing environment (directives are program-wide)
+    this.asPalimpsest = enclosing ? enclosing.asPalimpsest : false;
+    this.inDialogue = enclosing ? enclosing.inDialogue : false;
+    this.inDenial = enclosing ? enclosing.inDenial : false;
+    this._Allusion = enclosing ? enclosing._Allusion : false;
+    this.withPatience = enclosing ? enclosing.withPatience : 0;
+    this.withReduction = enclosing ? enclosing.withReduction : false;
   }
 
   get(token) {
@@ -165,7 +166,11 @@ class Environment {
     if (set) {
       if (this.asPalimpsest) {
         let values = set[1];
-        values.push(value);
+        if (Array.isArray(value)) {
+          values.push(...value);
+        } else {
+          values.push(value);
+        }
         return this.values.set(set[0], values);
       } else {
         return this.values.set(set[0], value);
@@ -173,16 +178,20 @@ class Environment {
     }
 
     if (this.enclosing) {
-      let enclosingSet = this.enclosing.getSet(pattern);
-      // redefine in enclosing environment
-      if (enclosingSet) {
-        return await this.enclosing.setNameValue(pattern, value);
+      // walk the entire enclosing chain to find a matching variable
+      let ancestor = this.enclosing;
+      while (ancestor) {
+        let ancestorSet = ancestor.getSet(pattern);
+        if (ancestorSet) {
+          return await ancestor.setNameValue(pattern, value);
+        }
+        ancestor = ancestor.enclosing;
       }
     }
 
     // define new in current environment
     if (this.asPalimpsest) {
-      this.values.set(name, [value]);
+      this.values.set(name, Array.isArray(value) ? [...value] : [value]);
     } else {
       this.values.set(name, value);
     }

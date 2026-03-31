@@ -41,18 +41,19 @@ class Interpreter {
 
     const nativePrint = new CoemCallable(null, this.env);
     nativePrint.call = (interpreter, args, callee) => {
-      let print = ' ';
       let line = callee.name.startCoordinates.line - 1;
+      let isAppending = this.lines[line].length > 1;
+      let print = isAppending ? ', ' : ' ';
       if (args.length >= 1) {
         print += getArgPrint(args[0]);
         if (args.length > 1) {
           for (let i = 1; i < args.length; i++) {
-            print += ' ' + getArgPrint(args[i]);
+            print += ', ' + getArgPrint(args[i]);
           }
         }
       }
 
-      if (this.lines[line].length > 1) {
+      if (isAppending) {
         this.lines[line][1] += print;
       } else {
         this.lines[line].push(print);
