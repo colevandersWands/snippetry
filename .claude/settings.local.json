@@ -47,7 +47,8 @@
     ],
     "deny": [],
     "additionalDirectories": [
-      "/tmp"
+      "/tmp",
+      "/Users/master/Documents/0-teach-code/0---the-big-idea/00--evancole-be/0--snippetry/public/lib"
     ]
   }
 }

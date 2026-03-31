@@ -3,7 +3,7 @@
 import { readFile } from 'fs/promises';
 import { join, normalize } from 'path';
 
-import { run, Environment } from './public/lib/coem.js';
+import { run, Environment } from './public/lib/coem/index.js';
 
 const coemFileName = process.argv[2];
 if (!coemFileName) {
