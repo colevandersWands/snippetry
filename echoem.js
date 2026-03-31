@@ -11,16 +11,20 @@ if (!coemFileName) {
   process.exit();
 }
 
+console.log(coemFileName);
+
 const coem = await readFile(
   normalize(join(import.meta.dirname, 'snippets', coemFileName + '.coem')),
   'utf8',
 );
 
+console.log(coem);
+
 try {
   console.log(
-    `\n|--------- BEGIN ${coemFileName}.coem ---------|\n\n` +
+    `\n|--------- BEGIN ${coemFileName}.coem ---------|\n\n\n\n\n` +
       (await run(coem, new Environment())) +
-      `\n\n|--------- END ${coemFileName}.coem ---------|\n`,
+      `\n\n\n\n|--------- END ${coemFileName}.coem ---------|\n`,
   );
 } catch (e) {
   console.error(e);

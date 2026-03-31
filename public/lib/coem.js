@@ -93,7 +93,7 @@ const noop = () => {};
 const tokens = `
   COLON,
   COMMA, DOT,
-  EMDASH,
+  EMDASH,/
   AMPERSAND,
   POUND,
   DAGGER,

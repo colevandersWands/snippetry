@@ -31,7 +31,13 @@
       "WebFetch(domain:opalrb.com)",
       "Bash(python3:*)",
       "Bash(ruby:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Read(//Users/master/Downloads/**)",
+      "WebFetch(domain:coem-lang.org)",
+      "WebFetch(domain:kayserifserif.place)",
+      "Bash(brew install:*)",
+      "Bash(pdftotext /Users/master/Documents/0-teach-code/0---the-big-idea/00--evancole-be/0--snippetry/dump/0--kathrine-yang/coem-lang.pdf -)",
+      "Read(//Users/master/**)"
     ],
     "deny": []
   }

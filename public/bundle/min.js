@@ -7735,7 +7735,8 @@ export default turtlje;
 `,tags:["variation","1-liner"],aftlinks:["variation.md"]},{title:"useless-machine.b.js",text:`(function machine() { throw machine; })();
 `,tags:["variation","1-liner"],aftlinks:["variation.md"]},{title:"useless-machine.c.js",text:`throw this;
 `,tags:["variation","1-liner"],aftlinks:["variation.md"]},{title:"useless-machine.d.js",text:`new Promise((open, close) => close());
-`,tags:["variation","1-liner"],aftlinks:["variation.md"]},{title:"useless-machine.e.js",text:"",tags:["variation"],aftlinks:["variation.md"]},{title:"var-let-const.js",text:`// 'use strict';
+`,tags:["variation","1-liner"],aftlinks:["variation.md"]},{title:"useless-machine.e.js",text:`setInterval(clearInterval, 0, 1);
+`,tags:["variation","1-liner"],aftlinks:["variation.md"]},{title:"var-let-const.js",text:`// 'use strict';
 
 console.assert(__ === let);
 
