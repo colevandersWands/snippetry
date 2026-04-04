@@ -7716,11 +7716,11 @@ export default turtlje;
 #in dialogue
 #with reduction
 
-let (us|we) be united
+let (we|us) be united
 let (crackle|pop) be divided
 
 while\u2014we are united\u2014:
-    let them be receive\u2014\u201Canother\u201D\u2014
+    let them be receive\u2014\u201Can other\u201D\u2014
 
     if\u2014reduce them to 3\u2014:
         let us be crackle.
