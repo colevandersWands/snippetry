@@ -4042,7 +4042,7 @@ style,                                 their own
 idioms,                            and their own 
 expression.
    
-->  Angus Croll`,"nothing, hiding behind clever words","awakened from nightmare to the waking nightmare of millions"];var s8=[{title:"'16-'20, '24-.submitted.html",text:`<style>
+->  Angus Croll`,"nothing, hiding behind clever words","awakened from nightmare to the waking nightmare of millions"];var s8=[{title:"'16-'20, '24-.html",text:`<style>
   .recenter {
     position: fixed;
     top: 50%;
