@@ -1,0 +1,30 @@
+#metappet is a tag in normal snippetry 
+
+but do implement fore and aftlinks in markdown snippets
+and can replace `./` links with `#` links for linking about snippets
+
+----------------
+
+- snippetry about snippetry
+
+somewhere to write thoughts about snippetry
+
+authored as markdown files 
+
+gathered to .json, tags like in snippetry
+	[
+		{
+			name: 'file-name.md', 
+			code: 'markdown code', 
+			forelinks: ['file-name.md', ...], 
+			aftlinks: ['file-name.md', ...], 
+			tags: ['tag', ...]
+		},
+		...
+	]
+
+when gathered
+	relative links to other md files are rendered to anchor links 
+	each markdown is rendered under a collapsed header genreated from file name
+	a table at the bottom with two columns: forelinks, aftlinks
+	load snippets.json for linking to snippets from metappets

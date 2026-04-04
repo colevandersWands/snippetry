@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANG Explorer - Abstract Narrative Graphs</title>
+    <link rel="stylesheet" href="visual-language.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div id="app" class="ang-app">
+        <!-- Header -->
+        <header class="ang-header">
+            <div class="header-content">
+                <h1 class="app-title">
+                    <span class="title-icon">🧭</span>
+                    ANG Explorer
+                </h1>
+                <p class="app-subtitle">Abstract Narrative Graphs • Visualizing the human stories within code</p>
+            </div>
+            
+            <div class="header-controls">
+                <div class="narrative-filters">
+                    <button class="filter-btn active" data-narrative="all">All</button>
+                    <button class="filter-btn" data-narrative="exploration">🧭 Exploration</button>
+                    <button class="filter-btn" data-narrative="variation">🔄 Variation</button>
+                    <button class="filter-btn" data-narrative="learning">📚 Learning</button>
+                    <button class="filter-btn" data-narrative="constraint">🎯 Constraint</button>
+                    <button class="filter-btn" data-narrative="translation">🌉 Translation</button>
+                </div>
+                
+                <div class="view-controls">
+                    <button id="reset-zoom" class="control-btn">Reset View</button>
+                    <button id="toggle-labels" class="control-btn">Labels</button>
+                    <button id="toggle-paths" class="control-btn">Paths</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="ang-main">
+            <!-- Graph Canvas -->
+            <div class="graph-container">
+                <div id="graph-canvas" class="graph-canvas"></div>
+                
+                <!-- Graph Controls -->
+                <div class="graph-controls">
+                    <div class="control-group">
+                        <label>Layout Force</label>
+                        <input type="range" id="force-strength" min="0" max="1" step="0.1" value="0.3">
+                    </div>
+                    <div class="control-group">
+                        <label>Link Distance</label>
+                        <input type="range" id="link-distance" min="20" max="200" step="10" value="80">
+                    </div>
+                    <div class="control-group">
+                        <label>Node Repulsion</label>
+                        <input type="range" id="node-repulsion" min="100" max="1000" step="50" value="300">
+                    </div>
+                </div>
+
+                <!-- Legend -->
+                <div class="graph-legend">
+                    <h4>Narrative Types</h4>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <span class="legend-color exploration"></span>
+                            <span class="legend-label">Exploration</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color variation"></span>
+                            <span class="legend-label">Variation</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color learning"></span>
+                            <span class="legend-label">Learning</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color constraint"></span>
+                            <span class="legend-label">Constraint</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color translation"></span>
+                            <span class="legend-label">Translation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Panel -->
+            <aside class="side-panel">
+                <!-- Narrative Explorer -->
+                <div id="narrative-container" class="narrative-container">
+                    <div class="welcome-message">
+                        <h3>Welcome to ANG Explorer</h3>
+                        <p>Hover over nodes to see narrative connections, or click to explore in detail.</p>
+                        <p>Filter by narrative type using the buttons above.</p>
+                    </div>
+                </div>
+
+                <!-- Snippet Detail -->
+                <div id="snippet-detail" class="snippet-detail">
+                    <!-- Detailed snippet view will be rendered here -->
+                </div>
+
+                <!-- Story Paths -->
+                <div id="story-paths" class="story-paths">
+                    <h4>Story Paths</h4>
+                    <div class="path-list">
+                        <!-- Story paths will be populated here -->
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Footer -->
+        <footer class="ang-footer">
+            <div class="footer-content">
+                <p>Part of the Snippetry collection • <a href="../../../README.md">Learn more</a></p>
+                <div class="stats">
+                    <span id="node-count">0 snippets</span>
+                    <span id="link-count">0 connections</span>
+                    <span id="narrative-count">0 narratives</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+        <p>Loading narrative graph...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="graph-engine.js"></script>
+    <script type="module" src="narrative-components.js"></script>
+    <script type="module" src="story-paths.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>

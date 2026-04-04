@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D3 Graph with Legend and Filters</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    /* Add your CSS styles here */
+    .legend {
+      font-size: 14px;
+      fill: #333;
+    }
+  </style>
+</head>
+<body>
+  <div id="graph"></div>
+  <svg width="200" height="300" id="legend"></svg>
+
+  <script>
+    // Sample data
+    const nodes = [
+      { id: 1, title: "Node 1", link: "https://example.com/node1" },
+      { id: 2, title: "Node 2", link: "https://example.com/node2" },
+      { id: 3, title: "Node 3", link: "https://example.com/node3" }
+    ];
+
+    const edges = [
+      { source: 1, target: 2, type: "typeA" },
+      { source: 2, target: 3, type: "typeB" },
+      { source: 1, target: 3, type: "typeC" }
+    ];
+
+    const legendData = [
+      { type: "typeA", color: "red", label: "Type A" },
+      { type: "typeB", color: "blue", label: "Type B" },
+      { type: "typeC", color: "green", label: "Type C" }
+    ];
+
+    // Create legend
+    const legendSvg = d3.select("#legend");
+    const legend = legendSvg.selectAll(".legend")
+      .data(legendData)
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", (d, i) => `translate(10,${i * 20})`);
+
+    legend.append("rect")
+      .attr("x", 0)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", d => d.color);
+
+    legend.append("text")
+      .attr("x", 25)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .text(d => d.label);
+
+    // Create graph
+    const svg = d3.select("#graph").append("svg")
+      .attr("width", 400)
+      .attr("height", 300);
+
+    const link = svg.selectAll(".link")
+      .data(edges)
+      .enter().append("line")
+      .attr("class", "link")
+      .style("stroke", d => {
+        // Assign color based on edge type
+        const type = d.type;
+        const color = legendData.find(item => item.type === type).color;
+        return color;
+      });
+
+    const node = svg.selectAll(".node")
+      .data(nodes)
+      .enter().append("g")
+      .attr("class", "node")
+      .attr("transform", d => `translate(${Math.random() * 300},${Math.random() * 200})`);
+
+    node.append("circle")
+      .attr("r", 10)
+      .style("fill", "#ccc")
+      .on("mouseover", function(d) {
+        // Show title as tooltip
+        alert(d.title);
+      });
+
+    node.append("title")
+      .text(d => d.title);
+
+    // Function to filter graph
+    function filterGraph(type) {
+      if (type === "all") {
+        link.style("display", "block");
+        node.style("display", "block");
+      } else {
+        link.style("display", d => (d.type === type) ? "block" : "none");
+        node.style("display", (d, i) => {
+          const isConnected = edges.some(edge => edge.source === i || edge.target === i);
+          return isConnected ? "block" : "none";
+        });
+      }
+    }
+
+    // Example of how to use filterGraph function
+    // filterGraph("typeA");
+
+  </script>
+</body>
+</html>

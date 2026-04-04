@@ -1,0 +1,14 @@
+tags:
+	JS1k - https://js1k.com/
+	golf 
+	? dweet - https://www.dwitter.net/	
+
+!! https://capjs.3d2k.com/
+
+JavaScript Haikus: My Adventures in Tiny Coding - Frank Force, JS GameDev Summit 2023
+	https://www.youtube.com/watch?v=HV7Dmo277Rs
+
+
+email the guy about a collab
+	frankforce@gmail.com
+	https://frankforce.com/

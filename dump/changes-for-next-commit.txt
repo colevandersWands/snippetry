@@ -1,0 +1,37 @@
+next commit message 
+	snippeting 
+	support dweets
+	lazy editor initializing
+
+
+done
+	dynamic tags
+	fore- and aftlinks
+	metappets: gathering, API, rendering
+	variations tag + renaming snippets 
+	wrapping rendered MD 
+	1-liner-ing
+	all languages are equal in the eyes of fore/aft/metalinks
+		static metappet tag is determinant
+		depedencies are forelinks 
+		dependees are backlinks
+	raising subtext
+	how to define a language parser for snippets?
+		export regex for tags?
+	... other?
+todo
+	subtext
+		nested ? how to handle extensions ?
+		multiple subtexts per snippets ?
+	documenting
+		README
+			scripts & workflows
+			overview
+		à la study-lenses
+			lang gatherers have authoring guide.md
+			each is auto-rendered into top-level guide
+	extract .txt tags by AST 
+	extract .js forelinks by string, not just import/fetch 
+	see: file-name.ext 
+	
+	

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python to JavaScript Transpilation with Brython and Transcrypt</title>
+  <!-- Include Brython -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js"></script>
+  <!-- Include Transcrypt -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/transcrypt@3.9.5/transcrypt.min.js"></script>
+</head>
+<body onload="runBrython()">
+  <h1>Python to JavaScript Transpilation with Brython and Transcrypt</h1>
+  <textarea id="pythonCode" rows="10" cols="50" placeholder="Enter Python code here..."></textarea><br>
+  <button onclick="transpileAndEval()">Transpile and Eval</button><br>
+  <div id="output"></div>
+
+  <script type="text/python">
+    # Import Transcrypt module
+    import __javascript__ as jsp
+
+    # Function to transpile Python code to JavaScript using Transcrypt
+    def transpile_python_to_javascript(python_code):
+        return jsp.transpile_python_to_javascript(python_code)
+  </script>
+
+  <script type="text/javascript">
+    // Function to run Brython
+    function runBrython() {
+      brython({debug: true, indexedDB: false});
+    }
+
+    // Function to transpile and evaluate Python code
+    function transpileAndEval() {
+      var pythonCode = document.getElementById('pythonCode').value;
+
+      // Call the transpile_python_to_javascript function defined in Python
+      var transpiledCode = transpile_python_to_javascript(pythonCode);
+
+      // Eval the transpiled JavaScript code
+      try {
+        eval(transpiledCode);
+      } catch (error) {
+        console.error("Error evaluating JavaScript code:", error);
+      }
+    }
+  </script>
+</body>
+</html>

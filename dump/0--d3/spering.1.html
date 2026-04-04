@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Le Miserable Force Directed Graph</title>
+    <meta name="description" content="force directed graph example" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <script src="./d3.min.js"></script>
+    <!-- <link href="./style.css" rel="stylesheet" /> -->
+    <style>
+      circle {
+        stroke: #fff;
+        stroke-width: 1;
+      }
+
+      .link {
+        stroke: #999;
+        stroke-opacity: 0.6;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Force Layout</h1>
+
+    <script type="module">
+      const [snippets, tags, links] = await Promise.all([
+        fetch('../../public/data/snippets.json').then((res) => res.json()),
+        fetch('../../public/data/tags.json').then((res) => res.json()),
+        fetch('../../public/data/links.json').then((res) => res.json()),
+      ]);
+
+      const nodes = [...snippets, ...tags.map((tag) => ({ title: tag }))];
+
+      // Original demo from Mike Bostock: http://bl.ocks.org/mbostock/ad70335eeef6d167bc36fd3c04378048
+
+      const margin = {
+        top: 40,
+        bottom: 10,
+        left: 20,
+        right: 20,
+      };
+      const width = 1000 - margin.left - margin.right;
+      const height = 1000 - margin.top - margin.bottom;
+
+      // Creates sources <svg> element and inner g (for margins)
+      const svg = d3
+        .select('body')
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+      /////////////////////////
+
+      const simulation = d3
+        .forceSimulation()
+        .force(
+          'link',
+          d3.forceLink().id((d) => d.id),
+        )
+        .force('charge', d3.forceManyBody())
+        .force('center', d3.forceCenter(width / 2, height / 2));
+
+      // Links data join
+      const link = svg
+        .selectAll('.link')
+        .data(links)
+        .join((enter) => enter.append('line').attr('class', 'link'));
+
+      // Nodes data join
+      const node = svg
+        .selectAll('.node')
+        .data(nodes)
+        .join((enter) => {
+          const node_enter = enter.append('circle').attr('class', 'node').attr('r', 10);
+          node_enter.append('title').text((d) => d.title);
+          return node_enter;
+        });
+
+      node.style('fill', (d) => (typeof d.text === 'string' ? 'red' : 'blue'));
+
+      simulation.nodes(nodes).force('link').links(links);
+
+      simulation.on('tick', (e) => {
+        link
+          .attr('x1', (d) => d.source.x)
+          .attr('y1', (d) => d.source.y)
+          .attr('x2', (d) => d.target.x)
+          .attr('y2', (d) => d.target.y);
+
+        node.attr('cx', (d) => d.x).attr('cy', (d) => d.y);
+      });
+    </script>
+  </body>
+</html>

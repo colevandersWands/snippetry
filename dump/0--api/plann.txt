@@ -1,0 +1,4 @@
+metappets when fetched from ...
+	/snippets -> just code, name & tags
+	/metappets -> code, name, tags, forelinks, aftlinks, meta
+	

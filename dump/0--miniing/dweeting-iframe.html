@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dweeting</title>
+
+    <link href="../../public/lib/prism.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="dwoot"></div>
+
+    <script src="../../public/lib/prism.min.js"></script>
+
+    <script type="module">
+      import { CodeJar } from '../../public/lib/codejar.min.js';
+
+      function dweeterize(fileName = '', code = '', CodeJar, Prism) {
+        const dwitterContainer = document.createElement('div');
+        dwitterContainer.id = fileName + '-dweeting';
+        dwitterContainer.innerHTML = `
+          <canvas id="${fileName}-canvas" width="1920" height="1080" style="width: 100%"> </canvas>
+
+          <code style="color: grey">function u(t) {</code>
+          <pre id="${fileName}-editor" class="editor lang-js"><code></code></pre>
+          <div style="display: inline-block;">
+            <code style="color: grey">}// </code><code id="count"  style="color: grey"></code>
+          </div>
+          <pre id="${fileName}-out" style="color: red"></pre>`;
+
+        // setup dwitter
+        let c = dwitterContainer.children[0];
+        let x = c.getContext`2d`;
+        let S = Math.sin;
+        let C = Math.cos;
+        let T = Math.tan;
+        let R = (r, g, b, a = 1) => `rgba(${r | 0},${g | 0},${b | 0},${a})`;
+        let frame = 0;
+
+        let u = () => {};
+
+        let intervalId = 0;
+        const observer = new IntersectionObserver(
+          (entries, observer) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) dweeting();
+              else clearInterval(intervalId);
+            }
+          },
+          {
+            root: null, // Use the viewport as the root
+            threshold: 1, // Trigger callback when any part of the target enters the viewport
+          },
+        );
+
+        // Start observing the target element
+        observer.observe(c);
+
+        const editor = dwitterContainer.children[2];
+        const out = dwitterContainer.children[4];
+        const count = dwitterContainer.children[3].children[1];
+
+        const dweeting = () => {
+          const dweet = editor.textContent;
+
+          count.innerText = dweet.length + '/140';
+          if (dweet.length > 140) count.style.color = 'red';
+          else count.style.color = 'grey';
+
+          clearInterval(intervalId);
+          try {
+            u = eval(`(t) => {\n\n${dweet}\n\n}`);
+
+            x.clearRect(0, 0, c.width, c.height);
+            out.innerText = '';
+
+            intervalId = setInterval(() => {
+              try {
+                u(frame++ / 60);
+              } catch (err) {
+                console.error(err);
+                out.innerText = err;
+              }
+            }, 16.66666667);
+          } catch (err) {
+            u = () => {};
+            console.error(err);
+            out.innerText = err;
+            clearInterval(intervalId);
+            frame = 0;
+          }
+
+          Prism.highlightElement(editor);
+        };
+
+        // initialize dweet
+        CodeJar(editor, dweeting, {}).updateCode(code);
+
+        return dwitterContainer;
+      }
+
+      // some loophole allows this to eval unstrict code in a module
+      const dwitteroot = ({ title = '', text = '' }) =>
+        new Function(
+          'fileName',
+          'code',
+          'CodeJar',
+          'Prism',
+          `return (${dweeterize.toString()})(fileName, code, CodeJar, Prism)`,
+        )(title, text, CodeJar, Prism);
+
+      document.getElementById('dwoot').appendChild(
+        dwitteroot({
+          title: 'dweet.js',
+          text: 'for(c.width|=i=9;i--;)x.fillRect(100*(4+3*S(t)+i),400,50,200)',
+        }),
+      );
+    </script>
+
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+    <hr />
+  </body>
+</html>

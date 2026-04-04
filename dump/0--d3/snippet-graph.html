@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snippetry Graph</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      }
+
+      #graph {
+        width: 100vw;
+        height: 100vh;
+        background: #fafafa;
+      }
+
+      .link {
+        stroke-width: 1.5px;
+        stroke-opacity: 0.6;
+      }
+
+      .link.tag { stroke: #1f77b4; }
+      .link.forelink { stroke: #2ca02c; }
+      .link.metalink { stroke: #9467bd; }
+      .link.subtext { stroke: #e377c2; }
+      .link.aftlink { stroke: #ff7f0e; }
+      .link.docs { stroke: #17becf; }
+      .link.figment { stroke: #bcbd22; }
+      .link.rtfm { stroke: #7f7f7f; }
+
+      .node {
+        stroke: #fff;
+        stroke-width: 1.5px;
+      }
+
+      .node.snippet { fill: #1f77b4; }
+      .node.tag { fill: #2ca02c; }
+
+      .node-label {
+        font-size: 10px;
+        pointer-events: none;
+      }
+
+      .controls {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: white;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      .legend {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background: white;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        margin: 5px 0;
+      }
+
+      .legend-color {
+        width: 20px;
+        height: 2px;
+        margin-right: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="controls">
+      <label>
+        <input type="checkbox" id="showLabels" checked>
+        Show Labels
+      </label>
+      <br>
+      <label>
+        Link Types:
+        <br>
+        <input type="checkbox" class="linkType" value="tag" checked> Tags
+        <input type="checkbox" class="linkType" value="forelink" checked> Forelinks
+        <input type="checkbox" class="linkType" value="metalink" checked> Metalinks
+        <input type="checkbox" class="linkType" value="subtext" checked> Subtext
+        <br>
+        <input type="checkbox" class="linkType" value="aftlink" checked> Aftlinks
+        <input type="checkbox" class="linkType" value="docs" checked> Docs
+        <input type="checkbox" class="linkType" value="figment" checked> Figment
+        <input type="checkbox" class="linkType" value="rtfm" checked> RTFM
+      </label>
+    </div>
+
+    <div class="legend">
+      <h4 style="margin-top: 0">Link Types</h4>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #1f77b4"></div>
+        <span>Tag</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #2ca02c"></div>
+        <span>Forelink</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #9467bd"></div>
+        <span>Metalink</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #e377c2"></div>
+        <span>Subtext</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #ff7f0e"></div>
+        <span>Aftlink</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #17becf"></div>
+        <span>Docs</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #bcbd22"></div>
+        <span>Figment</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #7f7f7f"></div>
+        <span>RTFM</span>
+      </div>
+    </div>
+
+    <svg id="graph"></svg>
+
+    <script type="module">
+      try {
+        // Load data
+        const [rawLinks] = await Promise.all([
+          d3.json('/public/data/links.json')
+        ]);
+
+        // Create nodes from links
+        const nodeMap = new Map();
+        rawLinks.forEach(link => {
+          if (!nodeMap.has(link.from)) {
+            nodeMap.set(link.from, { id: link.from, type: 'snippet' });
+          }
+          if (!nodeMap.has(link.to)) {
+            nodeMap.set(link.to, {
+              id: link.to,
+              type: link.type === 'tag' ? 'tag' : 'snippet'
+            });
+          }
+        });
+        const nodes = Array.from(nodeMap.values());
+
+        // Transform links to use node objects
+        const links = rawLinks.map(d => ({
+          source: nodeMap.get(d.from),
+          target: nodeMap.get(d.to),
+          type: d.type
+        }));
+
+        // Setup SVG
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const svg = d3.select('#graph')
+          .attr('width', width)
+          .attr('height', height);
+
+        // Add zoom behavior
+        const g = svg.append('g');
+        svg.call(d3.zoom()
+          .extent([[0, 0], [width, height]])
+          .scaleExtent([0.1, 4])
+          .on('zoom', ({transform}) => {
+            g.attr('transform', transform);
+          }));
+
+        // Setup force simulation
+        const simulation = d3.forceSimulation(nodes)
+          .force('charge', d3.forceManyBody().strength(-50))
+          .force('center', d3.forceCenter(width / 2, height / 2))
+          .force('link', d3.forceLink(links)
+            .id(d => d.id)
+            .distance(50))
+          .force('collision', d3.forceCollide().radius(5));
+
+        // Create links
+        const link = g.append('g')
+          .selectAll('line')
+          .data(links)
+          .join('line')
+          .attr('class', d => `link ${d.type}`)
+          .attr('stroke-width', 1.5);
+
+        // Create nodes
+        const node = g.append('g')
+          .selectAll('circle')
+          .data(nodes)
+          .join('circle')
+          .attr('class', d => `node ${d.type}`)
+          .attr('r', d => d.type === 'tag' ? 4 : 6)
+          .call(drag(simulation));
+
+        // Add labels
+        const label = g.append('g')
+          .selectAll('text')
+          .data(nodes)
+          .join('text')
+          .attr('class', 'node-label')
+          .text(d => d.id)
+          .attr('x', 8)
+          .attr('y', '0.31em');
+
+        // Update positions on tick
+        simulation.on('tick', () => {
+          link
+            .attr('x1', d => d.source.x)
+            .attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x)
+            .attr('y2', d => d.target.y);
+
+          node
+            .attr('cx', d => d.x)
+            .attr('cy', d => d.y);
+
+          label
+            .attr('x', d => d.x + 8)
+            .attr('y', d => d.y);
+        });
+
+        // Drag behavior
+        function drag(simulation) {
+          function dragstarted(event) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            event.subject.fx = event.subject.x;
+            event.subject.fy = event.subject.y;
+          }
+
+          function dragged(event) {
+            event.subject.fx = event.x;
+            event.subject.fy = event.y;
+          }
+
+          function dragended(event) {
+            if (!event.active) simulation.alphaTarget(0);
+            event.subject.fx = null;
+            event.subject.fy = null;
+          }
+
+          return d3.drag()
+            .on('start', dragstarted)
+            .on('drag', dragged)
+            .on('end', dragended);
+        }
+
+        // UI Controls
+        d3.select('#showLabels').on('change', function() {
+          const showLabels = this.checked;
+          label.style('display', showLabels ? null : 'none');
+        });
+
+        d3.selectAll('.linkType').on('change', function() {
+          const checkedTypes = Array.from(d3.selectAll('.linkType:checked').nodes())
+            .map(node => node.value);
+
+          link.style('visibility', d =>
+            checkedTypes.includes(d.type) ? 'visible' : 'hidden'
+          );
+        });
+
+        // Hover interactions
+        node
+          .on('mouseover', function(event, d) {
+            const relatedLinks = links.filter(l =>
+              l.source.id === d.id || l.target.id === d.id
+            );
+            const relatedNodes = new Set(
+              relatedLinks.flatMap(l => [l.source.id, l.target.id])
+            );
+
+            node.style('opacity', n =>
+              relatedNodes.has(n.id) ? 1 : 0.1
+            );
+            link.style('opacity', l =>
+              l.source.id === d.id || l.target.id === d.id ? 1 : 0.1
+            );
+            label.style('opacity', n =>
+              relatedNodes.has(n.id) ? 1 : 0.1
+            );
+          })
+          .on('mouseout', function() {
+            node.style('opacity', 1);
+            link.style('opacity', 1);
+            label.style('opacity', 1);
+          });
+
+      } catch (error) {
+        console.error('Error loading or processing data:', error);
+      }
+    </script>
+  </body>
+</html>

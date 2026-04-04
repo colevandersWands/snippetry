@@ -1,0 +1,56 @@
+// new renderSnippet:
+	vdom = renderSnippet(snippet)
+	dom = toDomNode(vdom)
+	Prism.highlightAllUnder(dom)
+	return dom
+
+FUNC renderSnippet (snippet, delay) ->
+	snippet << root div property
+	snippet << 'visible' toggle property
+
+	lazy render snippet after delay ms
+		snippet.root.classSame << 'a-string'
+		snippet.root.innerHTML << html string
+		
+		IF markdown snippet 
+			class wrappable
+			target _blank for inline links
+			highlight text (?)
+		FI
+
+		set innerHTML <pre><code> with classes for editor & language
+
+		highlight code 
+ 
+		snippet.containerHighlight << highlighted code
+
+		IF has fore/meta/aft links
+			render and append to snippet.containerHighlight
+		FI 
+
+		append snippet.containerHighlight to snippet.root
+		
+		add language-specific danger zone listeners to container elements
+
+		add generic listeners to root (copy, link, github, edit)
+
+CNUF 
+
+
+FUNC filterSnippets (snippetName) ->
+	IF snippets are filtered
+		hide snips 
+	ELSE
+		display snips
+	FI
+
+	IF snippetName 
+		set it to visible 
+	ELSE 
+		display selected snippets
+		hide unselected snippets	
+		
+		update URL params 
+	FI
+CNUF
+

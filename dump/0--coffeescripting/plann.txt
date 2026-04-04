@@ -1,0 +1,5 @@
+- https://github.com/decaffeinate/decaffeinate
+	https://decaffeinate-project.org/repl/
+
+meh, probably not worth it.  meaningful whitespace is annoying and unsnippetryy
+	but it shouldn't be sooo hard, funner than it is long

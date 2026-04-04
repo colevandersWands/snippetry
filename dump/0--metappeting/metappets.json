@@ -1,0 +1,32 @@
+{
+  "tags": ["asdf", "qwer"],
+  "metappets": [
+    {
+      "name": "asdf-asdf.md",
+      "code": "<h1 id=\"asdf-asdf\">ASDF ASDF</h1>\n<p><a href=\"./asdf.md\"></a></p>\n"
+    },
+    {
+      "name": "asdf-qwer.md",
+      "code": "<h1 id=\"asdf-qwer\">ASDF QWER</h1>\n<!-- tags: qwer -->",
+      "tags": ["qwer"]
+    },
+    {
+      "name": "asdf.md",
+      "code": "<h1 id=\"asdf\">ASDF</h1>\n<p><a href=\"./asdf-asdf.md\"></a>\n<a href=\"./qwer-asdf.md\"></a></p>\n<!-- tags: qwer -->",
+      "tags": ["qwer"]
+    },
+    {
+      "name": "qwer-asdf.md",
+      "code": "<h1 id=\"qwer-asdf\">QWER ASDF</h1>\n<p><a href=\"./qwer.md\"></a></p>\n"
+    },
+    {
+      "name": "qwer-qwer.md",
+      "code": "<h1 id=\"qwer-qwer\">QWER QWER</h1>\n<p><a href=\"./qwer-qwer.md\"></a></p>\n<!-- tags: asdf, qwer -->\n",
+      "tags": ["asdf", "qwer"]
+    },
+    {
+      "name": "qwer.md",
+      "code": "<h1 id=\"qwer\">QWER</h1>\n<p><a href=\"./asdf.md\"></a></p>\n"
+    }
+  ]
+}

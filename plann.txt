@@ -1,0 +1,226 @@
+DOING - aft and metalinks are duplicating
+
+
+presentation pre
+	vscode editing (.draft, .notes, .sandbox)
+	evancole.be/snippetry
+		?danger=yes
+		tags 
+		fore & aft links
+		snippets 
+			a coem
+			a dweet
+			cat-detector.js.md
+				"literate" programs
+				figments
+				variation
+				metappet
+				translation
+			in-one-ear.js
+				alts
+				formatting
+				wuzzles
+				tags
+			drawings
+				thing.svg & thing.txt.svg
+			projector.mjs
+				minibrary
+				art for fun
+			insomnicat.js	
+				coAIthoring
+				translating across mediums (la-trahison-de-l-ascii.js)
+
+
+
+?snippet query value overrides all on page render 
+  will also be useful for API 
+
+text alignment for ascii art is awry on mobile
+  https://stackoverflow.com/questions/59165584/google-web-font-renders-differently-on-mobile-safari-vs-desktop-chrome
+    ? font-kerning: none;
+    ? font-weight: normal;
+
+tag-name-case-insensitive.tag.lang
+  tag descriptions are displayed in a modal on hover over tags
+  should be renderd among snippets
+
+#esi
+  - or .ijs?
+  ES Imaginary
+  imaginary JS language features
+
+
+Markdown support 
+  - display rendered by default 
+  - give full editoring experience 
+  - living dangerously is based on .lang.md
+    implemented by plugin? by md AST? by regex?
+      pro: AST is more robust 
+        and I need to choose a markdown parser anyway, might as well use marked
+        https://github.com/remarkjs/remark
+      con: regex already exists in simplit
+    include inline code elements in the program as well?
+  chosing between
+    - must be a true markdown editor, not just wysiwyg
+      get & set markdown
+    - which is easiest to use?
+    - should allow raw editing
+    !!! https://blog.logrocket.com/comparing-milkdown-other-wysiwyg-editors/
+    https://github.com/tinymce/tinymce
+    https://ui.toast.com/tui-editor
+    (less) wysiwyg-editor (pro: vanilla JS) https://froala.com/wysiwyg-editor/demo/
+    github.com/milkdown (con: typescript)
+    portive/wysimark
+    - lighter and minimaler
+      (sort through what's above)
+      github.com/jaredreich/pell/issues/222
+    - to sort 
+      fastmail/squire
+      ianstormtaylor/slate 
+      (not markdown) codex-team/editor.js
+      basecamp/trix
+  stretch goal: support collaborative editing with y.js
+
+
+.mmd support, render in a new tab like html or whatnot
+
+eventual latex support
+
+---- to study lenses -> https://toolness.github.io/slowmo-js/?code=const%20x%20%3D%20function%20()%20%7B%0A%0A%7D
+  encodeURIComponent
+
+sticky "live dangerously" checkbox + hr
+
+play with audio API
+  https://github.com/mdn/webaudio-examples
+  https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API
+
+
+.wat (web assembly text)
+  - lispy
+  https://developer.mozilla.org/en-US/docs/WebAssembly/Understanding_the_text_format
+  ? write a snippet to load, compile and run these ?
+    then use that snippet in the run button
+    ? not possible in pure JS ? https://github.com/webassembly/wabt
+    reverse-engineer this ? https://webassembly.github.io/wabt/demo/wat2wasm/
+.asm.js
+  http://asmjs.org/
+
+https://developer.mozilla.org/en-US/docs/Web/API/CSS_Painting_API
+  - experimental
+
+https://github.com/denysdovhan/wtfjs#a-generator-which-yields-itself
+
+https://www.mathiaswilke.de/
+
+sort: random, long-short, short-long, a-z, z-a
+
+coool CSS
+  http://youmightnotneedjs.com/
+  https://github.com/ManrajGrover/SingleDivProject
+
+component strategy
+  do nothing at first
+  when visible
+    render with highlight
+    if on desktop
+      render edit/run buttons
+
+features to explore
+  - https://javascript.info/
+  Symbol's
+  iterators / generators
+  (weak)map, (weak)set
+  destructuring
+  this, bind/call/apply
+  getters, setters
+  classes
+    super, extends
+    private, protected
+  async, await, tasks
+  workers
+  proxy, reflect
+
+
+
+tag ideas
+  forms
+    - what are forms?
+    - what is meter?
+    - what is rhyme?
+    - what is volta//?
+    - ...
+  useful
+  useless
+  runs
+  doesn't run
+  console art
+
+? cat detectors
+  evals
+  while head
+
+? quote from wtjs
+
+inspiration links
+
+tag search should be case insensitive
+
+! simplest posssible, vanilla
+  tags
+  basic search (? w/ regex)
+  div of snippets scrolls separately
+  header of snippet is an anchor for linking
+  inspiration links
+
+? web components
+  lit
+
+? use a minimal framework
+  - https://unsuckjs.com/
+  https://mithril.js.org/framework-comparison.html
+  https://alpinejs.dev/
+  ! https://github.com/jorgebucaran/hyperapp
+  https://preactjs.com/
+
+
+turtles! or p5?
+  !! then snippets aren't about the snippet, but the result
+  - https://toolness.github.io/tiny-turtle/
+  - file.ttl.js
+  turtles
+    simpler, lighter, no boilerplate
+    more limited
+  p5
+    more capable, more known
+    bigger
+
+
+quines!
+
+find the old twistedy snippets
+
+something with inline logging like convolution?
+
+figure out spacing in the codejar for layout-sensitive snippets
+
+
+? have a format button ?
+  - pros: nice for people playing around
+  - cons: heavir
+  https://github.com/beautify-web/js-beautify
+
+
+
+? repl instead of editor?
+  maybe in mobile?
+  or open in a repl?
+  or repl mode?
+    when selected, it clears the console and runs the code with each type
+    obnoxious for slow/error/endless/p,a,c programs
+    -> nope
+
+
+
+?print?
+  nah
