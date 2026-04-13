@@ -26,7 +26,7 @@ export const filterSnipPets = (snippetTitle = '') => {
     const selectedTags = ignoreTags ? [] : state.tags.filter((tag) => tag.selected);
     for (const snippet of state.snippets) {
       const matchesSearch =
-        snippet.text.toLowerCase().includes(state.search.toLowerCase()) ||
+        snippet.text?.toLowerCase().includes(state.search.toLowerCase()) ||
         snippet.title.toLowerCase().includes(state.search.toLowerCase());
 
       if (

@@ -1,16 +1,8 @@
 import { writeFile } from 'fs/promises';
 import { readSnippets as originalReadSnippets } from '../../snippets_/read-snippets.js';
 import { interpret } from '../../snippets_/interpret/index.js';
-import { tagVariations } from '../taggers/variation.js';
-import {
-  tagDweets,
-  tagOneLiners,
-  tagTurtles,
-  tagSketches,
-  tagRecuseval,
-  tagSnails,
-  tagDslDsp,
-} from '../taggers/special.js';
+import * as specialTaggers from '../taggers/special.js';
+import * as variationTaggers from '../taggers/variation.js';
 
 export async function readSnippets(snippetsRoot) {
   return originalReadSnippets(snippetsRoot);
@@ -69,14 +61,9 @@ export function processDocs(snippets) {
 
 export function processTags(snippets) {
   // Apply all tag generators
-  tagVariations(snippets);
-  tagDweets(snippets);
-  tagTurtles(snippets);
-  tagSketches(snippets);
-  tagRecuseval(snippets);
-  tagOneLiners(snippets);
-  tagSnails(snippets);
-  tagDslDsp(snippets);
+  [...Object.values(specialTaggers), ...Object.values(variationTaggers)]
+    .filter((fn) => typeof fn === 'function')
+    .forEach((tagger) => tagger(snippets));
 
   // Ensure unique tags per snippet
   for (const snippet of snippets) {
@@ -231,4 +218,14 @@ export async function writeOutput(state, outputPaths) {
   ];
 
   await Promise.all(writePromises);
+}
+
+export function processLive(snippets) {
+  for (const snippet of snippets) {
+    if (snippet.tags?.includes('live')) {
+      snippet.src = `snippets/${snippet.title}`;
+      snippet.text = undefined;
+    }
+  }
+  return snippets;
 }
