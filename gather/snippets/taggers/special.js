@@ -130,3 +130,13 @@ export function tagDslDsp(snippets = []) {
     }
   }
 }
+
+export function tagLive(snippets = []) {
+  for (const snippet of snippets) {
+    const title = snippet.title.toLowerCase()
+    if (title.endsWith('.html') && title.includes('.live.')) {
+      if (!snippet.tags) snippet.tags = [];
+      snippet.tags.push('live');
+    }
+  }
+}

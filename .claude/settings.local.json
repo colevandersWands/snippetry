@@ -43,12 +43,22 @@
       "Bash(printf '2\\\\n4\\\\n7\\\\n3\\\\n')",
       "Bash(timeout 10 node --input-type=module -e ':*)",
       "Bash(node --input-type=module -e ':*)",
-      "Bash(echo \"EXIT: $?\")"
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(git -C \"/Users/master/Documents/0-teach-code/0---the-big-idea/00--evancole-be/0--snippetry\" config submodule.recurse false)",
+      "Bash(git -C \"/Users/master/Documents/0-teach-code/0---the-big-idea/00--evancole-be/0--snippetry\" config --list)",
+      "Bash(git -C \"/Users/master/Documents/0-teach-code/0---the-big-idea/00--evancole-be/0--snippetry\" ls-files --error-unmatch .gitmodules)",
+      "Bash(git -C \"/Users/master/Documents/0-teach-code/0---the-big-idea/00--evancole-be/0--snippetry\" submodule status)",
+      "Bash(git -C \"/Users/master/Documents/0-teach-code/0---the-big-idea/00--evancole-be/0--snippetry\" ls-tree HEAD dump/)",
+      "Bash(git -C \"/Users/master/Documents/0-teach-code/0---the-big-idea/00--evancole-be/0--snippetry\" ls-tree -r HEAD)",
+      "Read(//Users/master/Documents/0-teach-code/0---the-big-idea/00--evancole-be/0--snippetry/**)",
+      "Bash(git rm:*)",
+      "Bash(git filter-repo:*)"
     ],
     "deny": [],
     "additionalDirectories": [
       "/tmp",
-      "/Users/master/Documents/0-teach-code/0---the-big-idea/00--evancole-be/0--snippetry/public/lib"
+      "/Users/master/Documents/0-teach-code/0---the-big-idea/00--evancole-be/0--snippetry/public/lib",
+      "/Users/master/Documents/0-teach-code/0---the-big-idea/00--de-nepo/00--home-page"
     ]
   }
 }
