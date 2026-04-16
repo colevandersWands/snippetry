@@ -1,48 +1,60 @@
-name: Publish
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setting up Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 'v16.10.0'
-
-      - name: Installing
-        run: npm install
-
-      - name: Gathering
-        run: npm run gather
-
-      - name: Bundling
-        run: npm run bundle
-
-      - name: Committing
-        uses: stefanzweifel/git-auto-commit-action@v4.7.2
-        with:
-          commit_message: published
-          branch: ${{ github.head_ref }}
-
-  deploy:
-    name: Deploy app
-    runs-on: ubuntu-latest
-    needs: publish # Wait for publish job to complete
-    if: always() && needs.publish.result == 'success' # Run even if other jobs fail, but only if publish succeeded
-    continue-on-error: true # Don't fail the whole workflow if deploy fails
-    concurrency: deploy-group # optional: ensure only one action runs at a time
     steps:
       - uses: actions/checkout@v4
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm ci
+
+      - run: npm run publish
+
+      - name: Stage site
+        run: |
+          mkdir _site
+          cp index.html origin-story.html print.html snips.html _site/
+          cp -r public _site/
+          rsync -a \
+            --exclude='*.draft.*' \
+            --exclude='*.sandbox.*' \
+            --exclude='*.notes.*' \
+            --exclude='*.spec.*' \
+            --exclude='*.mp3' \
+            --exclude='*.excalidraw' \
+            --exclude='.DS_Store' \
+            snippets/ _site/snippets/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

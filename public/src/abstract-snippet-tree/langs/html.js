@@ -57,7 +57,8 @@ const renderIframe = ({ src, srcdoc }) => {
 };
 
 const withBase = (html) => {
-  const baseTag = '<base href="/snippets/">';
+  const snippetsBase = new URL('./snippets/', window.location.href).href;
+  const baseTag = `<base href="${snippetsBase}">`;
   if (/<head[^>]*>/i.test(html)) {
     return html.replace(/<head[^>]*>/i, (match) => `${match}${baseTag}`);
   }
