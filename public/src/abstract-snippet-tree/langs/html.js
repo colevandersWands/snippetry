@@ -10,11 +10,14 @@ export const html = {
   dangerZone: (snippet) =>
     snippet.tags?.includes('live')
       ? [n('button', {}, 'source', (e) => toggleSource(snippet, e.target))]
-      : [n('button', {}, 'render', () => newTabHTML(snippet))],
+      : [n('button', {}, 'render', (e) => toggleRender(snippet, e.target))],
   controls: (snippet) =>
     snippet.tags?.includes('live')
-      ? [n('button', {}, 'restart', () => restartLive(snippet))]
-      : undefined,
+      ? [
+          n('button', {}, 'restart', () => restartLive(snippet)),
+          n('button', {}, 'new tab', () => window.open(snippet.src, '_blank')),
+        ]
+      : [n('button', {}, 'new tab', () => newTabHTML(snippet))],
   translate: ({ ast, snippet }) =>
     snippet.tags?.includes('live')
       ? revise(ast, (node) =>
@@ -25,16 +28,55 @@ export const html = {
       : ast,
 };
 
+// --- shared iframe rendering ---
+
+const renderIframe = ({ src, srcdoc }) => {
+  const remPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
+  const maxSide = Math.min(window.innerHeight - 7 * remPx, window.innerWidth);
+  const scale = maxSide / Math.max(window.innerWidth, window.innerHeight);
+
+  const scaledW = window.innerWidth * scale;
+  const scaledH = window.innerHeight * scale;
+  const offsetX = (maxSide - scaledW) / 2;
+  const offsetY = (maxSide - scaledH) / 2;
+
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = `width: ${maxSide}px; height: ${maxSide}px; overflow: hidden; position: relative;`;
+
+  const iframe = document.createElement('iframe');
+  if (src) iframe.src = src;
+  if (srcdoc) iframe.srcdoc = srcdoc;
+  iframe.style.cssText = `border: none; width: ${window.innerWidth}px; height: ${window.innerHeight}px; transform: scale(${scale}); transform-origin: top left; position: absolute; left: ${offsetX}px; top: ${offsetY}px;`;
+  iframe.setAttribute(
+    'sandbox',
+    'allow-scripts allow-same-origin allow-modals allow-popups allow-forms allow-downloads',
+  );
+
+  wrapper.appendChild(iframe);
+  return wrapper;
+};
+
+const withBase = (html) => {
+  const baseTag = '<base href="/snippets/">';
+  if (/<head[^>]*>/i.test(html)) {
+    return html.replace(/<head[^>]*>/i, (match) => `${match}${baseTag}`);
+  }
+  if (/<html[^>]*>/i.test(html)) {
+    return html.replace(/<html[^>]*>/i, (match) => `${match}<head>${baseTag}</head>`);
+  }
+  return (
+    '<!DOCTYPE html>' +
+    '<html style="height:100%">' +
+    `<head>${baseTag}</head>` +
+    '<body style="height:100%;margin:0">' +
+    html +
+    '</body></html>'
+  );
+};
+
 // --- live ---
 
-const liveRoot = (snippet) => {
-  const iframe = document.createElement('iframe');
-  iframe.src = snippet.src;
-  const size = 'min(calc(100vh - 7rem), 100vw)';
-  iframe.style = `border: none; width: ${size}; height: ${size};`;
-  iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
-  return iframe;
-};
+const liveRoot = (snippet) => renderIframe({ src: snippet.src });
 
 const liveContainer = (snippet) => {
   const container = lazyRender(() => liveRoot(snippet));
@@ -43,7 +85,9 @@ const liveContainer = (snippet) => {
 };
 
 const restartLive = (snippet) => {
-  const iframe = document.getElementById(`${snippet.title}-live-container`)?.querySelector('iframe');
+  const iframe = document
+    .getElementById(`${snippet.title}-live-container`)
+    ?.querySelector('iframe');
   if (iframe) iframe.contentWindow.location.reload();
 };
 
@@ -58,6 +102,23 @@ const toggleSource = async (snippet, button) => {
   } else {
     container.replaceChildren(liveRoot(snippet));
     button.textContent = 'source';
+  }
+};
+
+// --- plain HTML render toggle ---
+
+const plainRender = (snippet) => renderIframe({ srcdoc: withBase(snippet.text) });
+
+const toggleRender = (snippet, button) => {
+  const container = document.getElementById(`${snippet.title}-text`);
+  if (!container) return;
+
+  if (button.textContent === 'render') {
+    container.replaceChildren(plainRender(snippet));
+    button.textContent = 'source';
+  } else {
+    container.replaceChildren(editor(snippet));
+    button.textContent = 'render';
   }
 };
 
