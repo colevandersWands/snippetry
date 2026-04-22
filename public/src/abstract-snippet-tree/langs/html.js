@@ -9,15 +9,18 @@ export const html = {
   ...txt,
   dangerZone: (snippet) =>
     snippet.tags?.includes('live')
-      ? [n('button', {}, 'source', (e) => toggleSource(snippet, e.target))]
-      : [n('button', {}, 'render', (e) => toggleRender(snippet, e.target))],
-  controls: (snippet) =>
-    snippet.tags?.includes('live')
       ? [
-          n('button', {}, 'restart', () => restartLive(snippet)),
+          n('button', {}, 'source', (e) => toggleSource(snippet, e.target)),
           n('button', {}, 'new tab', () => window.open(snippet.src, '_blank')),
         ]
-      : [n('button', {}, 'new tab', () => newTabHTML(snippet))],
+      : [
+          n('button', {}, 'render', (e) => toggleRender(snippet, e.target)),
+          n('button', {}, 'new tab', () => newTabHTML(snippet)),
+        ],
+  controls: (snippet) =>
+    snippet.tags?.includes('live')
+      ? [n('button', {}, 'restart', () => restartLive(snippet))]
+      : undefined,
   translate: ({ ast, snippet }) =>
     snippet.tags?.includes('live')
       ? revise(ast, (node) =>
