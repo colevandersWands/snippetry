@@ -6,6 +6,7 @@ import {
   processTags,
   processMetalinks,
   processLinks,
+  processLive,
   writeOutput
 } from './process.js';
 
@@ -47,6 +48,8 @@ export async function processPipeline(snippetsRoot, outputPaths) {
   const linkResult = processLinks(state.snippets);
   state.snippets = linkResult.snippets;
   state.links = linkResult.links;
+
+  state.snippets = processLive(state.snippets);
 
   // Write output
   await writeOutput(state, outputPaths);

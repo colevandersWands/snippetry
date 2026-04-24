@@ -3,7 +3,7 @@
 import { readFile } from 'fs/promises';
 import { join, normalize } from 'path';
 
-import { run, Environment } from './public/lib/coem.js';
+import { run, Environment } from './public/lib/coem/index.js';
 
 const coemFileName = process.argv[2];
 if (!coemFileName) {
@@ -11,20 +11,20 @@ if (!coemFileName) {
   process.exit();
 }
 
-console.log(coemFileName)
+console.log(coemFileName);
 
 const coem = await readFile(
   normalize(join(import.meta.dirname, 'snippets', coemFileName + '.coem')),
   'utf8',
 );
 
-console.log(coem)
+console.log(coem);
 
 try {
   console.log(
-    `\n|--------- BEGIN ${coemFileName}.coem ---------|\n\n` +
-      (await run(coem, new Environment())) +
-      `\n\n|--------- END ${coemFileName}.coem ---------|\n`,
+    `\n|--------- BEGIN ${coemFileName}.coem ---------|\n\n\n\n\n` +
+    (await run(coem, new Environment())) +
+    `\n\n\n\n|--------- END ${coemFileName}.coem ---------|\n`,
   );
 } catch (e) {
   console.error(e);

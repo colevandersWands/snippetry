@@ -7,9 +7,10 @@ import { lang } from '../../utils/titling.js';
 import { langs } from '../langs/index.js';
 
 import { n } from '../../utils/n.js';
+import { snippetText } from '../utils/snippet-text.js';
 
 export const panel = (snippet) => {
-  const { dangerZone } = langs[lang(snippet.title)];
+  const { dangerZone, controls } = langs[lang(snippet.title)];
 
   return n('div', 'down', [
     n(
@@ -17,9 +18,16 @@ export const panel = (snippet) => {
       { id: `${snippet.title}-danger-zone`, className: 'danger-zone' },
       dangerZone(snippet),
     ),
-    n('button', {}, 'copy', () => copyText(snippet.text, `copied ${snippet.title}`)),
-    n('button', {}, 'print', () => printText(snippet)),
-    n('button', {}, 'download', () => download(snippet)),
+    ...(controls?.(snippet) ?? []),
+    n('button', {}, 'copy', () =>
+      snippetText(snippet).then((text) => copyText(text, `copied ${snippet.title}`)),
+    ),
+    ...(snippet.src
+      ? []
+      : [n('button', {}, 'print', () => printText(snippet))]),
+    n('button', {}, 'download', () =>
+      snippetText(snippet).then((text) => download({ ...snippet, text })),
+    ),
     ...(snippet.figment
       ? []
       : [

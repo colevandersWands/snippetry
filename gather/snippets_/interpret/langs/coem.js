@@ -1,6 +1,16 @@
 import { staticLabels } from '../utils.js';
 
 export const coem = ({ text = '' }) => {
+  let alt;
+  const hashbangLine = text.split('\n').find((line) => line.trimStart().startsWith('#!'));
+  if (hashbangLine) {
+    text = text
+      .replace(hashbangLine + '\n\n', '')
+      .replace(hashbangLine + '\n', '')
+      .replace(hashbangLine, '');
+    alt = hashbangLine?.replace('#!', '').trim();
+  }
+
   const forelinks = staticLabels({
     text,
     begin: /(\†)[\s]*see[\s]*:/gi,
@@ -20,5 +30,5 @@ export const coem = ({ text = '' }) => {
     tags.push('tribute');
   }
 
-  return { text, forelinks, tags };
+  return { text, forelinks, tags, alt };
 };

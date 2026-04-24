@@ -113,7 +113,7 @@ function serve(ppets) {
       .filter(
         (snippet) =>
           snippet.title.toLowerCase().includes(search) ||
-          snippet.text.toLowerCase().includes(search),
+          snippet.text?.toLowerCase().includes(search),
       );
     res.send(filteredSnippets);
   };

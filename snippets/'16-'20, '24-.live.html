@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>for good measure</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background: #080604;
+        font-family: Georgia, 'Times New Roman', serif;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      #phrase {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.3rem;
+        white-space: nowrap;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        z-index: 10;
+      }
+      .word {
+        position: fixed;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 1.05rem;
+        cursor: pointer;
+        white-space: nowrap;
+        transform: translate(-50%, -50%);
+      }
+      #slot {
+        transition: left 3s cubic-bezier(0.16, 1, 0.3, 1),
+          top 3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="phrase">
+      <span id="prefix">for good measure, </span><span id="slot">...</span>
+    </div>
+    <script>
+      // physics constants
+      const G = 40; // gravity px/s² (fully dim word)
+      const A_M = 3; // gravity multiplier when absorbing
+      const REP = 40000; // inter-word repulsion constant (px³/s²)
+      const CUR_R = 20000; // cursor repulsion constant
+      const CUR_D = 160; // cursor influence radius px
+      const DRAG = 0.8; // velocity decay coefficient per second
+      const MIN_D = 30; // minimum distance for repulsion (prevents explosion)
+
+      // brightness constants
+      const B_SP = 0.65; // spawn brightness (visible glow from birth)
+      const DEC0 = 0.012; // base brightness decay per second
+      const IDLE_G = 0.002; // idle pressure growth per second
+      const I_MAX = 0.055; // max idle pressure (normal state)
+      const I_WIN = 0.015; // max idle pressure (faster fade after win)
+      const HOLD_G = 0.5;   // brightness gain per second while holding (words)
+      const HOLD_P = 0.12;  // brightness gain per second while holding (phrase — slower aura)
+
+      const WIN_T = 5;  // total brightness threshold for win (≈10 words at full)
+      const MIN_W = 3;  // minimum active words required for win
+      const SPAWN_CD = 0.7; // seconds between spawns (debounce)
+
+      const POOL = [
+        'ally',
+        'believe',
+        'breathe',
+        'boycott',
+        'build',
+        'campaign',
+        'celebrate',
+        '☪oe✡is✝',
+        'collaborate',
+        'create',
+        'cry',
+        'dance',
+        'defend',
+        'document',
+        'donate',
+        'divest',
+        'dream',
+        'empathize',
+        'enjoy',
+        'exercise',
+        'exhale',
+        'forgive',
+        'heal',
+        'hope',
+        'inform',
+        'inhale',
+        'invite',
+        'laugh',
+        'learn',
+        'listen',
+        'live',
+        'love',
+        'meditate',
+        'obstruct',
+        'organize',
+        'pray',
+        'protest',
+        'rebuild',
+        'relax',
+        'reflect',
+        'remember',
+        'rest',
+        'sacrifice',
+        'strike',
+        'support',
+        'survive',
+        'thrive',
+        'unite',
+        'unionize',
+        'unplug',
+        'vaccinate',
+        'volunteer',
+        'vote',
+        'welcome',
+        'witness',
+      ];
+
+      let active = []; // { el, x, y, vx, vy, b, abs }
+      let used = new Set();
+      let mx = innerWidth / 2,
+        my = innerHeight / 2;
+      let idle = 0,
+        iMax = I_MAX;
+      let held = null; // word obj | 'phrase' | null
+      const P_START = 0.72; // starting brightness — aura is zero at this value
+      let pBright = P_START; // phrase/"resist" brightness (frozen at win)
+      let preBright = P_START; // "for good measure" brightness (keeps decaying after win)
+      let won = false,
+        lost = false,
+        lastTs = 0,
+        lastSpawn = -Infinity;
+      let auraFading = false,
+        auraBright = 0;
+
+      const pEl = document.getElementById('phrase');
+      const sEl = document.getElementById('slot');
+      const preEl = document.getElementById('prefix');
+
+      function nextWord() {
+        const avail = POOL.map((w, i) => [w, i]).filter(([, i]) => !used.has(i));
+        if (!avail.length) return null;
+        const [w, i] = avail[Math.floor(Math.random() * avail.length)];
+        used.add(i);
+        return [w, i];
+      }
+
+      function spawn(x, y, vx, vy) {
+        const next = nextWord();
+        if (!next) return null;
+        const [w, poolIdx] = next;
+        const el = document.createElement('div');
+        el.className = 'word';
+        el.textContent = w;
+        document.body.appendChild(el);
+        const obj = { el, x, y, vx, vy, b: B_SP, abs: false, poolIdx }; // { el, x, y, vx, vy, b, abs, poolIdx }
+        active.push(obj);
+        return obj;
+      }
+
+      function drop(obj) {
+        used.delete(obj.poolIdx); // return word to available pool
+        obj.el.style.transition = 'opacity 0.5s';
+        obj.el.style.opacity = '0';
+        setTimeout(() => obj.el.remove(), 500);
+        active.splice(active.indexOf(obj), 1);
+      }
+
+      function tick(dt) {
+        // idle pressure grows when not interacting
+        idle = Math.min(iMax, idle + IDLE_G * dt);
+
+        // phrase fades pre-win; post-win pBright is frozen (drives resist text permanently)
+        if (!won) pBright = Math.max(0, pBright - DEC0 * 3 * dt);
+        preBright = Math.max(0, preBright - DEC0 * 3 * dt);
+        // aura fades separately post-endgame
+        if (auraFading) auraBright = Math.max(0, auraBright - 0.06 * dt);
+        if (pBright === 0 && !won && !lost) {
+          lost = true;
+          for (const w of active) w.abs = true; // all remaining words drain to center
+        }
+        if (lost) return 0;
+
+        // held target gains brightness
+        if (held === 'phrase') {
+          pBright = Math.min(1, pBright + HOLD_P * dt);
+          preBright = Math.min(1, preBright + HOLD_P * dt);
+        } else if (held) {
+          if (active.includes(held)) held.b = Math.min(1, held.b + HOLD_G * dt);
+          else held = null;
+        }
+
+        const sr = sEl.getBoundingClientRect();
+        const cx = sr.left + sr.width / 2,
+          cy = sr.top + sr.height / 2;
+
+        for (let i = active.length - 1; i >= 0; i--) {
+          const w = active[i];
+
+          // brightness decay
+          w.b -= (DEC0 + idle) * dt;
+          if (w.b <= 0) {
+            w.b = 0;
+            w.abs = true;
+          }
+
+          // distance to center (before move — used for gravity direction + absorb check)
+          const dx = cx - w.x,
+            dy = cy - w.y;
+          const d = Math.sqrt(dx * dx + dy * dy) || 1;
+
+          // gravity toward center — scales with dimness²
+          const g = G * Math.pow(1 - w.b, 2) * (w.abs ? A_M : 1);
+          w.vx += (dx / d) * g * dt;
+          w.vy += (dy / d) * g * dt;
+
+          if (!w.abs) {
+            // inter-word repulsion
+            for (const o of active) {
+              if (o === w) continue;
+              const rx = w.x - o.x,
+                ry = w.y - o.y;
+              const d2 = Math.max(rx * rx + ry * ry, MIN_D * MIN_D);
+              const dd = Math.sqrt(d2);
+              const f = REP / d2;
+              w.vx += (rx / dd) * f * dt;
+              w.vy += (ry / dd) * f * dt;
+            }
+
+            // cursor repulsion
+            const cdx = w.x - mx,
+              cdy = w.y - my;
+            const cd = Math.sqrt(cdx * cdx + cdy * cdy);
+            if (cd < CUR_D && cd > 0) {
+              const f = CUR_R / Math.max(cd * cd, MIN_D * MIN_D);
+              w.vx += (cdx / cd) * f * dt;
+              w.vy += (cdy / cd) * f * dt;
+            }
+          }
+
+          // drag and integrate
+          const dk = Math.max(0, 1 - DRAG * dt);
+          w.vx *= dk;
+          w.vy *= dk;
+          w.x += w.vx * dt;
+          w.y += w.vy * dt;
+
+          // absorption: if reached center, remove
+          if (w.abs && d < 24) drop(w);
+        }
+
+        // coverage drives background glow
+        const total = active.reduce((s, o) => s + o.b, 0);
+        const cov = Math.min(1, total / WIN_T);
+
+        if (!won && cov >= 0.95 && active.length >= MIN_W) {
+          won = true;
+          iMax = I_WIN;
+          sEl.textContent = 'resist';
+          pBright = Math.min(1, Math.max(...active.map((w) => w.b), pBright) + 0.25);
+          // preBright keeps decaying naturally — "for good measure" fades at word rate
+        }
+
+        // endgame: won + all words gone → "resist" slides to center, goes inert
+        if (won && active.length === 0 && !sEl.classList.contains('done')) {
+          sEl.classList.add('done');
+          const r = sEl.getBoundingClientRect();
+          const x = r.left + r.width / 2,
+            y = r.top + r.height / 2;
+          // freeze inherited styles before reparenting (prevents size change)
+          sEl.style.fontSize = '1.3rem';
+          sEl.style.fontFamily = "Georgia, 'Times New Roman', serif";
+          sEl.style.letterSpacing = '0.04em';
+          // reparent to body — fixes viewport coord space and detaches from pEl visibility
+          document.body.appendChild(sEl);
+          sEl.style.position = 'fixed';
+          sEl.style.left = x + 'px';
+          sEl.style.top = y + 'px';
+          sEl.style.transform = 'translate(-50%, -50%)';
+          sEl.style.pointerEvents = 'none';
+          pEl.style.visibility = 'hidden';
+          auraBright = pBright; // aura starts at current brightness, then fades
+          auraFading = true; // begins fading immediately
+        }
+
+        return cov;
+      }
+
+      function draw(cov) {
+        // background: each word + phrase pushes darkness back from its own position
+        const grads = [];
+        // aura starts at 0 when brightness = P_START, grows with interaction
+        const rawB = auraFading ? auraBright : pBright;
+        const glowB = Math.max(0, rawB - P_START) / (1 - P_START); // 0→1 above starting value
+        if (glowB > 0.005) {
+          const sr = sEl.getBoundingClientRect();
+          const sx = (sr.left + sr.width / 2).toFixed(0),
+            sy = (sr.top + sr.height / 2).toFixed(0);
+          const pr = (glowB * innerHeight * 0.72).toFixed(0);
+          grads.push(
+            `radial-gradient(circle ${pr}px at ${sx}px ${sy}px, rgba(90,45,12,${(
+              glowB * 0.98
+            ).toFixed(2)}) 0%, transparent 100%)`,
+          );
+        }
+        for (const w of active) {
+          const b = Math.max(0, w.b);
+          if (b < 0.04) continue;
+          const wr = (b * 500 + 60).toFixed(0);
+          grads.push(
+            `radial-gradient(circle ${wr}px at ${w.x.toFixed(0)}px ${w.y.toFixed(
+              0,
+            )}px, rgba(74,37,16,${(b * 0.92).toFixed(2)}) 0%, transparent 100%)`,
+          );
+        }
+        grads.push('#080604');
+        document.body.style.background = grads.join(', ');
+
+        // phrase container: color inherited by both children; opacity always 1
+        pEl.style.opacity = '1';
+        pEl.style.color = `hsl(30, ${(55 + pBright * 25).toFixed(0)}%, ${(
+          35 +
+          pBright * 25
+        ).toFixed(0)}%)`;
+
+        // prefix fades at word rate (preBright), slot stays bright after win (pBright)
+        preEl.style.opacity = preBright.toFixed(3);
+        sEl.style.opacity = pBright.toFixed(3);
+        sEl.style.color = `hsl(30, ${(55 + pBright * 25).toFixed(0)}%, ${(
+          35 +
+          pBright * 25
+        ).toFixed(0)}%)`;
+        sEl.style.textShadow =
+          pBright > 0.12
+            ? `0 0 ${(pBright * 14).toFixed(0)}px #c8843a, 0 0 ${(pBright * 30).toFixed(
+                0,
+              )}px rgba(200,132,58,0.3)`
+            : 'none';
+
+        // word glows
+        for (const w of active) {
+          const b = Math.max(0, w.b);
+          w.el.style.left = w.x.toFixed(0) + 'px';
+          w.el.style.top = w.y.toFixed(0) + 'px';
+          w.el.style.opacity = (0.12 + b * 0.88).toFixed(3);
+          w.el.style.color = `hsl(30, 78%, ${(25 + b * 45).toFixed(0)}%)`;
+          w.el.style.textShadow =
+            b > 0.05
+              ? `0 0 ${(b * 12).toFixed(0)}px #c8843a, 0 0 ${(b * 28).toFixed(
+                  0,
+                )}px rgba(200,132,58,0.38)`
+              : 'none';
+        }
+      }
+
+      function loop(ts) {
+        const dt = lastTs ? Math.min((ts - lastTs) / 1000, 0.05) : 0.016;
+        lastTs = ts;
+        draw(tick(dt));
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+
+      // --- events ---
+
+      pEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (lost) return;
+        idle = 0;
+        pBright = Math.min(1, pBright + 0.018);
+        preBright = Math.min(1, preBright + 0.018);
+        if (performance.now() / 1000 - lastSpawn < SPAWN_CD) return;
+        lastSpawn = performance.now() / 1000;
+        const sr = sEl.getBoundingClientRect();
+        const ox = sr.left + sr.width / 2,
+          oy = sr.top + sr.height / 2;
+        const a = Math.random() * Math.PI * 2;
+        const s = 120 + Math.random() * 80;
+        spawn(ox, oy, Math.cos(a) * s, Math.sin(a) * s);
+      });
+
+      document.addEventListener('click', (e) => {
+        if (pEl.contains(e.target)) return;
+        const hit = active.find((w) => w.el.contains(e.target));
+        if (!hit) return;
+        idle = 0;
+        if (performance.now() / 1000 - lastSpawn < SPAWN_CD) return;
+        lastSpawn = performance.now() / 1000;
+        const n = Math.random() > 0.5 ? 2 : 1;
+        const sr = sEl.getBoundingClientRect();
+        const cx = sr.left + sr.width / 2,
+          cy = sr.top + sr.height / 2;
+        for (let i = 0; i < n; i++) {
+          const jx = (Math.random() - 0.5) * 40;
+          const jy = (Math.random() - 0.5) * 40;
+          const dx = hit.x - cx,
+            dy = hit.y - cy;
+          const dl = Math.sqrt(dx * dx + dy * dy) || 1;
+          const s = 100 + Math.random() * 80;
+          spawn(hit.x + jx, hit.y + jy, (dx / dl) * s, (dy / dl) * s);
+        }
+      });
+
+      document.addEventListener('mousedown', (e) => {
+        idle = 0;
+        if (pEl.contains(e.target)) {
+          held = 'phrase';
+          return;
+        }
+        held = active.find((w) => w.el.contains(e.target)) ?? null;
+      });
+
+      document.addEventListener('mouseup', () => {
+        held = null;
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+      });
+    </script>
+  </body>
+</html>
+
+<!-- tags: coAIthored -->

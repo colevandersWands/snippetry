@@ -63,7 +63,7 @@ const echo = async (snippet) => {
   try {
     new Environment(), formatCoemError(), run();
   } catch (_) {
-    const coemjs = await import('../../../lib/coem.js');
+    const coemjs = await import('../../../lib/coem/index.js');
 
     Environment = coemjs.Environment;
     formatCoemError = coemjs.formatCoemError;

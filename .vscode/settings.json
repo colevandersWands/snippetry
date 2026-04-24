@@ -8,5 +8,8 @@
   "files.trimTrailingWhitespace": false,
   "[ruby]": {
     "editor.defaultFormatter": "Shopify.ruby-lsp"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   }
 }

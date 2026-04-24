@@ -1,0 +1,2 @@
+build a separate taper lens for things with the taper tag?  injects in the template and validates size?
+render interactively like a dweet? the code isn't the text
