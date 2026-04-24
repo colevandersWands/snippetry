@@ -1,0 +1,390 @@
+/* ── Material flags (boolean switches for calc-based branching) ── */
+
+:root {
+  --is-paper: 0;
+  --is-metal: 0;
+  --is-plastic: 0;
+  --lti-dark: 0;
+}
+
+[data-ages-as='paper'] {
+  --is-paper: 1;
+  --is-metal: 0;
+  --is-plastic: 0;
+}
+
+[data-ages-as='metal'] {
+  --is-paper: 0;
+  --is-metal: 1;
+  --is-plastic: 0;
+}
+
+[data-ages-as='plastic'] {
+  --is-paper: 0;
+  --is-metal: 0;
+  --is-plastic: 1;
+}
+
+/* Dark mode — auto-detected or class-driven */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --lti-dark: 1;
+  }
+}
+.dark {
+  --lti-dark: 1;
+}
+.light {
+  --lti-dark: 0;
+}
+
+/* ── Base aging (filters applied to the element itself) ── */
+
+[data-born] {
+  --age: 0;
+  position: relative;
+  overflow: hidden;
+  transition: filter 0.15s ease-out;
+
+  filter: sepia(calc(var(--age) * (0.55 * var(--is-paper) + 0.45 * var(--is-plastic))))
+    saturate(
+      calc(
+        1 + var(--age) *
+          (-0.15 * var(--is-paper) - 0.5 * var(--is-metal) + 0.35 * var(--is-plastic))
+      )
+    )
+    contrast(
+      calc(
+        1 + var(--age) *
+          (-0.12 * var(--is-paper) + 0.1 * var(--is-metal) - 0.06 * var(--is-plastic))
+      )
+    )
+    brightness(
+      calc(
+        1 - var(--age) *
+          (0.06 * var(--is-paper) + 0.12 * var(--is-metal) + 0.06 * var(--is-plastic))
+      )
+    )
+    hue-rotate(calc(var(--age) * (-12deg * var(--is-plastic) + 6deg * var(--is-metal))));
+}
+
+/* ── Shared pseudo-element base ── */
+
+[data-born]::before,
+[data-born]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  transition: opacity 0.15s ease-out;
+}
+
+/*
+  ::before — color washes, tints, patina.
+  multiply: on white, multiply(white, color) = color → always visible.
+  Dark mode swaps to screen.
+*/
+[data-born]::before {
+  mix-blend-mode: multiply;
+  opacity: calc(var(--age) * 0.65);
+
+  background:
+    /* Paper: asymmetric edge oxidation — heavier bottom-right, lighter top-left */
+    radial-gradient(
+      ellipse 90% 80% at 100% 100%,
+      rgba(145, 100, 30, calc(0.55 * var(--is-paper))) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 70% 90% at 0% 100%,
+      rgba(155, 110, 35, calc(0.4 * var(--is-paper))) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 85% 50% at 100% 0%,
+      rgba(150, 108, 35, calc(0.3 * var(--is-paper))) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 60% 45% at 0% 0%,
+      rgba(160, 118, 42, calc(0.18 * var(--is-paper))) 0%,
+      transparent 45%
+    ),
+    /* Paper: off-center tea stain */
+    radial-gradient(
+        ellipse 40% 35% at 30% 65%,
+        rgba(175, 130, 50, calc(0.3 * var(--is-paper))) 0%,
+        transparent 70%
+      ),
+    /* Paper: top-edge foxing band */
+    linear-gradient(180deg, rgba(150, 110, 45, calc(0.2 * var(--is-paper))) 0%, transparent 18%),
+    /* Metal: verdigris pooling in corners */
+    radial-gradient(
+        ellipse 65% 55% at 5% 95%,
+        rgba(30, 115, 75, calc(0.7 * var(--is-metal))) 0%,
+        transparent 70%
+      ),
+    radial-gradient(
+      ellipse 50% 60% at 95% 5%,
+      rgba(45, 125, 85, calc(0.55 * var(--is-metal))) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 40% 35% at 80% 85%,
+      rgba(75, 95, 50, calc(0.4 * var(--is-metal))) 0%,
+      transparent 60%
+    ),
+    /* Metal: overall tarnish wash */
+    linear-gradient(
+        160deg,
+        rgba(80, 75, 60, calc(0.15 * var(--is-metal))) 0%,
+        rgba(60, 70, 55, calc(0.1 * var(--is-metal))) 100%
+      ),
+    /* Plastic: patchy UV yellowing */
+    radial-gradient(
+        ellipse 75% 55% at 40% 25%,
+        rgba(215, 185, 70, calc(0.35 * var(--is-plastic))) 0%,
+        transparent 70%
+      ),
+    radial-gradient(
+      ellipse 55% 65% at 80% 60%,
+      rgba(195, 160, 55, calc(0.28 * var(--is-plastic))) 0%,
+      transparent 65%
+    ),
+    /* Plastic: asymmetric edge chalking — heavier bottom and right */
+    radial-gradient(
+        ellipse 80% 60% at 100% 100%,
+        rgba(195, 180, 135, calc(0.25 * var(--is-plastic))) 0%,
+        transparent 55%
+      ),
+    radial-gradient(
+      ellipse 55% 70% at 0% 90%,
+      rgba(200, 185, 140, calc(0.18 * var(--is-plastic))) 0%,
+      transparent 50%
+    );
+}
+
+/*
+  ::after — textures, spots, scratches, vignette.
+  normal blend mode → always visible regardless of background.
+  Spots are fully material-gated.
+*/
+[data-born]::after {
+  mix-blend-mode: normal;
+  opacity: calc(0.3 * var(--age) + 0.4 * var(--age) * var(--age));
+
+  background:
+    /* ── Paper: warm brown foxing spots ── */
+    radial-gradient(
+      circle at 12% 18%,
+      rgba(100, 70, 15, calc(0.6 * var(--is-paper))) 1.5px,
+      transparent 4px
+    ),
+    radial-gradient(
+      circle at 78% 52%,
+      rgba(110, 80, 20, calc(0.55 * var(--is-paper))) 2px,
+      transparent 5px
+    ),
+    radial-gradient(
+      circle at 42% 80%,
+      rgba(90, 65, 18, calc(0.5 * var(--is-paper))) 1.5px,
+      transparent 3.5px
+    ),
+    radial-gradient(
+      circle at 90% 14%,
+      rgba(100, 70, 15, calc(0.45 * var(--is-paper))) 1.5px,
+      transparent 3.5px
+    ),
+    radial-gradient(
+      circle at 55% 38%,
+      rgba(110, 80, 20, calc(0.5 * var(--is-paper))) 1.5px,
+      transparent 4.5px
+    ),
+    radial-gradient(
+      circle at 25% 65%,
+      rgba(90, 65, 18, calc(0.4 * var(--is-paper))) 1px,
+      transparent 3px
+    ),
+    radial-gradient(
+      circle at 68% 82%,
+      rgba(120, 85, 22, calc(0.45 * var(--is-paper))) 1.5px,
+      transparent 3px
+    ),
+    radial-gradient(
+      circle at 35% 28%,
+      rgba(95, 68, 16, calc(0.5 * var(--is-paper))) 1.5px,
+      transparent 4px
+    ),
+    /* ── Metal: broad tarnish/oxidation patches ── */
+    radial-gradient(
+        ellipse 40% 30% at 15% 25%,
+        rgba(75, 55, 30, calc(0.3 * var(--is-metal))) 0%,
+        rgba(60, 45, 25, calc(0.15 * var(--is-metal))) 50%,
+        transparent 70%
+      ),
+    radial-gradient(
+      ellipse 35% 45% at 80% 45%,
+      rgba(65, 50, 28, calc(0.25 * var(--is-metal))) 0%,
+      rgba(55, 42, 22, calc(0.12 * var(--is-metal))) 50%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 35% at 50% 80%,
+      rgba(70, 52, 30, calc(0.28 * var(--is-metal))) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 30% 25% at 90% 15%,
+      rgba(80, 58, 32, calc(0.2 * var(--is-metal))) 0%,
+      transparent 60%
+    ),
+    /* Metal: subtle directional scuffing */
+    repeating-linear-gradient(
+        32deg,
+        transparent,
+        transparent 40px,
+        rgba(120, 115, 105, calc(0.2 * var(--is-metal))) 40px,
+        transparent 41px
+      ),
+    /* ── Plastic: yellowed/amber age spots ── */
+    radial-gradient(
+        circle at 18% 22%,
+        rgba(170, 140, 60, calc(0.5 * var(--is-plastic))) 1.5px,
+        transparent 4px
+      ),
+    radial-gradient(
+      circle at 72% 48%,
+      rgba(180, 148, 65, calc(0.45 * var(--is-plastic))) 2px,
+      transparent 5px
+    ),
+    radial-gradient(
+      circle at 45% 75%,
+      rgba(165, 135, 55, calc(0.4 * var(--is-plastic))) 1.5px,
+      transparent 3.5px
+    ),
+    radial-gradient(
+      circle at 88% 18%,
+      rgba(170, 140, 60, calc(0.35 * var(--is-plastic))) 1.5px,
+      transparent 3.5px
+    ),
+    radial-gradient(
+      circle at 58% 35%,
+      rgba(180, 148, 65, calc(0.4 * var(--is-plastic))) 1.5px,
+      transparent 4.5px
+    ),
+    radial-gradient(
+      circle at 30% 60%,
+      rgba(165, 135, 55, calc(0.35 * var(--is-plastic))) 1px,
+      transparent 3px
+    ),
+    radial-gradient(
+      circle at 65% 85%,
+      rgba(175, 145, 62, calc(0.4 * var(--is-plastic))) 1.5px,
+      transparent 3px
+    ),
+    radial-gradient(
+      circle at 40% 15%,
+      rgba(168, 138, 58, calc(0.45 * var(--is-plastic))) 1.5px,
+      transparent 4px
+    ),
+    /* Plastic: broader cloudy haze patches */
+    radial-gradient(
+        ellipse 28% 22% at 20% 35%,
+        rgba(200, 180, 120, calc(0.3 * var(--is-plastic))) 0%,
+        rgba(190, 170, 110, calc(0.12 * var(--is-plastic))) 50%,
+        transparent 70%
+      ),
+    radial-gradient(
+      ellipse 35% 25% at 70% 55%,
+      rgba(195, 175, 115, calc(0.25 * var(--is-plastic))) 0%,
+      rgba(185, 165, 105, calc(0.1 * var(--is-plastic))) 50%,
+      transparent 70%
+    ),
+    /* Plastic: micro-crazing texture */
+    repeating-linear-gradient(
+        42deg,
+        transparent,
+        transparent 10px,
+        rgba(180, 170, 145, calc(0.1 * var(--is-plastic))) 10px,
+        transparent 10.5px
+      ),
+    repeating-linear-gradient(
+      -38deg,
+      transparent,
+      transparent 14px,
+      rgba(170, 160, 135, calc(0.08 * var(--is-plastic))) 14px,
+      transparent 14.4px
+    ),
+    /* ── Fractal noise texture (all materials) ── */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  box-shadow:
+    /* Asymmetric edge vignette — each edge aged differently */
+    /* Bottom edge (heaviest — gravity, dust settling) */
+    inset 0 calc(-14px * var(--age)) calc(28px * var(--age)) calc(4px * var(--age))
+      rgba(
+        50,
+        32,
+        10,
+        calc(
+          var(--age) * (0.4 * var(--is-paper) + 0.3 * var(--is-metal) + 0.18 * var(--is-plastic))
+        )
+      ),
+    /* Right edge (second heaviest — handling wear) */ inset calc(-10px * var(--age)) 0
+      calc(22px * var(--age)) calc(3px * var(--age))
+      rgba(
+        55,
+        35,
+        12,
+        calc(
+          var(--age) * (0.32 * var(--is-paper) + 0.25 * var(--is-metal) + 0.14 * var(--is-plastic))
+        )
+      ),
+    /* Top edge (lighter) */ inset 0 calc(8px * var(--age)) calc(18px * var(--age))
+      calc(2px * var(--age))
+      rgba(
+        60,
+        38,
+        14,
+        calc(
+          var(--age) * (0.2 * var(--is-paper) + 0.18 * var(--is-metal) + 0.1 * var(--is-plastic))
+        )
+      ),
+    /* Left edge (lightest) */ inset calc(6px * var(--age)) 0 calc(14px * var(--age))
+      calc(1px * var(--age))
+      rgba(
+        58,
+        36,
+        13,
+        calc(
+          var(--age) * (0.15 * var(--is-paper) + 0.15 * var(--is-metal) + 0.08 * var(--is-plastic))
+        )
+      ),
+    /* Bottom-right corner accent */ inset calc(-12px * var(--age)) calc(-10px * var(--age))
+      calc(24px * var(--age)) calc(6px * var(--age))
+      rgba(70, 42, 14, calc(var(--age) * 0.22 * var(--is-paper))),
+    /* Metal: heavy bottom-left corrosion pooling */ inset calc(8px * var(--age))
+      calc(-12px * var(--age)) calc(30px * var(--age)) calc(6px * var(--age))
+      rgba(18, 30, 25, calc(var(--age) * 0.25 * var(--is-metal)));
+}
+
+/* ── Dark mode — blend mode & opacity overrides ── */
+
+@media (prefers-color-scheme: dark) {
+  [data-born]::before {
+    mix-blend-mode: screen;
+    opacity: calc(var(--age) * 0.5);
+  }
+  [data-born]::after {
+    opacity: calc(0.22 * var(--age) + 0.3 * var(--age) * var(--age));
+  }
+}
+
+.dark [data-born]::before {
+  mix-blend-mode: screen;
+  opacity: calc(var(--age) * 0.5);
+}
+.dark [data-born]::after {
+  opacity: calc(0.22 * var(--age) + 0.3 * var(--age) * var(--age));
+}
